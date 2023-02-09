@@ -204,35 +204,35 @@ class MediaAnalyticsProvider: NSObject {
 
     func setupPlayerNotifications() {
 
-        NotificationCenter.default.addObserver(self, selector: #selector(MediaAnalyticsProvider.onMainVideoLoaded), name: NSNotification.Name(rawValue: PlayerEvent.PLAYER_EVENT_VIDEO_LOAD), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(Self.onMainVideoLoaded), name: NSNotification.Name(rawValue: PlayerEvent.PLAYER_EVENT_VIDEO_LOAD), object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(MediaAnalyticsProvider.onMainVideoUnloaded), name: NSNotification.Name(rawValue: PlayerEvent.PLAYER_EVENT_VIDEO_UNLOAD), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(Self.onMainVideoUnloaded), name: NSNotification.Name(rawValue: PlayerEvent.PLAYER_EVENT_VIDEO_UNLOAD), object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(MediaAnalyticsProvider.onPlay), name: NSNotification.Name(rawValue: PlayerEvent.PLAYER_EVENT_PLAY), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(Self.onPlay), name: NSNotification.Name(rawValue: PlayerEvent.PLAYER_EVENT_PLAY), object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(MediaAnalyticsProvider.onStop), name: NSNotification.Name(rawValue: PlayerEvent.PLAYER_EVENT_PAUSE), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(Self.onStop), name: NSNotification.Name(rawValue: PlayerEvent.PLAYER_EVENT_PAUSE), object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(MediaAnalyticsProvider.onSeekStart), name: NSNotification.Name(rawValue: PlayerEvent.PLAYER_EVENT_SEEK_START), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(Self.onSeekStart), name: NSNotification.Name(rawValue: PlayerEvent.PLAYER_EVENT_SEEK_START), object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(MediaAnalyticsProvider.onSeekComplete), name: NSNotification.Name(rawValue: PlayerEvent.PLAYER_EVENT_SEEK_COMPLETE), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(Self.onSeekComplete), name: NSNotification.Name(rawValue: PlayerEvent.PLAYER_EVENT_SEEK_COMPLETE), object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(MediaAnalyticsProvider.onComplete), name: NSNotification.Name(rawValue: PlayerEvent.PLAYER_EVENT_COMPLETE), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(Self.onComplete), name: NSNotification.Name(rawValue: PlayerEvent.PLAYER_EVENT_COMPLETE), object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(MediaAnalyticsProvider.onChapterStart), name: NSNotification.Name(rawValue: PlayerEvent.PLAYER_EVENT_CHAPTER_START), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(Self.onChapterStart), name: NSNotification.Name(rawValue: PlayerEvent.PLAYER_EVENT_CHAPTER_START), object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(MediaAnalyticsProvider.onChapterComplete), name: NSNotification.Name(rawValue: PlayerEvent.PLAYER_EVENT_CHAPTER_COMPLETE), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(Self.onChapterComplete), name: NSNotification.Name(rawValue: PlayerEvent.PLAYER_EVENT_CHAPTER_COMPLETE), object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(MediaAnalyticsProvider.onAdStart), name: NSNotification.Name(rawValue: PlayerEvent.PLAYER_EVENT_AD_START), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(Self.onAdStart), name: NSNotification.Name(rawValue: PlayerEvent.PLAYER_EVENT_AD_START), object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(MediaAnalyticsProvider.onAdComplete), name: NSNotification.Name(rawValue: PlayerEvent.PLAYER_EVENT_AD_COMPLETE), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(Self.onAdComplete), name: NSNotification.Name(rawValue: PlayerEvent.PLAYER_EVENT_AD_COMPLETE), object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(MediaAnalyticsProvider.updateQoE(notification:)), name: NSNotification.Name(rawValue: PlayerEvent.PLAYER_EVENT_QOE_UPDATE), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(Self.updateQoE(notification:)), name: NSNotification.Name(rawValue: PlayerEvent.PLAYER_EVENT_QOE_UPDATE), object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(MediaAnalyticsProvider.updateCurrentPlaybackTime), name: NSNotification.Name(rawValue: PlayerEvent.PLAYER_EVENT_PLAYHEAD_UPDATE), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(Self.updateCurrentPlaybackTime), name: NSNotification.Name(rawValue: PlayerEvent.PLAYER_EVENT_PLAYHEAD_UPDATE), object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(MediaAnalyticsProvider.onCCUpdate), name: NSNotification.Name(rawValue: PlayerEvent.PLAYER_EVENT_CC_CHANGE), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(Self.onCCUpdate), name: NSNotification.Name(rawValue: PlayerEvent.PLAYER_EVENT_CC_CHANGE), object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(MediaAnalyticsProvider.onMuteUpdate), name: NSNotification.Name(rawValue: PlayerEvent.PLAYER_EVENT_MUTE_CHANGE), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(Self.onMuteUpdate), name: NSNotification.Name(rawValue: PlayerEvent.PLAYER_EVENT_MUTE_CHANGE), object: nil)
 
     }
 

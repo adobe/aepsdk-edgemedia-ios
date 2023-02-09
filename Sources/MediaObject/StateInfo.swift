@@ -32,7 +32,8 @@ class StateInfo: Equatable {
             let regex = try NSRegularExpression(pattern: pattern, options: [])
             let matches = regex.matches(in: stateName, options: [], range: NSRange(location: 0, length: stateName.count))
             if matches.isEmpty {
-                Log.debug(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Error creating StateInfo, state name: \(stateName) with length: \(stateName.count)  cannot contain special characters and can only be 64 character long. Only alphabets, digits, '_' and '.' are allowed.")
+                Log.debug(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Error creating StateInfo. State name: \(stateName) with length: \(stateName.count)" +
+                            " cannot contain special characters and can only be 64 character long. Only alphabets, digits, '_' and '.' are allowed.")
                 return nil
             }
         } catch {

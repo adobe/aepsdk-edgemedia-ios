@@ -34,8 +34,8 @@ identifier_name:
         - no
         - ok
 line_length:
-    warning: 250
-    error: 300
+    warning: 180
+    error: 200
     ignores_function_declarations: true
     ignores_comments: true
     ignores_urls: true

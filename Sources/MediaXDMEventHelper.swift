@@ -59,7 +59,12 @@ class MediaXDMEventHelper {
         // To also handle the internally triggered resume by the SDK for long running sessions >= 24 hours
         let hasResume = forceResume || mediaInfo.resumed
 
-        var sessionDetailsXDM = XDMSessionDetails(name: mediaInfo.id, friendlyName: mediaInfo.name, length: Int64(mediaInfo.length), streamType: streamType, contentType: mediaInfo.streamType, hasResume: hasResume)
+        var sessionDetailsXDM = XDMSessionDetails(name: mediaInfo.id,
+                                                  friendlyName: mediaInfo.name,
+                                                  length: Int64(mediaInfo.length),
+                                                  streamType: streamType,
+                                                  contentType: mediaInfo.streamType,
+                                                  hasResume: hasResume)
 
         // Append standard metadata to sessionDetails
         for (key, value) in metadata {
@@ -227,7 +232,10 @@ class MediaXDMEventHelper {
             Log.trace(label: LOG_TAG, "[\(CLASS_NAME)<\(#function)>] - found empty chapter info.")
             return nil
         }
-        let qoeDetailsXDM = XDMQoeDataDetails(bitrate: Int64(qoeInfo.bitrate), droppedFrames: Int64(qoeInfo.droppedFrames), framesPerSecond: Int64(qoeInfo.fps), timeToStart: Int64(qoeInfo.startupTime))
+        let qoeDetailsXDM = XDMQoeDataDetails(bitrate: Int64(qoeInfo.bitrate),
+                                              droppedFrames: Int64(qoeInfo.droppedFrames),
+                                              framesPerSecond: Int64(qoeInfo.fps),
+                                              timeToStart: Int64(qoeInfo.startupTime))
 
         return qoeDetailsXDM
     }
