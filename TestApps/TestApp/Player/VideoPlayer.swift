@@ -59,7 +59,6 @@ class VideoPlayer: AVPlayer {
     let QOEINFO_STARTUPTIME: Double = 2
     let QOEINFO_FPS: Double = 24
     let QOEINFO_DROPPEDFRAMES: Double = 10
-    let VIDEO_LENGTH: Double = 108 // Actual length of the video being played in the test app
     let VIDEO_NAME: String = "Adobe Analytics marketing video"
     let VIDEO_ID: String = "adobeanalytics"
 
@@ -210,9 +209,10 @@ class VideoPlayer: AVPlayer {
     }
 
     func startVideo() {
+        let videoLength = player.currentItem?.duration.seconds ?? 0
         // Prepare the video info.
         let videoInfo = ["id": VIDEO_ID,
-                         "length": VIDEO_LENGTH,
+                         "length": videoLength,
                          "name": VIDEO_NAME] as [String: Any]
 
         _videoLoaded = true
