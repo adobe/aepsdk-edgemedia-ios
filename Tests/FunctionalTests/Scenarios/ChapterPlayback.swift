@@ -53,6 +53,8 @@ class ChapterPlayback: BaseScenarioTest {
         mediaTracker.trackEvent(event: MediaEvent.ChapterComplete)
         mediaTracker.trackComplete()
 
+        wait()
+
         let expectedEvents: [Event] = [
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.sessionStart, playhead: 0, ts: 0, backendSessionId: backendSessionId, info: mediaInfo.toMap(), metadata: mediaMetadata, mediaState: mediaState),
             EdgeEventHelper.generateSessionCreatedEvent(trackerSessionId: mediaEventProcessorSpy.getTrackerSessionId(sessionId: curSessionId), backendSessionId: backendSessionId),
@@ -90,6 +92,8 @@ class ChapterPlayback: BaseScenarioTest {
         incrementTrackerTime(seconds: 15, updatePlayhead: true) // will send ping since interval > 10 seconds
         mediaTracker.trackEvent(event: MediaEvent.ChapterComplete)
         mediaTracker.trackComplete()
+
+        wait()
 
         let expectedEvents: [Event] = [
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.sessionStart, playhead: 0, ts: 0, backendSessionId: backendSessionId, info: mediaInfo.toMap(), metadata: mediaMetadata, mediaState: mediaState),

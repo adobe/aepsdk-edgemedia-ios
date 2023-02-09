@@ -53,6 +53,8 @@ class CustomStatePlayback: BaseScenarioTest {
         mediaTracker.trackEvent(event: MediaEvent.StateEnd, info: standardStateMute.toMap())
         mediaTracker.trackComplete()
 
+        wait()
+
         let expectedEvents: [Event] = [
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.sessionStart, playhead: 0, ts: 0, backendSessionId: backendSessionId, info: mediaInfo.toMap(), metadata: mediaMetadata, mediaState: mediaState),
             EdgeEventHelper.generateSessionCreatedEvent(trackerSessionId: mediaEventProcessorSpy.getTrackerSessionId(sessionId: curSessionId), backendSessionId: backendSessionId),
@@ -94,6 +96,8 @@ class CustomStatePlayback: BaseScenarioTest {
         incrementTrackerTime(seconds: 5, updatePlayhead: true)
         mediaTracker.trackComplete()
 
+        wait()
+
         let expectedEvents: [Event] = [
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.sessionStart, playhead: 0, ts: 0, backendSessionId: backendSessionId, info: mediaInfo.toMap(), metadata: mediaMetadata, mediaState: mediaState),
             EdgeEventHelper.generateSessionCreatedEvent(trackerSessionId: mediaEventProcessorSpy.getTrackerSessionId(sessionId: curSessionId), backendSessionId: backendSessionId),
@@ -131,6 +135,8 @@ class CustomStatePlayback: BaseScenarioTest {
         }
 
         mediaTracker.trackComplete()
+
+        wait()
 
         var expectedStateStartEvents = [Event]()
         // We will have states only till state_10
