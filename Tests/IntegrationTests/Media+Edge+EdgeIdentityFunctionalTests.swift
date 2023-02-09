@@ -69,7 +69,7 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
     }
 
     // Test Cases
-    func testSimplePlaybackScenario1() {
+    func testPlayback_singleSession_play_pause_complete() {
         // setup
         let responseConnection: HttpConnection = HttpConnection(data: successResponseBody.data(using: .utf8),
                                                                 response: HTTPURLResponse(url: URL(string: sessionStartEdgeEndpoint)!,
@@ -97,7 +97,7 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
         assertXDMData(networkRequest: networkRequests[3], eventType: "sessionComplete", backendSessionId: testBackendSessionId, playhead: 7)
     }
 
-    func testAdPlayback() {
+    func testPlayback_withPrerollAdBreak() {
         // setup
         let responseConnection: HttpConnection = HttpConnection(data: successResponseBody.data(using: .utf8),
                                                                 response: HTTPURLResponse(url: URL(string: sessionStartEdgeEndpoint)!,
@@ -132,7 +132,7 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
         assertXDMData(networkRequest: networkRequests[7], eventType: "sessionComplete", backendSessionId: testBackendSessionId)
     }
 
-    func testChapterPlayback() {
+    func testPlayback_withSingleChapter() {
         // setup
         let responseConnection: HttpConnection = HttpConnection(data: successResponseBody.data(using: .utf8),
                                                                 response: HTTPURLResponse(url: URL(string: sessionStartEdgeEndpoint)!,
@@ -161,7 +161,7 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
         assertXDMData(networkRequest: networkRequests[4], eventType: "sessionComplete", backendSessionId: testBackendSessionId)
     }
 
-    func testPlaybackWithBufferSeekPlayheadUpdateQoeUpdateEvents() {
+    func testPlayback_withBuffer_withSeek_withBitrate_withQoeUpdate_withError() {
         // setup
         let responseConnection: HttpConnection = HttpConnection(data: successResponseBody.data(using: .utf8),
                                                                 response: HTTPURLResponse(url: URL(string: sessionStartEdgeEndpoint)!,
@@ -203,7 +203,7 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
         assertXDMData(networkRequest: networkRequests[8], eventType: "sessionComplete", backendSessionId: testBackendSessionId, playhead: 20)
     }
 
-    func testAdPlayback_withSessionEnd() {
+    func testPlayback_withPrerollAdBreak_noAdComplete_noAdbreakComplete_withSessionEnd() {
         // setup
         let responseConnection: HttpConnection = HttpConnection(data: successResponseBody.data(using: .utf8),
                                                                 response: HTTPURLResponse(url: URL(string: sessionStartEdgeEndpoint)!,
@@ -235,7 +235,7 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
         assertXDMData(networkRequest: networkRequests[6], eventType: "sessionEnd", backendSessionId: testBackendSessionId)
     }
 
-    func testChapterPlayback_withSessionEnd() {
+    func testPlayback_withChapterStart_noChapterComplete_withSessionEnd() {
         // setup
         let responseConnection: HttpConnection = HttpConnection(data: successResponseBody.data(using: .utf8),
                                                                 response: HTTPURLResponse(url: URL(string: sessionStartEdgeEndpoint)!,
@@ -264,7 +264,7 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
         assertXDMData(networkRequest: networkRequests[4], eventType: "sessionEnd", backendSessionId: testBackendSessionId, playhead: 12)
     }
 
-    func testSimplePlaybackWithPlayerStates() {
+    func testPlayback_withSingleChapter_withMuteState_withCustomState() {
         // setup
         let responseConnection: HttpConnection = HttpConnection(data: successResponseBody.data(using: .utf8),
                                                                 response: HTTPURLResponse(url: URL(string: sessionStartEdgeEndpoint)!,
@@ -302,7 +302,7 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
         assertXDMData(networkRequest: networkRequests[8], eventType: "sessionComplete", backendSessionId: testBackendSessionId, playhead: 12)
     }
 
-    func testSimplePlaybackWithPlayerStates_withSessionEnd() {
+    func testPlayback_withChapterStart_noChapterComplete_withMuteStateStart_withCustomStateStart_noMuteStateEnd_noCustomStateEnd_withSessionEnd() {
         // setup
         let responseConnection: HttpConnection = HttpConnection(data: successResponseBody.data(using: .utf8),
                                                                 response: HTTPURLResponse(url: URL(string: sessionStartEdgeEndpoint)!,
