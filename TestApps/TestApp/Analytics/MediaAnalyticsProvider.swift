@@ -26,14 +26,15 @@ class MediaAnalyticsProvider: NSObject {
 
         // Pass optional configuration when creating tracker
         var config: [String: Any] = [:]
-        config[MediaConstants.TrackerConfig.CHANNEL] = "e2e-swift-channel" // Overrides channel configured from launch
+        // config[MediaConstants.TrackerConfig.CHANNEL] = "e2e-swift-channel" // Overrides channel configured from launch
         _tracker = Media.createTrackerWith(config: config)
 
         setupPlayerNotifications()
     }
 
     deinit {
-        destroy()
+        NotificationCenter.default.removeObserver(self)
+        _tracker = nil
     }
 
     @objc func updateQoE(notification: NSNotification) {
@@ -58,12 +59,6 @@ class MediaAnalyticsProvider: NSObject {
 
         NSLog("\(logTag) updatePlayhead() - updated playhead value to %f", playhead)
         _tracker?.updateCurrentPlayhead(time: playhead)
-    }
-
-    func destroy() {
-        NotificationCenter.default.removeObserver(self)
-
-        _tracker = nil
     }
 
     @objc func onMainVideoLoaded(notification: NSNotification) {

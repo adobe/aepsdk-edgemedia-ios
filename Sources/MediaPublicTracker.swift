@@ -19,13 +19,13 @@ class MediaPublicTracker: MediaTracker {
     private static let LOG_TAG = MediaConstants.LOG_TAG
     private static let CLASS_NAME = "MediaPublicTracker"
 
-    typealias dispatchFn = (Event) -> Void
+    typealias DispatchFn = (Event) -> Void
 
     let TICK_INTERVAL = TimeInterval(0.75)
     let EVENT_TIMEOUT_MS: Int64 = 500
     private let dispatchQueue: DispatchQueue = DispatchQueue(label: LOG_TAG)
 
-    var dispatch: dispatchFn?
+    var dispatch: DispatchFn?
     let config: [String: Any]?
     let trackerId: String
     var sessionId: String
@@ -35,7 +35,7 @@ class MediaPublicTracker: MediaTracker {
     var timer: Timer?
 
     // MediaTracker Impl
-    init(dispatch: dispatchFn?, config: [String: Any]?) {
+    init(dispatch: DispatchFn?, config: [String: Any]?) {
         self.dispatch = dispatch
         self.config = config
         self.trackerId = UUID().uuidString

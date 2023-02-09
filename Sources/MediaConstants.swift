@@ -150,8 +150,7 @@ internal extension MediaConstants {
     }
 
     enum Edge {
-        static let MEDIA_CUSTOM_PATH_PREFIX = "/va-pre-prod/ee/v1/"
-        //static let MEDIA_CUSTOM_PATH_PREFIX = "/va/v1/"
+        static let MEDIA_CUSTOM_PATH_PREFIX = "/va/v1/"
 
         enum EventData {
             static let SESSION_ID = "sessionId"

@@ -37,22 +37,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         extensions.append(contentsOf: [Edge.self, AEPEdgeIdentity.Identity.self, Assurance.self])
         #endif
 
-//        MobileCore.registerExtensions(extensions, {
-//            MobileCore.configureWith(appId: self.ENVIRONMENT_FILE_ID)
-//        })
-        
         MobileCore.registerExtensions(extensions, {
-              MobileCore.configureWith(appId: self.ENVIRONMENT_FILE_ID)
-              // E2E testing (adobe-decebalus)
-              MobileCore.updateConfigurationWith(configDict: ["edgemedia.channel": "test-channel", "edgemedia.playerName": "testPlayerName",
-                                      "edge.configId": "05d4a30a-f0b5-4452-b7a0-3bafefd691c0",
-                                      "experienceCloud.org": "6D9FE18C5536A5E90A4C98A6@AdobeOrg",
-                                      "edge.domain": "edge.adobedc.net"])
-              //      MobileCore.updateConfigurationWith(configDict: ["edgemedia.channel": "channel", "edgemedia.playerName": "testPlayerName",
-              //                              "edge.configId": "97a2598a-eed9-497b-808f-2bbda159c7c4",
-              //                              "experienceCloud.org": "4E9432245BC7C44B0A494037@AdobeOrg",
-              //                              "edge.domain": "beta.adobedc.net"])
-            })
+            MobileCore.configureWith(appId: self.ENVIRONMENT_FILE_ID)
+        })
 
         return true
     }

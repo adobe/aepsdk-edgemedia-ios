@@ -20,7 +20,7 @@ class MediaEventGenerator: MediaTracker {
         var mockTimeStamp: Int64 = 0
         var mockCurrentPlayhead: Double = 0
 
-        override init(dispatch: dispatchFn?, config: [String: Any]?) {
+        override init(dispatch: DispatchFn?, config: [String: Any]?) {
             super.init(dispatch: dispatch, config: config)
         }
 

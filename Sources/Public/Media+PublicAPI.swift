@@ -122,6 +122,8 @@ import Foundation
     }
 }
 
+// swiftlint:disable identifier_name
+
 /// These enumeration values define the type of a tracking event.
 /// These enumeration are to be used in *trackEvent(event:info:metadata:)*
 @objc(AEPMediaEvent)

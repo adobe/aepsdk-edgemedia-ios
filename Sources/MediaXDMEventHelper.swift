@@ -71,77 +71,55 @@ class MediaXDMEventHelper {
             // Video standard metadata cases
             case MediaConstants.VideoMetadataKeys.AD_LOAD:
                 sessionDetailsXDM.adLoad = value
-                break
             case MediaConstants.VideoMetadataKeys.ASSET_ID:
                 sessionDetailsXDM.assetID = value
-                break
             case MediaConstants.VideoMetadataKeys.AUTHORIZED:
                 sessionDetailsXDM.authorized = value
-                break
             case MediaConstants.VideoMetadataKeys.DAY_PART:
                 sessionDetailsXDM.dayPart = value
-                break
             case MediaConstants.VideoMetadataKeys.EPISODE:
                 sessionDetailsXDM.episode = value
-                break
             case MediaConstants.VideoMetadataKeys.FEED:
                 sessionDetailsXDM.feed = value
-                break
             case MediaConstants.VideoMetadataKeys.FIRST_AIR_DATE:
                 sessionDetailsXDM.firstAirDate = value
-                break
             case MediaConstants.VideoMetadataKeys.FIRST_DIGITAL_DATE:
                 sessionDetailsXDM.firstDigitalDate = value
-                break
             case MediaConstants.VideoMetadataKeys.GENRE:
                 sessionDetailsXDM.genre = value
-                break
             case MediaConstants.VideoMetadataKeys.MVPD:
                 sessionDetailsXDM.mvpd = value
-                break
             case MediaConstants.VideoMetadataKeys.NETWORK:
                 sessionDetailsXDM.network = value
-                break
             case MediaConstants.VideoMetadataKeys.ORIGINATOR:
                 sessionDetailsXDM.originator = value
-                break
             case MediaConstants.VideoMetadataKeys.RATING:
                 sessionDetailsXDM.rating = value
-                break
             case MediaConstants.VideoMetadataKeys.SEASON:
                 sessionDetailsXDM.season = value
-                break
             case MediaConstants.VideoMetadataKeys.SHOW:
                 sessionDetailsXDM.show = value
-                break
             case MediaConstants.VideoMetadataKeys.SHOW_TYPE:
                 sessionDetailsXDM.showType = value
-                break
             case MediaConstants.VideoMetadataKeys.STREAM_FORMAT:
                 sessionDetailsXDM.streamFormat = value
-                break
 
             // Audio standard metadata cases
             case MediaConstants.AudioMetadataKeys.ALBUM:
                 sessionDetailsXDM.album = value
-                break
             case MediaConstants.AudioMetadataKeys.ARTIST:
                 sessionDetailsXDM.artist = value
-                break
             case MediaConstants.AudioMetadataKeys.AUTHOR:
                 sessionDetailsXDM.author = value
-                break
             case MediaConstants.AudioMetadataKeys.LABEL:
                 sessionDetailsXDM.label = value
-                break
             case MediaConstants.AudioMetadataKeys.PUBLISHER:
                 sessionDetailsXDM.publisher = value
-                break
             case MediaConstants.AudioMetadataKeys.STATION:
                 sessionDetailsXDM.station = value
-                break
             default:
                 break
+
             }
         }
 
@@ -189,23 +167,16 @@ class MediaXDMEventHelper {
             switch key {
             case MediaConstants.AdMetadataKeys.ADVERTISER:
                 advertisingDetailsXDM.advertiser = value
-                break
             case MediaConstants.AdMetadataKeys.CAMPAIGN_ID:
                 advertisingDetailsXDM.campaignID = value
-                break
             case MediaConstants.AdMetadataKeys.CREATIVE_ID:
                 advertisingDetailsXDM.creativeID = value
-                break
             case MediaConstants.AdMetadataKeys.CREATIVE_URL:
                 advertisingDetailsXDM.creativeURL = value
-                break
             case MediaConstants.AdMetadataKeys.PLACEMENT_ID:
                 advertisingDetailsXDM.placementID = value
-                break
             case MediaConstants.AdMetadataKeys.SITE_ID:
                 advertisingDetailsXDM.siteID = value
-                break
-
             default:
                 break
             }

@@ -13,6 +13,7 @@
 import AEPServices
 
 class MediaContext {
+    // swiftlint:disable identifier_name
     enum MediaPlaybackState: String {
         case Play
         case Pause

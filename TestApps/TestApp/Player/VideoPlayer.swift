@@ -59,7 +59,7 @@ class VideoPlayer: AVPlayer {
     let QOEINFO_STARTUPTIME: Double = 2
     let QOEINFO_FPS: Double = 24
     let QOEINFO_DROPPEDFRAMES: Double = 10
-    let VIDEO_LENGTH: Double = 1800
+    let VIDEO_LENGTH: Double = 180
     let VIDEO_NAME: String = "Adobe Analytics marketing video"
     let VIDEO_ID: String = "adobeanalytics"
 
@@ -74,7 +74,7 @@ class VideoPlayer: AVPlayer {
     let kPlaybackLikelyToKeepUp   = "playbackLikelyToKeepUp"
 
     var player: AVPlayer = AVPlayer()
-    private var MediaPlayerKVOContext = 0
+    private var mediaPlayerKVOContext = 0
 
     var timer: Timer?
 
@@ -89,9 +89,9 @@ class VideoPlayer: AVPlayer {
         _isCCActive = false
 
         player = AVPlayer(url: url)
-        player.addObserver(self, forKeyPath: kRateKey, options: [], context: &MediaPlayerKVOContext)
-        player.addObserver(self, forKeyPath: kStatusKey, options: [], context: &MediaPlayerKVOContext)
-        player.addObserver(self, forKeyPath: kMuteKey, options: [], context: &MediaPlayerKVOContext)
+        player.addObserver(self, forKeyPath: kRateKey, options: [], context: &mediaPlayerKVOContext)
+        player.addObserver(self, forKeyPath: kStatusKey, options: [], context: &mediaPlayerKVOContext)
+        player.addObserver(self, forKeyPath: kMuteKey, options: [], context: &mediaPlayerKVOContext)
 
         NotificationCenter.default.addObserver(self, selector: #selector(onMediaFinishedPlaying), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
     }
@@ -129,7 +129,7 @@ class VideoPlayer: AVPlayer {
     // getting events from player
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
 
-        if context != &MediaPlayerKVOContext {
+        if context != &mediaPlayerKVOContext {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
 
@@ -365,7 +365,6 @@ class VideoPlayer: AVPlayer {
 
     @objc func onTimerTick() {
         // NSLog("Timer Ticked")
-
         if _seeking || (_paused) {
             return
         }
