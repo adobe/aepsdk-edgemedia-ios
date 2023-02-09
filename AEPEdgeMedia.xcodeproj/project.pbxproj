@@ -1177,8 +1177,6 @@
 				2ED7126028ADC424006A83D0 /* MediaRuleEngineTests.swift in Sources */,
 				2ED7126128ADC424006A83D0 /* MediaEventTrackerTests.swift in Sources */,
 				2EA7BC2D28C11CD4001A7C2A /* XDMSessionDetailsTests.swift in Sources */,
-				2EB164F5289AF63900089C83 /* MockExtension.swift in Sources */,
-				2EB164F3289AF59C00089C83 /* MediaEventGenerator.swift in Sources */,
 				2E459864290A2EEC003111EE /* MediaXDMEventTests.swift in Sources */,
 				2EA7BC2528C035FF001A7C2A /* XDMAdvertisingPodDetailsTests.swift in Sources */,
 				2E37D38B28D4186000B782F8 /* MediaSessionSpy.swift in Sources */,
