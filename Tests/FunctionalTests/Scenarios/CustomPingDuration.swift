@@ -52,6 +52,8 @@ class CustomPingDuration: BaseScenarioTest {
         incrementTrackerTime(seconds: 31, updatePlayhead: true) // will send ping since interval > custom main interval (15) seconds
         mediaTracker.trackComplete()
 
+        wait()
+
         let expectedEvents: [Event] = [
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.sessionStart, playhead: 0, ts: 0, backendSessionId: backendSessionId, info: mediaInfo.toMap(), metadata: mediaMetadata, mediaState: mediaState),
             EdgeEventHelper.generateSessionCreatedEvent(trackerSessionId: mediaEventProcessorSpy.getTrackerSessionId(sessionId: curSessionId), backendSessionId: backendSessionId),
@@ -100,6 +102,8 @@ class CustomPingDuration: BaseScenarioTest {
         mediaTracker.trackEvent(event: MediaEvent.AdBreakComplete)
         incrementTrackerTime(seconds: 31, updatePlayhead: true) // will send ping since interval > custom main interval (10) seconds
         mediaTracker.trackComplete()
+
+        wait()
 
         let expectedEvents: [Event] = [
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.sessionStart, playhead: 0, ts: 0, backendSessionId: backendSessionId, info: mediaInfo.toMap(), metadata: mediaMetadata, mediaState: mediaState),

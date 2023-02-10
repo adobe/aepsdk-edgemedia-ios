@@ -51,6 +51,8 @@ class Timeout: BaseScenarioTest {
         incrementTrackerTime(seconds: 20, updatePlayhead: true)
         mediaTracker.trackComplete()
 
+        wait()
+
         var resumedMediaInfo = mediaInfoWithDefaultPreroll.toMap()
         resumedMediaInfo["media.resumed"] = true
 
@@ -105,6 +107,8 @@ class Timeout: BaseScenarioTest {
         // wait for 30 mins
         incrementTrackerTime(seconds: 1800, updatePlayhead: false)
 
+        wait()
+
         var expectedEvents: [Event] = [
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.sessionStart, playhead: 0, ts: 0, backendSessionId: backendSessionId, info: mediaInfoWithDefaultPreroll.toMap(), metadata: mediaMetadata, mediaState: mediaState),
             EdgeEventHelper.generateSessionCreatedEvent(trackerSessionId: mediaEventProcessorSpy.getTrackerSessionId(sessionId: curSessionId), backendSessionId: backendSessionId),
@@ -157,6 +161,8 @@ class Timeout: BaseScenarioTest {
         mediaEventProcessorSpy.mockBackendSessionId(sessionId: sessionId2, sessionStartEvent: dispatchedEvents[187], fakeBackendId: backendSessionId)
         incrementTrackerTime(seconds: 3, updatePlayhead: true)
         mediaTracker.trackComplete()
+
+        wait()
 
         var expectedEvents: [Event] = [
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.sessionStart, playhead: 0, ts: 0, backendSessionId: backendSessionId, info: mediaInfoWithDefaultPreroll.toMap(), metadata: mediaMetadata, mediaState: mediaState),

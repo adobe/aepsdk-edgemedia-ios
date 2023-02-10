@@ -16,6 +16,7 @@ import Foundation
 class MediaEventTracker: MediaEventTracking {
 
     // MARK: Rule Name
+    // swiftlint:disable identifier_name
     enum RuleName: Int {
         case MediaStart
         case MediaComplete

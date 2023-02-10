@@ -46,6 +46,8 @@ class CustomError: BaseScenarioTest {
         mediaTracker.trackError(errorId: "") // ignored
         mediaTracker.trackComplete()
 
+        wait()
+
         let errorInfo1 = ["error.id": "1000.2000.3000", "error.source": "player"]
         let errorInfo2 = ["error.id": "custom.error.code", "error.source": "player"]
 

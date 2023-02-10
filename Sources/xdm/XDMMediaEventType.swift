@@ -13,24 +13,24 @@
 import Foundation
 
 enum XDMMediaEventType: String, Encodable, Equatable {
-    case sessionStart = "sessionStart"
-    case sessionComplete = "sessionComplete"
-    case sessionEnd = "sessionEnd"
-    case play = "play"
-    case pauseStart = "pauseStart"
-    case ping = "ping"
-    case error = "error"
-    case bufferStart = "bufferStart"
-    case bitrateChange = "bitrateChange"
-    case adBreakStart = "adBreakStart"
-    case adBreakComplete = "adBreakComplete"
-    case adStart = "adStart"
-    case adSkip = "adSkip"
-    case adComplete = "adComplete"
-    case chapterSkip = "chapterSkip"
-    case chapterStart = "chapterStart"
-    case chapterComplete = "chapterComplete"
-    case statesUpdate = "statesUpdate"
+    case sessionStart
+    case sessionComplete
+    case sessionEnd
+    case play
+    case pauseStart
+    case ping
+    case error
+    case bufferStart
+    case bitrateChange
+    case adBreakStart
+    case adBreakComplete
+    case adStart
+    case adSkip
+    case adComplete
+    case chapterSkip
+    case chapterStart
+    case chapterComplete
+    case statesUpdate
 
     func edgeEventType() -> String {
         return "media.\(self.rawValue)"

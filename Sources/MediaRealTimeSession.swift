@@ -109,7 +109,8 @@ class MediaRealTimeSession: MediaSession {
 
         if statusCode == ErrorData.ERROR_CODE_400 && errorType.caseInsensitiveCompare(ErrorData.ERROR_TYPE_VA_EDGE_400) == .orderedSame {
             // Abort the session as the sessionStart request failed
-            Log.warning(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - [Session (\(id)] Aborting session as error occured while dispatching \(XDMMediaEventType.sessionStart.rawValue) request. Error payload: (\(data))")
+            Log.warning(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - [Session (\(id)] Aborting session as error occured while dispatching"
+                            + "\(XDMMediaEventType.sessionStart.rawValue) request. Error payload: (\(data))")
             abort()
         }
     }
