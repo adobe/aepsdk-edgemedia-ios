@@ -652,6 +652,7 @@
 				2E4D751C2979E02E00396819 /* Frameworks */,
 				2E4D751F2979E02E00396819 /* Resources */,
 				A382656394772A1676B17122 /* [CP] Embed Pods Frameworks */,
+				2E0A1C38299703C50099C134 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -692,6 +693,7 @@
 				2EB0407D2888B0D200306323 /* Frameworks */,
 				2EB0407E2888B0D200306323 /* Resources */,
 				07C524767AB5D1D59D4BAAEF /* [CP] Embed Pods Frameworks */,
+				2E0A1C3A299703D00099C134 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -712,6 +714,7 @@
 				2EB040A52888B46400306323 /* Frameworks */,
 				2EB040A72888B46400306323 /* Resources */,
 				128B6BB00C51015BE39CCF05 /* [CP] Embed Pods Frameworks */,
+				2E0A1C39299703CB0099C134 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -732,6 +735,7 @@
 				2EB040B12889CD0500306323 /* Frameworks */,
 				2EB040B22889CD0500306323 /* Resources */,
 				82FF48DCA7DFDE96832CCBD6 /* [CP] Embed Pods Frameworks */,
+				2E0A1C37299703B60099C134 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -751,6 +755,7 @@
 				2EB040CC2889CD2D00306323 /* Frameworks */,
 				2EB040CD2889CD2D00306323 /* Resources */,
 				37C03537192B1709E7E6C666 /* [CP] Embed Pods Frameworks */,
+				2E0A1C36299702F60099C134 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -909,6 +914,91 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [[ -z ${ADB_SKIP_LINT} || ${ADB_SKIP_LINT} -ne \"YES\" ]]; then\n    if which \"${PODS_ROOT}/SwiftLint/swiftlint\" >/dev/null; then\n        ./Pods/SwiftLint/swiftlint lint --config ${SRCROOT}/.swiftlint.yml Sources\n    else\n        echo \"warning: SwiftLint is not installed, please run the pod install command from the project root directory.\"\n    fi\nelse\n    echo \"Skipping linting build phase as ADB_SKIP_LINT flag is YES.\"\nfi\n";
+		};
+		2E0A1C36299702F60099C134 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ -z ${ADB_SKIP_LINT} || ${ADB_SKIP_LINT} -ne \"YES\" ]]; then\n    if which \"${PODS_ROOT}/SwiftLint/swiftlint\" >/dev/null; then\n        ./Pods/SwiftLint/swiftlint lint --config ${SRCROOT}/.swiftlint.yml TestApps/TestApp\n    else\n        echo \"warning: SwiftLint is not installed, please run the pod install command from the project root directory.\"\n    fi\nelse\n    echo \"Skipping linting build phase as ADB_SKIP_LINT flag is YES.\"\nfi\n";
+		};
+		2E0A1C37299703B60099C134 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ -z ${ADB_SKIP_LINT} || ${ADB_SKIP_LINT} -ne \"YES\" ]]; then\n    if which \"${PODS_ROOT}/SwiftLint/swiftlint\" >/dev/null; then\n        ./Pods/SwiftLint/swiftlint lint --config ${SRCROOT}/.swiftlint.yml TestApps/TestApp\n    else\n        echo \"warning: SwiftLint is not installed, please run the pod install command from the project root directory.\"\n    fi\nelse\n    echo \"Skipping linting build phase as ADB_SKIP_LINT flag is YES.\"\nfi\n";
+		};
+		2E0A1C38299703C50099C134 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ -z ${ADB_SKIP_LINT} || ${ADB_SKIP_LINT} -ne \"YES\" ]]; then\n    if which \"${PODS_ROOT}/SwiftLint/swiftlint\" >/dev/null; then\n        ./Pods/SwiftLint/swiftlint lint --config Tests/TestHelpers/.swiftlint.yml --lenient Tests/IntegrationTests Tests/TestHelpers\n    else\n        echo \"warning: SwiftLint is not installed, please run the pod install command from the project root directory.\"\n    fi\nelse\n    echo \"Skipping linting build phase as ADB_SKIP_LINT flag is YES.\"\nfi\n";
+		};
+		2E0A1C39299703CB0099C134 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ -z ${ADB_SKIP_LINT} || ${ADB_SKIP_LINT} -ne \"YES\" ]]; then\n    if which \"${PODS_ROOT}/SwiftLint/swiftlint\" >/dev/null; then\n        ./Pods/SwiftLint/swiftlint lint --config Tests/TestHelpers/.swiftlint.yml --lenient Tests/FunctionalTests Tests/TestHelpers\n    else\n        echo \"warning: SwiftLint is not installed, please run the pod install command from the project root directory.\"\n    fi\nelse\n    echo \"Skipping linting build phase as ADB_SKIP_LINT flag is YES.\"\nfi\n";
+		};
+		2E0A1C3A299703D00099C134 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ -z ${ADB_SKIP_LINT} || ${ADB_SKIP_LINT} -ne \"YES\" ]]; then\n    if which \"${PODS_ROOT}/SwiftLint/swiftlint\" >/dev/null; then\n        ./Pods/SwiftLint/swiftlint lint --config Tests/TestHelpers/.swiftlint.yml --lenient Tests/UnitTests Tests/TestHelpers\n    else\n        echo \"warning: SwiftLint is not installed, please run the pod install command from the project root directory.\"\n    fi\nelse\n    echo \"Skipping linting build phase as ADB_SKIP_LINT flag is YES.\"\nfi\n";
 		};
 		37C03537192B1709E7E6C666 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
