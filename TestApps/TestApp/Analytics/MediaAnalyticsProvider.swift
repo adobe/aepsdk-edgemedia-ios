@@ -26,7 +26,7 @@ class MediaAnalyticsProvider: NSObject {
 
         // Pass optional configuration when creating tracker
         var config: [String: Any] = [:]
-        // config[MediaConstants.TrackerConfig.CHANNEL] = "e2e-swift-channel" // Overrides channel configured from launch
+        // config[MediaConstants.TrackerConfig.CHANNEL] = "e2e-swift-channel" // Overrides channel configured from remote configuration
         _tracker = Media.createTrackerWith(config: config)
 
         setupPlayerNotifications()
