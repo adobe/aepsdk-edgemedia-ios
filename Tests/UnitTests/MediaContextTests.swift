@@ -36,7 +36,7 @@ class MediaContextTests: XCTestCase {
         XCTAssertEqual(30.0, mediaContext.mediaInfo.length)
         XCTAssertEqual(0, mediaContext.mediaInfo.prerollWaitingTime)
         XCTAssertEqual(mediaMetadata, mediaContext.mediaMetadata)
-        XCTAssertEqual(3, mediaContext.adMetadata.count)
+        XCTAssertEqual(3, mediaContext.mediaMetadata.count)
     }
 
     func testSetAdInfo_getAdInfoReturnsValidAdInfo() {
