@@ -13,6 +13,7 @@ import AEPCore
 import AEPServices
 import Foundation
 
+// swiftlint:disable type_body_length
 class MediaEventTracker: MediaEventTracking {
 
     // MARK: Rule Name
@@ -212,6 +213,7 @@ class MediaEventTracker: MediaEventTracking {
         return result.success
     }
 
+    // swiftlint:disable function_body_length
     /// Setup state machine i.e. conditions and actions for each Rule.
     /// - Parameters:
     ///    - rule: EventName corresponding to API call.
@@ -873,11 +875,9 @@ class MediaEventTracker: MediaEventTracking {
         var reorderedRules: [(name: RuleName, context: [String: Any])] = []
         var adBreakStart: (name: RuleName, context: [String: Any])?
 
-        for rule in rules {
-            if rule.name == RuleName.AdBreakStart {
-                adBreakStart = rule
-                break
-            }
+        for rule in rules where rule.name == RuleName.AdBreakStart {
+            adBreakStart = rule
+            break
         }
 
         var dropPlay = adBreakStart != nil

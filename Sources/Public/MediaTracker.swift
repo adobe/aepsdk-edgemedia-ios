@@ -12,6 +12,7 @@
 
 import Foundation
 
+/// Interface to call track APIs
 @objc(AEPMediaTracker)
 public protocol MediaTracker {
 

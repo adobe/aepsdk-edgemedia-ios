@@ -12,7 +12,7 @@
 import AEPServices
 import Foundation
 
-class MediaXDMEventHelper {
+enum MediaXDMEventHelper {
     private static let LOG_TAG = MediaConstants.LOG_TAG
     private static let CLASS_NAME = "MediaXDMHelper"
     private static let standardMediaMetadataSet: Set = [
@@ -50,6 +50,7 @@ class MediaXDMEventHelper {
         MediaConstants.AdMetadataKeys.SITE_ID
     ]
 
+    // swiftlint:disable function_body_length
     static func generateSessionDetails(mediaInfo: MediaInfo, metadata: [String: String], forceResume: Bool = false) -> XDMSessionDetails {
         var streamType = XDMStreamType.video
         if mediaInfo.mediaType == MediaType.Audio {
@@ -220,8 +221,8 @@ class MediaXDMEventHelper {
             metadataList.append(XDMCustomMetadata(name: key, value: value))
         }
 
-        metadataList.sort { m1, m2 in
-            m1.name < m2.name
+        metadataList.sort { metadata1, metadata2 in
+            metadata1.name < metadata2.name
         }
 
         return metadataList

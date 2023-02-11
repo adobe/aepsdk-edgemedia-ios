@@ -88,7 +88,7 @@ class MediaPublicTrackerTests: XCTestCase {
     func assertTrackEvent(event: Event?, expectedEventName: String, expectedParam: [String: Any] = [:], expectedMetadata: [String: Any] = [:], expectedTimestamp: Int64 = 0, expectedEventInternal: Bool = false) {
 
         guard let event = event else {
-            XCTFail()
+            XCTFail("Event cannot be null!")
             return
         }
 

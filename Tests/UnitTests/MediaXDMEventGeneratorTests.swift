@@ -574,13 +574,13 @@ class MediaXDMEventGeneratorTests: XCTestCase {
 
         // verify reporting interval for ad content is 3 seconds
         let adPingEvent1 = eventProcessor.getEventFromActiveSession(index: 1)
-        intervalMS = intervalMS + (3 * 1000)
+        intervalMS += (3 * 1000)
         let result2 = verifyPing(event: adPingEvent1, expectedTS: getDate(intervalMS / 1000), expectedPlayhead: (intervalMS / 1000))
         XCTAssertTrue(result2.success, result2.errors)
 
         // verify reporting interval for main content is 10 seconds
         let mainPingEvent2 = eventProcessor.getEventFromActiveSession(index: 2)
-        intervalMS = intervalMS + MediaConstants.PingInterval.REALTIME_TRACKING_MS
+        intervalMS += MediaConstants.PingInterval.REALTIME_TRACKING_MS
         let result3 = verifyPing(event: mainPingEvent2, expectedTS: getDate((intervalMS / 1000)), expectedPlayhead: (intervalMS / 1000))
         XCTAssertTrue(result3.success, result3.errors)
     }
@@ -608,13 +608,13 @@ class MediaXDMEventGeneratorTests: XCTestCase {
 
         // verify reporting interval for ad content is 10 seconds
         let adPingEvent1 = eventProcessor.getEventFromActiveSession(index: 1)
-        intervalMS = intervalMS + Int(MediaConstants.PingInterval.REALTIME_TRACKING_MS)
+        intervalMS += Int(MediaConstants.PingInterval.REALTIME_TRACKING_MS)
         let result2 = verifyPing(event: adPingEvent1, expectedTS: getDate(Int64(intervalMS / 1000)), expectedPlayhead: Int64((intervalMS / 1000)))
         XCTAssertTrue(result2.success, result2.errors)
 
         // verify reporting interval for main content is 21 seconds
         let mainPingEvent2 = eventProcessor.getEventFromActiveSession(index: 2)
-        intervalMS = intervalMS + (21 * 1000)
+        intervalMS += (21 * 1000)
         let result3 = verifyPing(event: mainPingEvent2, expectedTS: getDate(Int64((intervalMS / 1000))), expectedPlayhead: Int64((intervalMS / 1000)))
         XCTAssertTrue(result3.success, result3.errors)
     }
@@ -656,9 +656,9 @@ class MediaXDMEventGeneratorTests: XCTestCase {
             mockPlayhead = 0
             mockTimestamp = 0
         }
-        mockTimestamp = mockTimestamp + interval
+        mockTimestamp += interval
         if updatePlayhead {
-            mockPlayhead = mockPlayhead + (interval / 1000)
+            mockPlayhead += (interval / 1000)
             mediaContext.playhead = Double(mockPlayhead)
         }
         eventGenerator.setRefTS(ts: mockTimestamp)

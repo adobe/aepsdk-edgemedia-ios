@@ -26,7 +26,7 @@ struct MediaXDMEvent {
     func toXDMData() -> [String: Any] {
         var mediaXDMData = [String: Any]()
         mediaXDMData[MediaConstants.XDMKeys.EVENT_TYPE] = self.eventType.edgeEventType()
-        mediaXDMData[MediaConstants.XDMKeys.TS] = timestamp.getISO8601UTCDateWithMilliseconds()
+        mediaXDMData[MediaConstants.XDMKeys.TIMESTAMP] = timestamp.getISO8601UTCDateWithMilliseconds()
         mediaXDMData[MediaConstants.XDMKeys.MEDIA_COLLECTION] = self.mediaCollection.asDictionary()
 
         var xdmData = [String: Any]()

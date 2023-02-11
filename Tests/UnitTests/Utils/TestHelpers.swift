@@ -23,7 +23,7 @@ extension EventHub {
 
 extension FileManager {
     func clearCache() {
-        if let _ = self.urls(for: .cachesDirectory, in: .userDomainMask).first {
+        if self.urls(for: .cachesDirectory, in: .userDomainMask).first != nil {
             do {
                 try self.removeItem(at: URL(fileURLWithPath: "Library/Caches/\(MediaConstants.DATABASE_NAME)"))
             } catch {

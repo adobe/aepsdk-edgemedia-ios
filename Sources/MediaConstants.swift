@@ -139,7 +139,7 @@ internal extension MediaConstants {
     enum XDMKeys {
         static let XDM = "xdm"
         static let EVENT_TYPE = "eventType"
-        static let TS = "timestamp"
+        static let TIMESTAMP = "timestamp"
         static let MEDIA_COLLECTION = "mediaCollection"
         static let CUSTOM_METADATA = "customMetadata"
     }
