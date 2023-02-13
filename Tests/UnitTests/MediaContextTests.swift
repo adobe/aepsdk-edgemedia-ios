@@ -16,10 +16,10 @@ import XCTest
 
 class MediaContextTests: XCTestCase {
     let mediaInfo = MediaInfo(id: "mediaID", name: "mediaName", streamType: "aod", mediaType: MediaType.Audio, length: 30.0, prerollWaitingTime: 0)!
-    let mediaMetadata = ["media.show": "sampleshow", "key1": "value1", "key2": "мểŧẳđαţả"]
+    let mediaMetadata = ["media.show": "sampleshow", MediaConstants.AudioMetadataKeys.ARTIST: "sampleArtist", "key2": "мểŧẳđαţả"]
     let adBreakInfo = AdBreakInfo(name: "adBreakName", position: 1, startTime: 1.1)!
     let adInfo = AdInfo(id: "adID", name: "adName", position: 1, length: 15.0)!
-    let adMetadata = ["media.ad.advertiser": "sampleAdvertiser", "key1": "value1", "key2": "мểŧẳđαţả"]
+    let adMetadata = [MediaConstants.AdMetadataKeys.ADVERTISER: "sampleAdvertiser", "key1": "value1", "key2": "мểŧẳđαţả"]
     let chapterInfo = ChapterInfo(name: "chapterName", position: 1, startTime: 1.1, length: 30)!
     let chapterMetadata = ["media.artist": "sampleArtist", "key1": "value1", "key2": "мểŧẳđαţả"]
     var muteStateInfo = StateInfo(stateName: MediaConstants.PlayerState.MUTE)!
@@ -158,7 +158,7 @@ class MediaContextTests: XCTestCase {
         var activeStatesList = mediaContext.getActiveTrackedStates()
         XCTAssertEqual(10, activeStatesList.count)
         for stateName in 1...10 {
-            XCTAssertTrue(activeStatesList.contains(StateInfo(stateName: "State\(stateName)")!))  // 1-5 states are active
+            XCTAssertTrue(activeStatesList.contains(StateInfo(stateName: "State\(stateName)")!))
         }
 
         for stateName in 6...10 {
@@ -180,18 +180,82 @@ class MediaContextTests: XCTestCase {
 
         mediaContext.enterPlaybackState(state: MediaContext.MediaPlaybackState.Play)
         XCTAssertTrue(mediaContext.isInMediaPlaybackState(state: MediaContext.MediaPlaybackState.Play))
-        XCTAssertFalse(mediaContext.isIdle())
 
         mediaContext.enterPlaybackState(state: MediaContext.MediaPlaybackState.Pause)
         XCTAssertTrue(mediaContext.isInMediaPlaybackState(state: MediaContext.MediaPlaybackState.Pause))
-        XCTAssertTrue(mediaContext.isIdle())
 
         mediaContext.enterPlaybackState(state: MediaContext.MediaPlaybackState.Seek)
         XCTAssertTrue(mediaContext.isInMediaPlaybackState(state: MediaContext.MediaPlaybackState.Seek))
-        XCTAssertTrue(mediaContext.isIdle())
 
         mediaContext.enterPlaybackState(state: MediaContext.MediaPlaybackState.Buffer)
         XCTAssertTrue(mediaContext.isInMediaPlaybackState(state: MediaContext.MediaPlaybackState.Buffer))
+    }
+
+    func testEnterPlaybackState_explicitExitPlaybackStateRequiredToExitBufferAndSeek() {
+        let mediaContext = MediaContext(mediaInfo: mediaInfo, metadata: mediaMetadata)
+        mediaContext.enterPlaybackState(state: MediaContext.MediaPlaybackState.Play)
+
+        mediaContext.enterPlaybackState(state: MediaContext.MediaPlaybackState.Seek)
+        XCTAssertTrue(mediaContext.isInMediaPlaybackState(state: MediaContext.MediaPlaybackState.Seek))
+        // doesnt switch playback state
+        mediaContext.enterPlaybackState(state: MediaContext.MediaPlaybackState.Play)
+        XCTAssertTrue(mediaContext.isInMediaPlaybackState(state: MediaContext.MediaPlaybackState.Seek))
+
+        // exits seek and switches plabackstate to state set at the beginning
+        mediaContext.exitPlaybackState(state: MediaContext.MediaPlaybackState.Seek)
+        XCTAssertFalse(mediaContext.isInMediaPlaybackState(state: MediaContext.MediaPlaybackState.Seek))
+        XCTAssertTrue(mediaContext.isInMediaPlaybackState(state: MediaContext.MediaPlaybackState.Play))
+    }
+
+    func testExitPlaybackStateBufferAndSeek_exitsBufferingAndSeekingAndSwitchesToPreviousInitPlayPauseState() {
+        let mediaContext = MediaContext(mediaInfo: mediaInfo, metadata: mediaMetadata)
+
+        mediaContext.enterPlaybackState(state: MediaContext.MediaPlaybackState.Buffer)
+        XCTAssertTrue(mediaContext.isInMediaPlaybackState(state: MediaContext.MediaPlaybackState.Buffer))
+
+        mediaContext.exitPlaybackState(state: MediaContext.MediaPlaybackState.Buffer)
+        XCTAssertFalse(mediaContext.isInMediaPlaybackState(state: MediaContext.MediaPlaybackState.Buffer))
+        // assert fallback to state before buffer
+        XCTAssertTrue(mediaContext.isInMediaPlaybackState(state: MediaContext.MediaPlaybackState.Init))
+
+        // set to play playback state
+        mediaContext.enterPlaybackState(state: MediaContext.MediaPlaybackState.Play)
+
+        mediaContext.enterPlaybackState(state: MediaContext.MediaPlaybackState.Seek)
+        XCTAssertTrue(mediaContext.isInMediaPlaybackState(state: MediaContext.MediaPlaybackState.Seek))
+
+        mediaContext.exitPlaybackState(state: MediaContext.MediaPlaybackState.Seek)
+        XCTAssertFalse(mediaContext.isInMediaPlaybackState(state: MediaContext.MediaPlaybackState.Seek))
+        // assert fallback to state before seek
+        XCTAssertTrue(mediaContext.isInMediaPlaybackState(state: MediaContext.MediaPlaybackState.Play))
+
+        // set to pause playback state
+        mediaContext.enterPlaybackState(state: MediaContext.MediaPlaybackState.Pause)
+
+        mediaContext.enterPlaybackState(state: MediaContext.MediaPlaybackState.Buffer)
+        XCTAssertTrue(mediaContext.isInMediaPlaybackState(state: MediaContext.MediaPlaybackState.Buffer))
+
+        mediaContext.exitPlaybackState(state: MediaContext.MediaPlaybackState.Buffer)
+        XCTAssertFalse(mediaContext.isInMediaPlaybackState(state: MediaContext.MediaPlaybackState.Buffer))
+        // assert fallback to state before pause
+        XCTAssertTrue(mediaContext.isInMediaPlaybackState(state: MediaContext.MediaPlaybackState.Pause))
+
+    }
+
+    func testIsIdle_returnsTrueWhenInBufferSeekPause_returnsFalseWhenInPlay() {
+        let mediaContext = MediaContext(mediaInfo: mediaInfo, metadata: mediaMetadata)
+        mediaContext.enterPlaybackState(state: MediaContext.MediaPlaybackState.Pause)
+        XCTAssertTrue(mediaContext.isIdle())
+
+        mediaContext.enterPlaybackState(state: MediaContext.MediaPlaybackState.Play)
+        XCTAssertFalse(mediaContext.isIdle())
+
+        mediaContext.enterPlaybackState(state: MediaContext.MediaPlaybackState.Seek)
+        XCTAssertTrue(mediaContext.isIdle())
+        mediaContext.exitPlaybackState(state: MediaContext.MediaPlaybackState.Seek)
+        XCTAssertFalse(mediaContext.isIdle())
+
+        mediaContext.enterPlaybackState(state: MediaContext.MediaPlaybackState.Buffer)
         XCTAssertTrue(mediaContext.isIdle())
     }
 }
