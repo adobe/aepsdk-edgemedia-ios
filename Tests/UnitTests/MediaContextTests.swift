@@ -15,7 +15,7 @@ import AEPCore
 import XCTest
 
 class MediaContextTests: XCTestCase {
-    let mediaInfo = MediaInfo(id: "mediaID", name: "mediaName", streamType: "aod", mediaType: MediaType.Audio, length: 30.0, prerollWaitingTime: 0)!
+    let mediaInfo = MediaInfo(id: "mediaID", name: "mediaName", streamType: MediaConstants.StreamType.AOD, mediaType: MediaType.Audio, length: 30.0, prerollWaitingTime: 0)!
     let mediaMetadata = ["media.show": "sampleshow", MediaConstants.AudioMetadataKeys.ARTIST: "sampleArtist", "key2": "мểŧẳđαţả"]
     let adBreakInfo = AdBreakInfo(name: "adBreakName", position: 1, startTime: 1.1)!
     let adInfo = AdInfo(id: "adID", name: "adName", position: 1, length: 15.0)!
