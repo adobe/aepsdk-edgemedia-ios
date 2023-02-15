@@ -4,6 +4,10 @@ export APP_NAME = TestApp
 PROJECT_NAME = $(EXTENSION_NAME)
 TARGET_NAME_XCFRAMEWORK = $(EXTENSION_NAME).xcframework
 SCHEME_NAME_XCFRAMEWORK = $(EXTENSION_NAME)
+UNIT_TEST_SCHEME = UnitTests
+FUNCTIONAL_TEST_SCHEME = FunctionalTests
+INTEGRATION_TEST_SCHEME = IntegrationTests
+
 
 CURR_DIR := ${CURDIR}
 IOS_SIMULATOR_ARCHIVE_PATH = $(CURR_DIR)/build/ios_simulator.xcarchive/Products/Library/Frameworks/
@@ -40,7 +44,7 @@ clean:
 	(rm -rf build)
 
 build-app:
-	#make -C SampleApps/$(APP_NAME) build-shallow
+	#make -C TestApps/$(APP_NAME) build-shallow
 
 archive: pod-update
 	xcodebuild archive -workspace $(PROJECT_NAME).xcworkspace -scheme $(SCHEME_NAME_XCFRAMEWORK) -archivePath "./build/ios.xcarchive" -sdk iphoneos -destination="iOS" SKIP_INSTALL=NO BUILD_LIBRARIES_FOR_DISTRIBUTION=YES
@@ -64,6 +68,43 @@ test-tvos:
 	@echo "### Testing tvOS"
 	@echo "######################################################################"
 	xcodebuild test -workspace $(PROJECT_NAME).xcworkspace -scheme $(PROJECT_NAME) -destination 'platform=tvOS Simulator,name=Apple TV' -derivedDataPath build/outn -resultBundlePath tvosresults.xcresult -enableCodeCoverage YES
+
+unit-test-ios:
+	@echo "######################################################################"
+	@echo "### Unit Testing iOS"
+	@echo "######################################################################"
+	xcodebuild test -workspace $(PROJECT_NAME).xcworkspace -scheme $(UNIT_TEST_SCHEME) -destination 'platform=iOS Simulator,name=iPhone 8' -derivedDataPath build/outn -resultBundlePath iosunittestresults.xcresult -enableCodeCoverage YES
+
+unit-test-tvos:
+	@echo "######################################################################"
+	@echo "### Unit Testing tvOS"
+	@echo "######################################################################"
+	xcodebuild test -workspace $(PROJECT_NAME).xcworkspace -scheme $(UNIT_TEST_SCHEME) -destination 'platform=tvOS Simulator,name=Apple TV' -derivedDataPath build/outn -resultBundlePath tvosunittestresults.xcresult -enableCodeCoverage YES
+
+functional-test-ios:
+	@echo "######################################################################"
+	@echo "### Functional Testing iOS"
+	@echo "######################################################################"
+	xcodebuild test -workspace $(PROJECT_NAME).xcworkspace -scheme $(FUNCTIONAL_TEST_SCHEME) -destination 'platform=iOS Simulator,name=iPhone 8' -derivedDataPath build/outn -resultBundlePath iosfunctionaltestresults.xcresult -enableCodeCoverage YES
+
+functional-test-tvos:
+	@echo "######################################################################"
+	@echo "### Functional Testing tvOS"
+	@echo "######################################################################"
+	xcodebuild test -workspace $(PROJECT_NAME).xcworkspace -scheme $(FUNCTIONAL_TEST_SCHEME) -destination 'platform=tvOS Simulator,name=Apple TV' -derivedDataPath build/outn -resultBundlePath tvosfunctionaltestresults.xcresult  -enableCodeCoverage YES
+
+integration-test-ios:
+	@echo "######################################################################"
+	@echo "### Integration Testing iOS"
+	@echo "######################################################################"
+	xcodebuild test -workspace $(PROJECT_NAME).xcworkspace -scheme $(INTEGRATION_TEST_SCHEME) -destination 'platform=iOS Simulator,name=iPhone 8' -derivedDataPath build/outn -resultBundlePath iosintegrationtestresults.xcresult -enableCodeCoverage YES
+
+integration-test-tvos:
+	@echo "######################################################################"
+	@echo "### Integration Testing tvOS"
+	@echo "######################################################################"
+	xcodebuild test -workspace $(PROJECT_NAME).xcworkspace -scheme $(INTEGRATION_TEST_SCHEME) -destination 'platform=tvOS Simulator,name=Apple TV' -derivedDataPath build/outn -resultBundlePath tvosintegrationtestresults.xcresult -enableCodeCoverage YES
+
 
 install-githook:
 	./tools/git-hooks/setup.sh
