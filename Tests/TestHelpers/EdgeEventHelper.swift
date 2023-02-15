@@ -93,75 +93,52 @@ class EdgeEventHelper {
             // Video standard metadata cases
             case MediaConstants.VideoMetadataKeys.AD_LOAD:
                 sessionDetails["adLoad"] = value
-                break
             case MediaConstants.VideoMetadataKeys.ASSET_ID:
                 sessionDetails["assetID"] = value
-                break
             case MediaConstants.VideoMetadataKeys.AUTHORIZED:
                 sessionDetails["authorized"] = value
-                break
             case MediaConstants.VideoMetadataKeys.DAY_PART:
                 sessionDetails["dayPart"] = value
-                break
             case MediaConstants.VideoMetadataKeys.EPISODE:
                 sessionDetails["episode"] = value
-                break
             case MediaConstants.VideoMetadataKeys.FEED:
                 sessionDetails["feed"] = value
-                break
             case MediaConstants.VideoMetadataKeys.FIRST_AIR_DATE:
                 sessionDetails["firstAirDate"] = value
-                break
             case MediaConstants.VideoMetadataKeys.FIRST_DIGITAL_DATE:
                 sessionDetails["firstDigitalDate"] = value
-                break
             case MediaConstants.VideoMetadataKeys.GENRE:
                 sessionDetails["genre"] = value
-                break
             case MediaConstants.VideoMetadataKeys.MVPD:
                 sessionDetails["mvpd"] = value
-                break
             case MediaConstants.VideoMetadataKeys.NETWORK:
                 sessionDetails["network"] = value
-                break
             case MediaConstants.VideoMetadataKeys.ORIGINATOR:
                 sessionDetails["originator"] = value
-                break
             case MediaConstants.VideoMetadataKeys.RATING:
                 sessionDetails["rating"] = value
-                break
             case MediaConstants.VideoMetadataKeys.SEASON:
                 sessionDetails["season"] = value
-                break
             case MediaConstants.VideoMetadataKeys.SHOW:
                 sessionDetails["show"] = value
-                break
             case MediaConstants.VideoMetadataKeys.SHOW_TYPE:
                 sessionDetails["showType"] = value
-                break
             case MediaConstants.VideoMetadataKeys.STREAM_FORMAT:
                 sessionDetails["streamFormat"] = value
-                break
 
             // Audio standard metadata cases
             case MediaConstants.AudioMetadataKeys.ALBUM:
                 sessionDetails["album"] = value
-                break
             case MediaConstants.AudioMetadataKeys.ARTIST:
                 sessionDetails["artist"] = value
-                break
             case MediaConstants.AudioMetadataKeys.AUTHOR:
                 sessionDetails["author"] = value
-                break
             case MediaConstants.AudioMetadataKeys.LABEL:
                 sessionDetails["label"] = value
-                break
             case MediaConstants.AudioMetadataKeys.PUBLISHER:
                 sessionDetails["publisher"] = value
-                break
             case MediaConstants.AudioMetadataKeys.STATION:
                 sessionDetails["station"] = value
-                break
             default:
                 break
             }
@@ -198,22 +175,16 @@ class EdgeEventHelper {
             // Video standard metadata cases
             case MediaConstants.AdMetadataKeys.ADVERTISER:
                 advertisingDetails["advertiser"] = value
-                break
             case MediaConstants.AdMetadataKeys.CAMPAIGN_ID:
                 advertisingDetails["campaignID"] = value
-                break
             case MediaConstants.AdMetadataKeys.CREATIVE_ID:
                 advertisingDetails["creativeID"] = value
-                break
             case MediaConstants.AdMetadataKeys.CREATIVE_URL:
                 advertisingDetails["creativeURL"] = value
-                break
             case MediaConstants.AdMetadataKeys.PLACEMENT_ID:
                 advertisingDetails["placementID"] = value
-                break
             case MediaConstants.AdMetadataKeys.SITE_ID:
                 advertisingDetails["siteID"] = value
-                break
             default:
                 break
             }

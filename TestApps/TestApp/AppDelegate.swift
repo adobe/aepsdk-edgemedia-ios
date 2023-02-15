@@ -11,11 +11,14 @@
  */
 
 import AEPCore
-import AEPEdge
-import AEPEdgeIdentity
 import AEPEdgeMedia
 import AEPServices
 import UIKit
+// MARK: TODO remove this once Edge, EdgeIdentity have tvOS support.
+#if os(iOS)
+import AEPEdge
+import AEPEdgeIdentity
+#endif
 
 // MARK: TODO remove this once Assurance has tvOS support.
 #if os(iOS)

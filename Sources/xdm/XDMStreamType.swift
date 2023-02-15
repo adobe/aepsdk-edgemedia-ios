@@ -13,6 +13,6 @@
 import Foundation
 
 enum XDMStreamType: String, Encodable, Equatable {
-    case audio = "audio" // Audio
-    case video = "video" // Video
+    case audio
+    case video
 }

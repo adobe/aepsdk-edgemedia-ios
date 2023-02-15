@@ -13,7 +13,7 @@
 @testable import AEPEdgeMedia
 
 extension XDMCustomMetadata: Comparable {
-    public static func <(lhs: XDMCustomMetadata, rhs: XDMCustomMetadata) -> Bool {
+    public static func < (lhs: XDMCustomMetadata, rhs: XDMCustomMetadata) -> Bool {
         return (lhs.name) < (rhs.name)
     }
 

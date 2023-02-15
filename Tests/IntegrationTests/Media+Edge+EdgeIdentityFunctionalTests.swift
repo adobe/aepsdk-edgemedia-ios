@@ -339,7 +339,14 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
     // Test Assert Utils
 
     func assertXDMData(networkRequest: NetworkRequest, eventType: String, info: [String: Any] = [:], metadata: [String: String] = [:], configuration: [String: Any] = [:], backendSessionId: String? = nil, qoeInfo: [String: Any]? = nil, playhead: Int64? = nil, stateStart: Bool = true) {
-        let expectedMediaCollectionData = EdgeEventHelper.generateMediaCollection(eventType: XDMMediaEventType(rawValue: eventType) ?? XDMMediaEventType.sessionEnd, playhead: playhead ?? 0, backendSessionId: testBackendSessionId, info: info, metadata: metadata, mediaState: getMediaStateFrom(configuration), qoeInfo: qoeInfo, stateStart: stateStart)
+        let expectedMediaCollectionData = EdgeEventHelper.generateMediaCollection(eventType: XDMMediaEventType(rawValue: eventType) ?? XDMMediaEventType.sessionEnd,
+                                                                                  playhead: playhead ?? 0,
+                                                                                  backendSessionId: testBackendSessionId,
+                                                                                  info: info,
+                                                                                  metadata: metadata,
+                                                                                  mediaState: getMediaStateFrom(configuration),
+                                                                                  qoeInfo: qoeInfo,
+                                                                                  stateStart: stateStart)
 
         let actualXDMData = getXDMDataFromNetworkRequest(networkRequest)
 

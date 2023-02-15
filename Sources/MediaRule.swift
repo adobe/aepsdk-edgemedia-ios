@@ -16,6 +16,7 @@ class MediaRule {
     typealias RuleFunction = (MediaRule, [String: Any]) -> Bool
     private(set) var name: Int
     private(set) var description: String
+    // swiftlint:disable large_tuple
     private var predicateList: [(fn: RuleFunction, expectedResult: Bool, errorMsg: String)] = []
     private var actionList: [RuleFunction] = []
 

@@ -152,7 +152,8 @@ class MediaContext {
     @discardableResult
     func startState(info: StateInfo) -> Bool {
         if !hasTrackedState(info: info) && didReachMaxStateLimit() {
-            Log.debug(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Failed to start state, already tracked max states (\(MediaConstants.StateInfo.STATE_LIMIT)) for the current session.")
+            Log.debug(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Failed to start state,"
+                        + " already tracked max states (\(MediaConstants.StateInfo.STATE_LIMIT)) for the current session.")
             return false
         }
 
@@ -199,11 +200,9 @@ class MediaContext {
     func getActiveTrackedStates() -> [StateInfo] {
         var activeStates: [StateInfo] = []
 
-        for (name, active) in trackedStates {
-            if active {
-                if let stateInfo = StateInfo(stateName: name) {
-                    activeStates.append(stateInfo)
-                }
+        for state in trackedStates where state.value {
+            if let stateInfo = StateInfo(stateName: state.key) {
+                activeStates.append(stateInfo)
             }
         }
 
