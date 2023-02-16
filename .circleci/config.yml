@@ -25,11 +25,7 @@ workflows:
           requires:
             - validate-code
 
-jobs:
-  
-  working_directory: ~/project
-
-  install_dependencies: &install_dependencies
+install_dependencies: &install_dependencies
     steps:
       - checkout
 
@@ -67,6 +63,11 @@ jobs:
           key: cocoapods-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Podfile.lock" }}
           paths:
             - ./Pods
+
+
+jobs:
+  
+  working_directory: ~/project
 
   validate-code:
     macos:
