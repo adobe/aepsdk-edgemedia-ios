@@ -40,6 +40,8 @@ let package = Package(
     ],
     dependencies: [
         .package(name: \"AEPCore\", url: \"https://github.com/adobe/aepsdk-core-ios.git\", .branch(\"main\")),
+        .package(name: \"AEPEdge\", url: \"https://github.com/adobe/aepsdk-edge-ios.git\", .branch(\"main\")),
+        .package(name: \"AEPEdgeIdentity\", url: \"https://github.com/adobe/aepsdk-edgeidentity-ios.git\", .branch(\"main\")),
         .package(name: \"AEPEdgeMedia\", path: \"../\")
     ],
     targets: [
@@ -51,6 +53,8 @@ let package = Package(
                 .product(name: \"AEPLifecycle\", package: \"AEPCore\"),
                 .product(name: \"AEPServices\", package: \"AEPCore\"),
                 .product(name: \"AEPSignal\", package: \"AEPCore\"),
+                .product(name: \"AEPEdge\", package: \"AEPEdge\"),
+                .product(name: \"AEPEdgeIdentity\", package: \"AEPEdgeIdentity\"),
                 .product(name: \"AEPEdgeMedia\", package: \"AEPEdgeMedia\"),
             ])
     ]
@@ -66,10 +70,6 @@ xcodebuild archive -scheme TestProject -destination 'generic/platform=iOS'
 # Build for generic iOS device
 echo '############# Build for generic iOS device ###############'
 xcodebuild build -scheme TestProject -destination 'generic/platform=iOS'
-
-# Build for i386 iOS simulator
-echo '############# Build for i386 iOS simulator ###############'
-xcodebuild build -scheme TestProject -destination 'generic/platform=iOS Simulator' ARCHS=i386
 
 # Build for x86_64 iOS simulator
 echo '############# Build for x86_64 iOS simulator ###############'
