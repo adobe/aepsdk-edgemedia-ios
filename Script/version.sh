@@ -27,7 +27,7 @@ echo "Target version - ${BLUE}$1${NC}"
 echo "------------------AEPEdgeMedia-------------------"
 PODSPEC_VERSION=$(pod ipc spec AEPEdgeMedia.podspec | jq '.version' | tr -d '"')
 echo "Local podspec version - ${BLUE}${PODSPEC_VERSION}${NC}"
-SOURCE_CODE_VERSION=$(cat ./Sources/EdgeMediaConstants.swift | egrep '\s*EXTENSION_VERSION\s*=\s*\"(.*)\"' | ruby -e "puts gets.scan(/\"(.*)\"/)[0] " | tr -d '"')
+SOURCE_CODE_VERSION=$(cat ./Sources/MediaConstants.swift | egrep '\s*EXTENSION_VERSION\s*=\s*\"(.*)\"' | ruby -e "puts gets.scan(/\"(.*)\"/)[0] " | tr -d '"')
 echo "Souce code version - ${BLUE}${SOURCE_CODE_VERSION}${NC}"
 
 if [[ "$1" == "$PODSPEC_VERSION" ]] && [[ "$1" == "$SOURCE_CODE_VERSION" ]]; then

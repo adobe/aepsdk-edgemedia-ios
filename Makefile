@@ -7,6 +7,8 @@ SCHEME_NAME_XCFRAMEWORK = $(EXTENSION_NAME)
 UNIT_TEST_SCHEME = UnitTests
 FUNCTIONAL_TEST_SCHEME = FunctionalTests
 INTEGRATION_TEST_SCHEME = IntegrationTests
+TEST_APP_IOS_SCHEME = TestAppiOS
+TEST_APP_TVOS_SCHEME = TestApptvOS
 
 
 CURR_DIR := ${CURDIR}
@@ -43,9 +45,17 @@ open:
 clean:
 	(rm -rf build)
 
-build-app:
-	make -C TestApps/$(APP_NAME) build-shallow
+build-app: setup
+	@echo "######################################################################"
+	@echo "### Building $(TEST_APP_IOS_SCHEME)"
+	@echo "######################################################################"
+	xcodebuild clean build -workspace $(PROJECT_NAME).xcworkspace -scheme $(TEST_APP_IOS_SCHEME) -destination 'generic/platform=iOS Simulator'
 
+	@echo "######################################################################"
+	@echo "### Building $(TEST_APP_TVOS_SCHEME)"
+	@echo "######################################################################"
+	xcodebuild clean build -workspace $(PROJECT_NAME).xcworkspace -scheme $(TEST_APP_TVOS_SCHEME) -destination 'generic/platform=tvOS Simulator'
+	
 archive: pod-update
 	xcodebuild archive -workspace $(PROJECT_NAME).xcworkspace -scheme $(SCHEME_NAME_XCFRAMEWORK) -archivePath "./build/ios.xcarchive" -sdk iphoneos -destination="iOS" SKIP_INSTALL=NO BUILD_LIBRARIES_FOR_DISTRIBUTION=YES
 	xcodebuild archive -workspace $(PROJECT_NAME).xcworkspace -scheme $(SCHEME_NAME_XCFRAMEWORK) -archivePath "./build/tvos.xcarchive" -sdk appletvos -destination="tvOS" SKIP_INSTALL=NO BUILD_LIBRARIES_FOR_DISTRIBUTION=YES
