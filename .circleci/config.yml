@@ -11,25 +11,25 @@ workflows:
   version: 2
   build-test-deploy:
     jobs:
-      - install-cocoapods-validate-code
+      - validate-code
       - unit-test:
           requires:
-            - install-cocoapods-validate-code
+            - validate-code
       - functional-test:
           requires:
-            - install-cocoapods-validate-code
+            - validate-code
       - integration-test:
           requires:
-            - install-cocoapods-validate-code
-      - build:
+            - validate-code
+      - build_xcframework_and_app:
           requires:
-            - install-cocoapods-validate-code
+            - validate-code
 
 jobs:
-  install-cocoapods-validate-code:
-    macos:
-      xcode: 13.4.0 # Specify the Xcode version to use
+  
+  working_directory: ~/project
 
+  install_dependencies: &install_dependencies
     steps:
       - checkout
 
@@ -67,7 +67,15 @@ jobs:
           key: cocoapods-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Podfile.lock" }}
           paths:
             - ./Pods
-            - ~/.cocoapods
+
+  validate-code:
+    macos:
+      xcode: 13.4.0 # Specify the Xcode version to use
+
+    steps:
+      - checkout
+
+      <<: *install_depencies
 
       - run:
           name: Lint Source Code
@@ -80,41 +88,7 @@ jobs:
     steps:
       - checkout
 
-      # restore pods related caches
-      - restore_cache:
-          keys:
-            - 1-gems-{{ checksum "Gemfile.lock" }}
-
-      # make sure we're on the right version of cocoapods
-      - run:
-          name: Verify Cocoapods Version
-          command: bundle check || bundle install --path vendor/bundle
-
-      # save cocoapods version gem data
-      - save_cache:
-          key: 1-gems-{{ checksum "Gemfile.lock" }}
-          paths:
-            - vendor/bundle
-
-      # restore pods related caches
-      - restore_cache:
-          keys:
-            - cocoapods-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Podfile.lock" }}
-            - cocoapods-cache-v1-{{ arch }}-{{ .Branch }}
-            - cocoapods-cache-v1
-
-      # install CocoaPods - using default CocoaPods version, not the bundle
-      - run:
-          name: Repo Update & Install CocoaPods
-          command: make ci-pod-install
-
-      # save pods related files
-      - save_cache:
-          name: Saving CocoaPods Cache
-          key: cocoapods-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Podfile.lock" }}
-          paths:
-            - ./Pods
-            - ~/.cocoapods
+      <<: *install_depencies
 
       # pre-start the simulator to prevent timeouts
       - run:
@@ -152,41 +126,7 @@ jobs:
     steps:
       - checkout
       
-      # restore pods related caches
-      - restore_cache:
-          keys:
-            - 1-gems-{{ checksum "Gemfile.lock" }}
-
-      # make sure we're on the right version of cocoapods
-      - run:
-          name: Verify Cocoapods Version
-          command: bundle check || bundle install --path vendor/bundle
-
-      # save cocoapods version gem data
-      - save_cache:
-          key: 1-gems-{{ checksum "Gemfile.lock" }}
-          paths:
-            - vendor/bundle
-
-      # restore pods related caches
-      - restore_cache:
-          keys:
-            - cocoapods-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Podfile.lock" }}
-            - cocoapods-cache-v1-{{ arch }}-{{ .Branch }}
-            - cocoapods-cache-v1
-
-      # install CocoaPods - using default CocoaPods version, not the bundle
-      - run:
-          name: Repo Update & Install CocoaPods
-          command: make ci-pod-install
-
-      # save pods related files
-      - save_cache:
-          name: Saving CocoaPods Cache
-          key: cocoapods-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Podfile.lock" }}
-          paths:
-            - ./Pods
-            - ~/.cocoapods
+      <<: *install_depencies
 
       # pre-start the simulator to prevent timeouts
       - run:
@@ -224,42 +164,8 @@ jobs:
     steps:
       - checkout
 
-       # restore pods related caches
-      - restore_cache:
-          keys:
-            - 1-gems-{{ checksum "Gemfile.lock" }}
+      <<: *install_depencies
 
-      # make sure we're on the right version of cocoapods
-      - run:
-          name: Verify Cocoapods Version
-          command: bundle check || bundle install --path vendor/bundle
-
-      # save cocoapods version gem data
-      - save_cache:
-          key: 1-gems-{{ checksum "Gemfile.lock" }}
-          paths:
-            - vendor/bundle
-
-      # restore pods related caches
-      - restore_cache:
-          keys:
-            - cocoapods-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Podfile.lock" }}
-            - cocoapods-cache-v1-{{ arch }}-{{ .Branch }}
-            - cocoapods-cache-v1
-
-      # install CocoaPods - using default CocoaPods version, not the bundle
-      - run:
-          name: Repo Update & Install CocoaPods
-          command: make ci-pod-install
-
-      # save pods related files
-      - save_cache:
-          name: Saving CocoaPods Cache
-          key: cocoapods-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Podfile.lock" }}
-          paths:
-            - ./Pods
-            - ~/.cocoapods
-            
       # pre-start the simulator to prevent timeouts
       - run:
           name: Pre-start Simulator
@@ -289,7 +195,7 @@ jobs:
           upload_name: Coverage Report for tvOS Integration Tests
           xtra_args: -c -v --xc --xp tvosintegrationtestresults.xcresult
 
-  build:
+  build_xcframework_and_app:
     macos:
       xcode: 13.4.0 # Specify the Xcode version to use
     
