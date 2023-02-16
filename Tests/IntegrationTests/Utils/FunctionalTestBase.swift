@@ -163,7 +163,7 @@ class FunctionalTestBase: XCTestCase {
     }
 
     /// - Parameters:
-    ///   - timeout:how long should this method wait, in seconds; by default it waits up to 1 second
+    ///   - timeout:how long should this method wait, in seconds.
     func wait(_ timeout: UInt32? = FunctionalTestConstant.Defaults.WAIT_TIMEOUT) {
         if let timeout = timeout {
             sleep(timeout)
