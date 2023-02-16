@@ -15,13 +15,13 @@ workflows:
       - validate-code:
           requires:
             - restore-cache-install-cocoapods
-      - run-unit-test:
+      - unit-test:
           requires:
             - validate-code
-      - run-functional-test:
+      - functional-test:
           requires:
             - validate-code
-      - run-integration-test:
+      - integration-test:
           requires:
             - validate-code
       - build:
@@ -83,7 +83,7 @@ jobs:
         name: Lint Source Code
         command: make lint
 
-  run-unit-test:
+  unit-test:
     macos:
       xcode: 13.4.0 # Specify the Xcode version to use
 
@@ -119,7 +119,7 @@ jobs:
           upload_name: Coverage Report for tvOS Unit Tests
           xtra_args: -c -v --xc --xp tvosunittestresults.xcresult
 
-  run-functional-test:
+  functional-test:
     macos:
       xcode: 13.4.0 # Specify the Xcode version to use
 
@@ -155,7 +155,7 @@ jobs:
           upload_name: Coverage Report for tvOS Functional Tests
           xtra_args: -c -v --xc --xp tvosfunctionaltestresults.xcresult
 
-  run-integration-test:
+  integration-test:
     macos:
       xcode: 13.4.0 # Specify the Xcode version to use
     
