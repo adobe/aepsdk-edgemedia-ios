@@ -85,7 +85,7 @@ jobs:
 
   run-unit-test:
     macos:
-        xcode: 13.4.0 # Specify the Xcode version to use
+      xcode: 13.4.0 # Specify the Xcode version to use
 
     steps:
       - checkout
@@ -158,6 +158,7 @@ jobs:
   run-integration-test:
     macos:
       xcode: 13.4.0 # Specify the Xcode version to use
+    
     steps:
       - checkout
       # pre-start the simulator to prevent timeouts
