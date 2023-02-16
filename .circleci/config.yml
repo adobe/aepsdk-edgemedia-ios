@@ -109,7 +109,7 @@ jobs:
       # See options explanation here: https://docs.codecov.com/docs/codecov-uploader
       - codecov/upload:
           upload_name: Coverage Report for iOS Unit Tests
-          xtra_args: -c --xc --xp iosresults.xcresult
+          xtra_args: -c -v --xc --xp iosresults.xcresult
           
 
   test-tvos:
@@ -131,7 +131,7 @@ jobs:
       # See options explanation here: https://docs.codecov.com/docs/codecov-uploader
       - codecov/upload:
           upload_name: Coverage Report for tvOS Tests
-          xtra_args: -c --xc --xp tvosresults.xcresult
+          xtra_args: -c -v --xc --xp tvosresults.xcresult
 
   build_xcframework_and_app:
     macos:
