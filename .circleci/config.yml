@@ -83,6 +83,12 @@ jobs:
       # restore pods related caches
       - restore_cache:
           keys:
+            - 1-gems-{{ checksum "Gemfile.lock" }}
+
+
+      # restore pods related caches
+      - restore_cache:
+          keys:
             - cocoapods-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Podfile.lock" }}
             - cocoapods-cache-v1-{{ arch }}-{{ .Branch }}
             - cocoapods-cache-v1
@@ -128,7 +134,12 @@ jobs:
     steps:
       - checkout
       
-       # restore pods related caches
+      # restore pods related caches
+      - restore_cache:
+          keys:
+            - 1-gems-{{ checksum "Gemfile.lock" }}
+
+      # restore pods related caches
       - restore_cache:
           keys:
             - cocoapods-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Podfile.lock" }}
@@ -176,7 +187,12 @@ jobs:
     steps:
       - checkout
 
-       # restore pods related caches
+      # restore pods related caches
+      - restore_cache:
+          keys:
+            - 1-gems-{{ checksum "Gemfile.lock" }}
+
+      # restore pods related caches
       - restore_cache:
           keys:
             - cocoapods-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Podfile.lock" }}
