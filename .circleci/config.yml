@@ -80,8 +80,8 @@ jobs:
       - checkout
       
       - run:
-        name: Lint Source Code
-        command: make lint
+          name: Lint Source Code
+          command: make lint
 
   unit-test:
     macos:
