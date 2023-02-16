@@ -87,6 +87,11 @@ jobs:
             - cocoapods-cache-v1-{{ arch }}-{{ .Branch }}
             - cocoapods-cache-v1
 
+      # install CocoaPods - using default CocoaPods version, not the bundle
+      - run:
+          name: Repo Update & Install CocoaPods
+          command: make ci-pod-install
+
       # pre-start the simulator to prevent timeouts
       - run:
           name: Pre-start Simulator
@@ -130,6 +135,11 @@ jobs:
             - cocoapods-cache-v1-{{ arch }}-{{ .Branch }}
             - cocoapods-cache-v1
 
+      # install CocoaPods - using default CocoaPods version, not the bundle
+      - run:
+          name: Repo Update & Install CocoaPods
+          command: make ci-pod-install
+
       # pre-start the simulator to prevent timeouts
       - run:
           name: Pre-start Simulator
@@ -172,7 +182,12 @@ jobs:
             - cocoapods-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Podfile.lock" }}
             - cocoapods-cache-v1-{{ arch }}-{{ .Branch }}
             - cocoapods-cache-v1
-            
+
+      # install CocoaPods - using default CocoaPods version, not the bundle
+      - run:
+          name: Repo Update & Install CocoaPods
+          command: make ci-pod-install
+
       # pre-start the simulator to prevent timeouts
       - run:
           name: Pre-start Simulator
