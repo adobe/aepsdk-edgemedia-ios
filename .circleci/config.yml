@@ -94,7 +94,7 @@ jobs:
   
 
 
-  unit-test-ios:
+  unit-test:
     macos:
       xcode: 13.4.0 # Specify the Xcode version to use
 
@@ -118,7 +118,7 @@ jobs:
 
       # Code coverage upload using Codecov
       # See options explanation here: https://docs.codecov.com/docs/codecov-uploader
-       - codecov/upload:
+      - codecov/upload:
           upload_name: Coverage Report for iOS Unit Tests
           xtra_args: -c -v --xc --xp iosunittestresults.xcresult
     
