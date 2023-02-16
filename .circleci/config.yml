@@ -76,7 +76,7 @@ jobs:
     macos:
       xcode: 13.4.0 # Specify the Xcode version to use
 
-    - steps:
+    steps:
       - checkout
       
       - run:
