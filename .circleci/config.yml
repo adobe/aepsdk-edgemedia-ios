@@ -25,10 +25,9 @@ workflows:
           requires:
             - validate-code
 
-install_dependencies: &install_dependencies
+commands: 
+  install_dependencies:
     steps:
-      - checkout
-
       # restore pods related caches
       - restore_cache:
           keys:
@@ -76,7 +75,7 @@ jobs:
     steps:
       - checkout
 
-      <<: *install_dependencies
+      - install_dependencies
 
       - run:
           name: Lint Source Code
@@ -89,7 +88,7 @@ jobs:
     steps:
       - checkout
 
-      <<: *install_dependencies
+      - install_dependencies
 
       # pre-start the simulator to prevent timeouts
       - run:
@@ -127,7 +126,7 @@ jobs:
     steps:
       - checkout
       
-      <<: *install_dependencies
+      - install_dependencies
 
       # pre-start the simulator to prevent timeouts
       - run:
@@ -165,7 +164,7 @@ jobs:
     steps:
       - checkout
 
-      <<: *install_depencies
+      - install_dependencies
 
       # pre-start the simulator to prevent timeouts
       - run:
