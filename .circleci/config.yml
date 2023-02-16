@@ -80,6 +80,13 @@ jobs:
     steps:
       - checkout
 
+      # restore pods related caches
+      - restore_cache:
+          keys:
+            - cocoapods-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Podfile.lock" }}
+            - cocoapods-cache-v1-{{ arch }}-{{ .Branch }}
+            - cocoapods-cache-v1
+
       # pre-start the simulator to prevent timeouts
       - run:
           name: Pre-start Simulator
@@ -116,6 +123,13 @@ jobs:
     steps:
       - checkout
       
+       # restore pods related caches
+      - restore_cache:
+          keys:
+            - cocoapods-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Podfile.lock" }}
+            - cocoapods-cache-v1-{{ arch }}-{{ .Branch }}
+            - cocoapods-cache-v1
+
       # pre-start the simulator to prevent timeouts
       - run:
           name: Pre-start Simulator
@@ -151,6 +165,14 @@ jobs:
     
     steps:
       - checkout
+
+       # restore pods related caches
+      - restore_cache:
+          keys:
+            - cocoapods-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Podfile.lock" }}
+            - cocoapods-cache-v1-{{ arch }}-{{ .Branch }}
+            - cocoapods-cache-v1
+            
       # pre-start the simulator to prevent timeouts
       - run:
           name: Pre-start Simulator
