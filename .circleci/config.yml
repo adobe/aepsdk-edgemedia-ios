@@ -12,13 +12,10 @@ workflows:
   build-test-deploy:
     jobs:
       - validate-code
-      - unit-test:
+      - test-ios:
           requires:
             - validate-code
-      - functional-test:
-          requires:
-            - validate-code
-      - integration-test:
+      - test-tvos:
           requires:
             - validate-code
       - build_xcframework_and_app:
@@ -92,9 +89,7 @@ jobs:
           name: Lint Source Code
           command: make lint
   
-
-
-  unit-test:
+  test-ios:
     macos:
       xcode: 13.4.0 # Specify the Xcode version to use
 
@@ -108,26 +103,16 @@ jobs:
 
       - run:
           name: Run iOS Unit Tests
-          command: make unit-test-ios
-
-      - prestart_tvos_simulator
-
-      - run:
-          name: Run tvOS Unit Tests
-          command: make unit-test-tvos
+          command: make test-ios
 
       # Code coverage upload using Codecov
       # See options explanation here: https://docs.codecov.com/docs/codecov-uploader
       - codecov/upload:
           upload_name: Coverage Report for iOS Unit Tests
-          xtra_args: -c -v --xc --xp iosunittestresults.xcresult
-    
-      - codecov/upload:
-          upload_name: Coverage Report for tvOS Unit Tests
-          xtra_args: -c -v --xc --xp tvosunittestresults.xcresult
+          xtra_args: -c -v --xc --xp iosresults.xcresult
           
 
-  functional-test:
+  test-tvos:
     macos:
       xcode: 13.4.0 # Specify the Xcode version to use
 
@@ -136,61 +121,17 @@ jobs:
       
       - install_dependencies
 
-      - prestart_ios_simulator
-
-      - run:
-          name: Run iOS Functional Tests
-          command: make functional-test-ios
-
       - prestart_tvos_simulator
 
       - run:
-          name: Run tvOS Functional Tests 
-          command: make functional-test-tvos
+          name: Run tvOS  Tests 
+          command: make test-tvos
 
       # Code coverage upload using Codecov
       # See options explanation here: https://docs.codecov.com/docs/codecov-uploader
       - codecov/upload:
-          upload_name: Coverage Report for iOS Functional Tests
-          xtra_args: -c -v --xc --xp iosfunctionaltestresults.xcresult
-
-      - codecov/upload:
-          upload_name: Coverage Report for tvOS Functional Tests
-          xtra_args: -c -v --xc --xp tvosfunctionaltestresults.xcresult
-
-
-  integration-test:
-    macos:
-      xcode: 13.4.0 # Specify the Xcode version to use
-    
-    steps:
-      - checkout
-
-      - install_dependencies
-
-      # pre-start the simulator to prevent timeouts
-      - prestart_ios_simulator
-
-      - run:
-          name: Run iOS Integration Tests
-          command: make integration-test-ios
-      
-      - prestart_tvos_simulator
-
-      - run:
-          name: Run tvOS Integration Tests
-          command: make integration-test-tvos
-
-      # Code coverage upload using Codecov
-      # See options explanation here: https://docs.codecov.com/docs/codecov-uploader
-      - codecov/upload:
-          upload_name: Coverage Report for iOS Integration Tests
-          xtra_args: -c -v --xc --xp iosintegrationtestresults.xcresult
-
-      - codecov/upload:
-          upload_name: Coverage Report for tvOS Integration Tests
-          xtra_args: -c -v --xc --xp tvosintegrationtestresults.xcresult
-          
+          upload_name: Coverage Report for tvOS Tests
+          xtra_args: -c -v --xc --xp tvosresults.xcresult
 
   build_xcframework_and_app:
     macos:
