@@ -36,7 +36,7 @@ jobs:
     steps:
       - checkout
 
-        # restore pods related caches
+      # restore pods related caches
       - restore_cache:
           keys:
             - 1-gems-{{ checksum "Gemfile.lock" }}
@@ -72,12 +72,16 @@ jobs:
               - ./Pods
               - ~/.cocoapods
 
-    validate-code:
+  validate-code:
+    macos:
+      xcode: 13.4.0 # Specify the Xcode version to use
+
+    - steps:
       - checkout
-        
+      
       - run:
-          name: Lint Source Code
-          command: make lint
+        name: Lint Source Code
+        command: make lint
 
   run-unit-test:
     macos:
@@ -115,41 +119,41 @@ jobs:
           upload_name: Coverage Report for tvOS Unit Tests
           xtra_args: -c -v --xc --xp tvosunittestresults.xcresult
 
-    run-functional-test:
-      macos:
-        xcode: 13.4.0 # Specify the Xcode version to use
+  run-functional-test:
+    macos:
+      xcode: 13.4.0 # Specify the Xcode version to use
 
-      steps:
-        - checkout
-        
-        # pre-start the simulator to prevent timeouts
-        - run:
-            name: Pre-start Simulator
-            command: xcrun instruments -w "iPhone 8 (13.5) [" || true
+    steps:
+      - checkout
+      
+      # pre-start the simulator to prevent timeouts
+      - run:
+          name: Pre-start Simulator
+          command: xcrun instruments -w "iPhone 8 (13.5) [" || true
 
-        - run:
-            name: Run iOS Functional Tests
-            command: make functional-test-ios
+      - run:
+          name: Run iOS Functional Tests
+          command: make functional-test-ios
 
-        # Code coverage upload using Codecov
-        # See options explanation here: https://docs.codecov.com/docs/codecov-uploader
-        - codecov/upload:
-            upload_name: Coverage Report for iOS Functional Tests
-            xtra_args: -c -v --xc --xp iosfunctionaltestresults.xcresult
+      # Code coverage upload using Codecov
+      # See options explanation here: https://docs.codecov.com/docs/codecov-uploader
+      - codecov/upload:
+          upload_name: Coverage Report for iOS Functional Tests
+          xtra_args: -c -v --xc --xp iosfunctionaltestresults.xcresult
 
-        - run:
-            name: Pre-start tvOS Simulator
-            command: xcrun instruments -w "Apple TV (15.0) [" || true
+      - run:
+          name: Pre-start tvOS Simulator
+          command: xcrun instruments -w "Apple TV (15.0) [" || true
 
-        - run:
-            name: Run tvOS Functional Tests 
-            command: make functional-test-tvos
+      - run:
+          name: Run tvOS Functional Tests 
+          command: make functional-test-tvos
 
-        # Code coverage upload using Codecov
-        # See options explanation here: https://docs.codecov.com/docs/codecov-uploader
-        - codecov/upload:
-            upload_name: Coverage Report for tvOS Functional Tests
-            xtra_args: -c -v --xc --xp tvosfunctionaltestresults.xcresult
+      # Code coverage upload using Codecov
+      # See options explanation here: https://docs.codecov.com/docs/codecov-uploader
+      - codecov/upload:
+          upload_name: Coverage Report for tvOS Functional Tests
+          xtra_args: -c -v --xc --xp tvosfunctionaltestresults.xcresult
 
   run-integration-test:
     macos:
@@ -168,8 +172,8 @@ jobs:
       # Code coverage upload using Codecov
       # See options explanation here: https://docs.codecov.com/docs/codecov-uploader
       - codecov/upload:
-            upload_name: Coverage Report for iOS Integration Tests
-            xtra_args: -c -v --xc --xp iosintegrationtestresults.xcresult
+          upload_name: Coverage Report for iOS Integration Tests
+          xtra_args: -c -v --xc --xp iosintegrationtestresults.xcresult
 
       - run:
           name: Pre-start tvOS Simulator
@@ -182,8 +186,9 @@ jobs:
       # Code coverage upload using Codecov
       # See options explanation here: https://docs.codecov.com/docs/codecov-uploader
       - codecov/upload:
-            upload_name: Coverage Report for tvOS Integration Tests
-            xtra_args: -c -v --xc --xp tvosintegrationtestresults.xcresult
+          upload_name: Coverage Report for tvOS Integration Tests
+          xtra_args: -c -v --xc --xp tvosintegrationtestresults.xcresult
+
   build:
     macos:
       xcode: 13.4.0 # Specify the Xcode version to use
