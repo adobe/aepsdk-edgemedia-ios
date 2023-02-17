@@ -9,7 +9,7 @@ orbs:
 # Workflows orchestrate a set of jobs to be run;
 workflows:
   version: 2
-  build-test-deploy:
+  build-test:
     jobs:
       - validate-code
       - test-ios:
@@ -108,7 +108,8 @@ jobs:
       # Code coverage upload using Codecov
       # See options explanation here: https://docs.codecov.com/docs/codecov-uploader
       - codecov/upload:
-          upload_name: Coverage Report for iOS Unit Tests
+          flags: ios-tests
+          upload_name: Coverage Report for iOS Tests
           xtra_args: -c -v --xc --xp iosresults.xcresult
           
 
@@ -124,12 +125,13 @@ jobs:
       - prestart_tvos_simulator
 
       - run:
-          name: Run tvOS  Tests 
+          name: Run tvOS Tests 
           command: make test-tvos
 
       # Code coverage upload using Codecov
       # See options explanation here: https://docs.codecov.com/docs/codecov-uploader
       - codecov/upload:
+          flags: tvos-tests
           upload_name: Coverage Report for tvOS Tests
           xtra_args: -c -v --xc --xp tvosresults.xcresult
 
