@@ -102,6 +102,9 @@ jobs:
 
       - install_dependencies
 
+      # pre-start the simulator to prevent timeouts
+      - prestart_ios_simulator
+
       - run:
           name: Run iOS Tests
           command: make test-ios
@@ -122,6 +125,9 @@ jobs:
       - checkout
       
       - install_dependencies
+
+      # pre-start the simulator to prevent timeouts
+      - prestart_tvos_simulator
 
       - run:
           name: Run tvOS Tests 
