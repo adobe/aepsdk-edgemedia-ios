@@ -64,6 +64,18 @@ commands:
           paths:
             - ./Pods
 
+  prestart_ios_simulator:
+    steps:
+      - macos/preboot-simulator:
+          platform: "iOS"
+          device: "iPhone 8"
+
+  prestart_tvos_simulator:
+    steps:
+      - macos/preboot-simulator:
+          platform: "tvOS"
+          device: "Apple TV"
+
 jobs:
   
   working_directory: ~/project
