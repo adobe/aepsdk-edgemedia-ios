@@ -5,6 +5,7 @@ version: 2.1
 
 orbs:
    codecov: codecov/codecov@3.2.4
+   macos: circleci/macos@2
 
 # Workflows orchestrate a set of jobs to be run;
 workflows:
@@ -65,15 +66,17 @@ commands:
 
   prestart_ios_simulator:
     steps:
-      - run:
-          name: Pre-start Simulator
-          command: xcrun simctl boot 'iPhone 8'  || true
-
+      - macos/preboot-simulator:
+          version: "15.0"
+          platform: "iOS"
+          device: "iPhone 8"
+      
   prestart_tvos_simulator:
     steps:
-      - run:
-          name: Pre-start tvOS Simulator
-          command: xcrun simctl boot 'Apple TV' || true
+      - macos/preboot-simulator:
+        version: "15.0"
+        platform: "tvOS"
+        device: "Apple TV"
 
 jobs:
   
