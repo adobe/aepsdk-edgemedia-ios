@@ -64,20 +64,6 @@ commands:
           paths:
             - ./Pods
 
-  prestart_ios_simulator:
-    steps:
-      - macos/preboot-simulator:
-          version: "15.0"
-          platform: "iOS"
-          device: "iPhone 8"
-      
-  prestart_tvos_simulator:
-    steps:
-      - macos/preboot-simulator:
-          version: "15.0"
-          platform: "tvOS"
-          device: "Apple TV"
-
 jobs:
   
   working_directory: ~/project
@@ -104,9 +90,6 @@ jobs:
 
       - install_dependencies
 
-      # pre-start the simulator to prevent timeouts
-      - prestart_ios_simulator
-
       - run:
           name: Run iOS Tests
           command: make test-ios
@@ -127,8 +110,6 @@ jobs:
       - checkout
       
       - install_dependencies
-
-      - prestart_tvos_simulator
 
       - run:
           name: Run tvOS Tests 
