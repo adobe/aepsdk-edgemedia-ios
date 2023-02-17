@@ -74,9 +74,9 @@ commands:
   prestart_tvos_simulator:
     steps:
       - macos/preboot-simulator:
-        version: "15.0"
-        platform: "tvOS"
-        device: "Apple TV"
+          version: "15.0"
+          platform: "tvOS"
+          device: "Apple TV"
 
 jobs:
   
