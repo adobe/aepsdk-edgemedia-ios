@@ -77,7 +77,7 @@ test-tvos:
 	xcodebuild test -workspace $(PROJECT_NAME).xcworkspace -scheme $(PROJECT_NAME) -destination 'platform=tvOS Simulator,name=Apple TV' -derivedDataPath build/outn -resultBundlePath tvosresults.xcresult -enableCodeCoverage YES
 
 install-githook:
-	./tools/git-hooks/setup.sh
+	git config core.hooksPath .githooks
 
 lint-autocorrect:
 	(./Pods/SwiftLint/swiftlint autocorrect --format)
