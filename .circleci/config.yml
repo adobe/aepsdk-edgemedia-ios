@@ -4,26 +4,31 @@
 version: 2.1
 
 orbs:
-   codecov: codecov/codecov@3.2.3
+   codecov: codecov/codecov@3.2.4
+   macos: circleci/macos@2
 
 # Workflows orchestrate a set of jobs to be run;
 workflows:
   version: 2
-  build-test-deploy:
+  build-test:
     jobs:
-      - build-and-test
+      - validate-code
+      - test-ios:
+          requires:
+            - validate-code
+      - test-tvos:
+          requires:
+            - validate-code
+      - build_xcframework_and_app:
+          requires:
+            - validate-code
 
-jobs:
-
-  build-and-test:
-    macos:
-      xcode: 13.4.0 # Specify the Xcode version to use
-
+commands: 
+  install_dependencies:
     steps:
-      - checkout
-
       # restore pods related caches
       - restore_cache:
+          name: Restoring Gemfile Cache
           keys:
             - 1-gems-{{ checksum "Gemfile.lock" }}
 
@@ -34,12 +39,14 @@ jobs:
 
       # save cocoapods version gem data
       - save_cache:
+          name: Saving Gemfile Cache
           key: 1-gems-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
 
       # restore pods related caches
       - restore_cache:
+          name: Restoring CocoaPods Cache
           keys:
             - cocoapods-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Podfile.lock" }}
             - cocoapods-cache-v1-{{ arch }}-{{ .Branch }}
@@ -56,16 +63,47 @@ jobs:
           key: cocoapods-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Podfile.lock" }}
           paths:
             - ./Pods
-            - ~/.cocoapods
+
+  prestart_ios_simulator:
+    steps:
+      - macos/preboot-simulator:
+          platform: "iOS"
+          device: "iPhone 8"
+
+  prestart_tvos_simulator:
+    steps:
+      - macos/preboot-simulator:
+          platform: "tvOS"
+          device: "Apple TV"
+
+jobs:
+  
+  working_directory: ~/project
+
+  validate-code:
+    macos:
+      xcode: 13.4.0 # Specify the Xcode version to use
+
+    steps:
+      - checkout
+
+      - install_dependencies
 
       - run:
           name: Lint Source Code
           command: make lint
+  
+  test-ios:
+    macos:
+      xcode: 13.4.0 # Specify the Xcode version to use
+
+    steps:
+      - checkout
+
+      - install_dependencies
 
       # pre-start the simulator to prevent timeouts
-      - run:
-          name: Pre-start Simulator
-          command: xcrun instruments -w "iPhone 8 (13.5) [" || true
+      - prestart_ios_simulator
 
       - run:
           name: Run iOS Tests
@@ -74,23 +112,40 @@ jobs:
       # Code coverage upload using Codecov
       # See options explanation here: https://docs.codecov.com/docs/codecov-uploader
       - codecov/upload:
-           upload_name: Coverage Report for iOS
-           xtra_args: -c -v --xc --xp iosresults.xcresult
+          flags: ios-tests
+          upload_name: Coverage Report for iOS Tests
+          xtra_args: -c -v --xc --xp iosresults.xcresult
+          
+
+  test-tvos:
+    macos:
+      xcode: 13.4.0 # Specify the Xcode version to use
+
+    steps:
+      - checkout
+      
+      - install_dependencies
+
+      # pre-start the simulator to prevent timeouts
+      - prestart_tvos_simulator
 
       - run:
-          name: Pre-start tvOS Simulator
-          command: xcrun instruments -w "Apple TV (15.0) [" || true
-
-      - run:
-          name: Run tvOS Tests
+          name: Run tvOS Tests 
           command: make test-tvos
 
       # Code coverage upload using Codecov
       # See options explanation here: https://docs.codecov.com/docs/codecov-uploader
       - codecov/upload:
-           upload_name: Coverage Report for tvOS
-           xtra_args: -c -v --xc --xp tvosresults.xcresult
+          flags: tvos-tests
+          upload_name: Coverage Report for tvOS Tests
+          xtra_args: -c -v --xc --xp tvosresults.xcresult
 
+  build_xcframework_and_app:
+    macos:
+      xcode: 13.4.0 # Specify the Xcode version to use
+    
+    steps:
+      - checkout
       # verify XCFramework archive builds
       - run:
           name: Build XCFramework
@@ -99,9 +154,9 @@ jobs:
               make archive
             fi
 
-      # verify demo app builds
+      # verify test app builds
       - run:
-          name: Build Demo App
+          name: Build Test App
           command: |
             if [ "${CIRCLE_BRANCH}" == "main" ]; then
               make build-app
