@@ -26,9 +26,9 @@ class MediaAnalyticsProvider: NSObject {
 
         // Pass optional configuration when creating tracker
         var config: [String: Any] = [:]
-        // config[MediaConstants.TrackerConfig.CHANNEL] = "e2e-swift-channel" // Overrides channel configured from remote configuration
-        //​config[MediaConstants.TrackerConfig.AD_PING_INTERVAL] = 1 // Overrides ad content ping interval to 10 seconds.
-        //config[MediaConstants.TrackerConfig.MAIN_PING_INTERVAL] = 30 // Overrides main content ping interval to 30 seconds.
+        // config[MediaConstants.TrackerConfig.CHANNEL] = "e2e-swift-channel" // Overwrites channel configured from remote configuration
+        // ​config[MediaConstants.TrackerConfig.AD_PING_INTERVAL] = 1 // Overwrites ad content ping interval to 10 seconds.
+        // config[MediaConstants.TrackerConfig.MAIN_PING_INTERVAL] = 30 // Overwrites main content ping interval to 30 seconds.
         _tracker = Media.createTrackerWith(config: config)
 
         setupPlayerNotifications()

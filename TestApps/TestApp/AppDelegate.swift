@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         MobileCore.setLogLevel(.trace)
-        var extensions: [NSObject.Type] = [Media.self, Edge.self, AEPEdgeIdentity.Identity.self]
+        var extensions: [NSObject.Type] = [Media.self, Edge.self, Identity.self]
 
         // MARK: TODO remove this once Assurance has tvOS support.
         #if os(iOS)
