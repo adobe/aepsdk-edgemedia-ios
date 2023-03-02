@@ -138,12 +138,16 @@ _tracker = [AEPMobileEdgeMedia createTracker];  // Use the instance for tracking
 
 ### createTrackerWithConfig
 
+> **Note**  
+> You can now adjust the tracking granularity for main and ad content. The allowed range of time interval in seconds for main content is `10 seconds <= main ping interval <=50 seconds` and for ad content is `1 second <= ad ping interval <=10 seconds`. The default interval is `10 seconds` for both main and ad content.
+
 Creates a media tracker instance based on the provided configuration to track the playback session.
 
 | Key | Description | Value | Required |
 | --- | --- | --- | --- |
-| config.channel | The channel name for media. Set this to overwrite the channel name configured in the Data Collection UI for media tracked with this tracker instance. | String | No |
-
+| "config.channel" | The channel name for media. Set this to overwrite the channel name configured in the Data Collection UI for media tracked with this tracker instance. | String | No |
+| "config.mainpinginterval" | Custom tracking interval for main content in seconds. Set this to override default ping interval for main content tracking. | Int | No |
+| "config.adpinginterval" | Custom tracking interval for ad content in seconds. Set this to override default ping interval for ad content tracking. | Int | No |
 
 #### Swift
 
@@ -156,8 +160,10 @@ static func createTrackerWith(config: [String: Any]?)
 ```swift
 
 var config: [String: Any] = [:]
-config[MediaConstants.TrackerConfig.CHANNEL] = "custom-channel" // Overrides channel configured in the Data Collection UI
-​
+config[MediaConstants.TrackerConfig.CHANNEL] = "custom-channel" // Overrides channel configured in the Data Collection UI.
+​config[MediaConstants.TrackerConfig.AD_PING_INTERVAL] = 1 // Overrides ad content ping interval to 10 seconds.
+config[MediaConstants.TrackerConfig.MAIN_PING_INTERVAL] = 30 // Overrides main content ping interval to 30 seconds.
+
 let tracker = Media.createTrackerWith(config: config) // Use the instance for tracking media playback session.
 ```
 
