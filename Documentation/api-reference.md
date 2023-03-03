@@ -158,7 +158,7 @@ static func createTrackerWith(config: [String: Any]?)
 
 var config: [String: Any] = [:]
 config[MediaConstants.TrackerConfig.CHANNEL] = "custom-channel" // Overwrites channel configured in the Data Collection UI.
-​config[MediaConstants.TrackerConfig.AD_PING_INTERVAL] = 1 // Overwrites ad content ping interval to 10 seconds.
+​config[MediaConstants.TrackerConfig.AD_PING_INTERVAL] = 1 // Overwrites ad content ping interval to 1 second.
 config[MediaConstants.TrackerConfig.MAIN_PING_INTERVAL] = 30 // Overwrites main content ping interval to 30 seconds.
 
 let tracker = Media.createTrackerWith(config: config) // Use the instance for tracking media playback session.
