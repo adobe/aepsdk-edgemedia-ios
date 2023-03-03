@@ -37,7 +37,7 @@ internal extension MediaConstants {
         static let EVENT_NAME_TRACK_MEDIA = "Media::TrackMedia"
         static let EVENT_NAME_SESSION_CREATED = "Media::SessionCreated"
         static let EVENT_SOURCE_MEDIA_EDGE_SESSION = "media-analytics:new-session"
-        static let EVENT_SOURCE_EDGE_ERROR_RESOURCE = "com.adobe.eventSource.errorResponseContent"
+        static let EVENT_SOURCE_EDGE_ERROR_RESPONSE = "com.adobe.eventSource.errorResponseContent"
 
     }
 
