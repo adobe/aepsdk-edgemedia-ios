@@ -11,14 +11,11 @@
  */
 
 import AEPCore
+import AEPEdge
+import AEPEdgeIdentity
 import AEPEdgeMedia
 import AEPServices
 import UIKit
-// MARK: TODO remove this once Edge, EdgeIdentity have tvOS support.
-#if os(iOS)
-import AEPEdge
-import AEPEdgeIdentity
-#endif
 
 // MARK: TODO remove this once Assurance has tvOS support.
 #if os(iOS)
@@ -33,11 +30,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         MobileCore.setLogLevel(.trace)
-        var extensions: [NSObject.Type] = [Media.self]
+        var extensions: [NSObject.Type] = [Media.self, Edge.self, Identity.self]
 
         // MARK: TODO remove this once Assurance has tvOS support.
         #if os(iOS)
-        extensions.append(contentsOf: [Edge.self, AEPEdgeIdentity.Identity.self, Assurance.self])
+        extensions.append(Assurance.self)
         #endif
 
         MobileCore.registerExtensions(extensions, {

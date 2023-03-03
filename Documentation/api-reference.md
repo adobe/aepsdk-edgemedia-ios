@@ -142,8 +142,9 @@ Creates a media tracker instance based on the provided configuration to track th
 
 | Key | Description | Value | Required |
 | --- | --- | --- | --- |
-| config.channel | The channel name for media. Set this to overwrite the channel name configured in the Data Collection UI for media tracked with this tracker instance. | String | No |
-
+| "config.channel" | The channel name for media. Set this to overwrite the channel name configured in the Data Collection UI for media tracked with this tracker instance. | String | No |
+| "config.mainpinginterval" | Overwrites the default main content tracking interval `(in seconds)`. The value should be in the allowed range `[10-50] seconds`. The default value is 10 seconds. | Int | No |
+| "config.adpinginterval" | Overwrites the default ad content tracking interval `(in seconds)`. The value should be in the allowed range `[1-10] seconds`. The default value is 10 seconds. | Int | No |
 
 #### Swift
 
@@ -156,8 +157,10 @@ static func createTrackerWith(config: [String: Any]?)
 ```swift
 
 var config: [String: Any] = [:]
-config[MediaConstants.TrackerConfig.CHANNEL] = "custom-channel" // Overrides channel configured in the Data Collection UI
-​
+config[MediaConstants.TrackerConfig.CHANNEL] = "custom-channel" // Overwrites channel configured in the Data Collection UI.
+​config[MediaConstants.TrackerConfig.AD_PING_INTERVAL] = 1 // Overwrites ad content ping interval to 1 second.
+config[MediaConstants.TrackerConfig.MAIN_PING_INTERVAL] = 30 // Overwrites main content ping interval to 30 seconds.
+
 let tracker = Media.createTrackerWith(config: config) // Use the instance for tracking media playback session.
 ```
 

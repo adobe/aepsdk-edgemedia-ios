@@ -148,6 +148,25 @@ MobileCore.registerExtensions([
 
 ------
 
+### Granular Ad Tracking
+
+AEPMedia allowed for ad content tracking of `1 second` when setting the `MediaConstants.MediaObjectKey.GRANULAR_AD_TRACKING` key in the media object. AEPEdgeMedia is even more customizable and now the ad content tracking interval can be set using the tracker configuration to a value between `[1-10] seconds`. For more details, refer to the [createTrackerWithConfig API](api-reference.md/#createTrackerWithConfig).
+
+```diff
+- let tracker = Media.createTracker()
++ var trackerConfig: [String: Any] = [:]
++ trackerConfig[MediaConstants.TrackerConfig.AD_PING_INTERVAL] = 1
++ let tracker = Media.createTrackerWith(config: trackerConfig)
+
+guard var mediaObject = guard let mediaObject = Media.createMediaObjectWith(name: "name", id: "id", length: 30, streamType: "vod", mediaType: MediaType.Video) else {
+  return
+}
+- mediaObject[MediaConstants.MediaObjectKey.GRANULAR_AD_TRACKING] = true
+
+tracker.trackSessionStart(info: mediaObject, metadata: videoMetadata)
+```
+------
+
 ## API reference
 The AEPEdgeMedia SDK has similar APIs with AEPMedia. Please refer the [API reference docs](api-reference.md) to check out the APIs and their usage.
 

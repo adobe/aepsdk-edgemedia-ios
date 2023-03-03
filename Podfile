@@ -40,6 +40,8 @@ end
 
 target 'TestApptvOS' do
   pod 'AEPCore'
+  pod 'AEPEdge'
+  pod 'AEPEdgeIdentity'
   pod 'AEPServices'
 end
 

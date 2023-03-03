@@ -26,7 +26,7 @@ class  MediaXDMEventGenerator {
     private var currentPlaybackState: MediaContext.MediaPlaybackState?
     private var currentPlaybackStateStartRefTS: Int64
     private let allowedAdPingIntervalRangeInSeconds = 1...10
-    private let allowedMainPintgIntervalRangeInSeconds = 10...50
+    private let allowedMainPingIntervalRangeInSeconds = 10...50
 
     #if DEBUG
     var mediaContext: MediaContext
@@ -320,7 +320,7 @@ class  MediaXDMEventGenerator {
             return Int64(customAdPingInterval) * 1000 // convert to Milliseconds
 
         } else {
-            guard let customMainPingInterval = trackerConfig[MediaConstants.TrackerConfig.MAIN_PING_INTERVAL] as? Int, allowedMainPintgIntervalRangeInSeconds.contains(customMainPingInterval) else {
+            guard let customMainPingInterval = trackerConfig[MediaConstants.TrackerConfig.MAIN_PING_INTERVAL] as? Int, allowedMainPingIntervalRangeInSeconds.contains(customMainPingInterval) else {
                 return MediaConstants.PingInterval.REALTIME_TRACKING_MS
             }
 
