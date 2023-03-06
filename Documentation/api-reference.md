@@ -68,7 +68,7 @@ NSString *extensionVersion = [AEPMobileEdgeMedia extensionVersion];
 
 Registers the Media for Edge Network extension with the Mobile Core extension.
 
-The extension registration occurs by passing the Media for Edge Network extension to the [MobileCore.registerExtensions](https://aep-sdks.gitbook.io/docs/foundation-extensions/mobile-core/mobile-core-api-reference#registerextension-s) API.
+The extension registration occurs by passing the Media for Edge Network extension to the [MobileCore.registerExtensions](https://developer.adobe.com/client-sdks/documentation/mobile-core/api-reference/#registerextensions) API.
 
 #### Swift
 
@@ -1016,7 +1016,7 @@ public class MediaConstants: NSObject {
   public class PlayerState: NSObject {
         public static let FULLSCREEN = "fullscreen"
         public static let PICTURE_IN_PICTURE = "pictureInPicture"
-        public static let CLOSED_CAPTION = "closedCaptioning"
+        public static let CLOSED_CAPTION = "closeCaption"
         public static let IN_FOCUS = "inFocus"
         public static let MUTE = "mute"
     }
@@ -1046,23 +1046,23 @@ Defines the standard video constants used as keys when creating or modifying vid
 public class MediaConstants: NSObject {
   @objc(AEPVideoMetadataKeys)
   public class VideoMetadataKeys: NSObject {
-        public static let SHOW = "a.media.show"
-        public static let SEASON = "a.media.season"
-        public static let EPISODE = "a.media.episode"
-        public static let ASSET_ID = "a.media.asset"
-        public static let GENRE = "a.media.genre"
-        public static let FIRST_AIR_DATE = "a.media.airDate"
-        public static let FIRST_DIGITAL_DATE = "a.media.digitalDate"
-        public static let RATING = "a.media.rating"
-        public static let ORIGINATOR = "a.media.originator"
-        public static let NETWORK = "a.media.network"
-        public static let SHOW_TYPE = "a.media.type"
-        public static let AD_LOAD = "a.media.adLoad"
-        public static let MVPD = "a.media.pass.mvpd"
-        public static let AUTHORIZED = "a.media.pass.auth"
-        public static let DAY_PART = "a.media.dayPart"
-        public static let FEED = "a.media.feed"
-        public static let STREAM_FORMAT = "a.media.format"
+        public static let AD_LOAD = "adLoad"
+        public static let ASSET_ID = "assetID"
+        public static let AUTHORIZED = "isAuthenticated"
+        public static let DAY_PART = "dayPart"
+        public static let EPISODE = "episode"
+        public static let FEED = "feed"
+        public static let FIRST_AIR_DATE = "firstAirDate"
+        public static let FIRST_DIGITAL_DATE = "firstDigitalDate"
+        public static let GENRE = "genre"
+        public static let MVPD = "mvpd"
+        public static let NETWORK = "network"
+        public static let ORIGINATOR = "originator"
+        public static let RATING = "rating"
+        public static let SEASON = "season"
+        public static let SHOW = "show"
+        public static let SHOW_TYPE = "showType"
+        public static let STREAM_FORMAT = "streamFormat"
     }
 }
 ```
@@ -1103,12 +1103,12 @@ Defines the standard audio constants used as keys when creating or modifying aud
 public class MediaConstants: NSObject {
   @objc(AEPAudioMetadataKeys)
   public class AudioMetadataKeys: NSObject {
-        public static let ARTIST = "a.media.artist"
-        public static let ALBUM = "a.media.album"
-        public static let LABEL = "a.media.label"
-        public static let AUTHOR = "a.media.author"
-        public static let STATION = "a.media.station"
-        public static let PUBLISHER = "a.media.publisher"
+        public static let ALBUM = "album"
+        public static let ARTIST = "artist"
+        public static let AUTHOR = "author"
+        public static let LABEL = "label"
+        public static let PUBLISHER = "publisher"
+        public static let STATION = "station"
     }
 }
 ```
@@ -1149,12 +1149,12 @@ Defines the standard ad metadata constants used as keys when creating or modifyi
 public class MediaConstants: NSObject {
   @objc(AEPAdMetadataKeys)
   public class AdMetadataKeys: NSObject {
-        public static let ADVERTISER = "a.media.ad.advertiser"
-        public static let CAMPAIGN_ID = "a.media.ad.campaign"
-        public static let CREATIVE_ID = "a.media.ad.creative"
-        public static let PLACEMENT_ID = "a.media.ad.placement"
-        public static let SITE_ID = "a.media.ad.site"
-        public static let CREATIVE_URL = "a.media.ad.creativeURL"
+        public static let ADVERTISER = "advertiser"
+        public static let CAMPAIGN_ID = "campaignID"
+        public static let CREATIVE_ID = "creativeID"
+        public static let CREATIVE_URL = "creativeURL"
+        public static let PLACEMENT_ID = "placementID"
+        public static let SITE_ID = "siteID"
     }
 }
 

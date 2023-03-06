@@ -80,7 +80,7 @@ install-githook:
 	git config core.hooksPath .githooks
 
 lint-autocorrect:
-	(./Pods/SwiftLint/swiftlint autocorrect --format)
+	(./Pods/SwiftLint/swiftlint --fix)
 
 lint:
 	(./Pods/SwiftLint/swiftlint lint Sources TestApps/$(APP_NAME))
