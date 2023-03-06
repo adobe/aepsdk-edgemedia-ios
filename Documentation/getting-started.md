@@ -30,7 +30,7 @@ Currently AEPEdgeMedia doesn't have a Data Collection extension and needs to be 
 let mediaConfiguration = [String: Any]()
 mediaConfiguration ["edgemedia.channel"] = "<YOUR_CHANNEL_NAME>"
 mediaConfiguration ["edgemedia.playerName"] = "<YOUR_PLAYER_NAME>"
-mediaConfiguration ["edgemedia.channel"]  = "<YOUR_APP_VERSION>"
+mediaConfiguration ["edgemedia.appVersion"]  = "<YOUR_APP_VERSION>"
 
 MobileCore.updateConfigurationWith(configDict: mediaConfiguration)
  ```
@@ -97,7 +97,7 @@ Alternatively, if your project has a `Package.swift` file, you can add AEPEdgeMe
 dependencies: [
   .package(url: "https://github.com/adobe/aepsdk-edge-ios.git", .upToNextMajor(from: "1.4.0")),
   .package(url: "https://github.com/adobe/aepsdk-edgeidentity-ios.git", .upToNextMajor(from: "1.0.0")),
-  .package(url: "https://github.com/adobe/aepsdk-edgemedia-ios.git", .upToNextMajor(from: "1.0.0-beta-1"))
+  .package(url: "https://github.com/adobe/aepsdk-edgemedia-ios.git", .upToNextMajor(from: "1.0.0-beta"))
 ]
 ```
 
