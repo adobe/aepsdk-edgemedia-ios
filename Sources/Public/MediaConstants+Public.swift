@@ -104,7 +104,6 @@ public class MediaConstants: NSObject {
     @objcMembers
     public class TrackerConfig: NSObject {
         public static let CHANNEL = "config.channel"
-        public static let DOWNLOADED_CONTENT = "config.downloadedcontent"
         public static let AD_PING_INTERVAL = "config.adpinginterval"
         public static let MAIN_PING_INTERVAL = "config.mainpinginterval"
 
