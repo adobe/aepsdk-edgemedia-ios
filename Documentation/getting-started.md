@@ -35,9 +35,9 @@ mediaConfiguration ["edgemedia.appVersion"]  = "<YOUR_APP_VERSION>"
 MobileCore.updateConfigurationWith(configDict: mediaConfiguration)
  ```
 
- ##### Objective-C
- ```objectivec
- NSMutableDictionary* mediaConfiguration = [NSMutableDictionary dictionary];
+##### Objective-C
+```objectivec
+NSMutableDictionary* mediaConfiguration = [NSMutableDictionary dictionary];
 config["edgemedia.channel"] = @"<YOUR_CHANNEL_NAME>";
 config["edgemedia.playerName"] = @"<YOUR_PLAYER_NAME>";
 config["edgemedia.appVersion"] = @"<YOUR_APP_VERSION>";
@@ -67,7 +67,7 @@ config["edgemedia.appVersion"] = @"<YOUR_APP_VERSION>";
      pod 'AEPCore'
      pod 'AEPEdge'
      pod 'AEPEdgeIdentity'
-     pod 'AEPEdgeMedia'
+     pod 'AEPEdgeMedia', :git => 'https://github.com/adobe/aepsdk-edgemedia-ios.git', :tag => '1.0.0-beta'
   end
   ```
 

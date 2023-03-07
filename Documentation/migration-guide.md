@@ -53,7 +53,7 @@ Update pod file in your project
 - pod 'AEPMedia'
 + pod 'AEPEdge'
 + pod 'AEPEdgeIdentity'
-+ pod 'AEPEdgeMedia'
++ pod 'AEPEdgeMedia', :git => 'https://github.com/adobe/aepsdk-edgemedia-ios.git', :tag => '1.0.0-beta'
 ```
 
 #### 2. Using SPM:
