@@ -18,7 +18,7 @@ internal extension MediaConstants {
     static let EXTENSION_VERSION                        = "1.0.0-beta"
     static let DATASTORE_NAME                           = EXTENSION_NAME
     static let DATABASE_NAME                            = EXTENSION_NAME
-    static let LOG_TAG                                  = EXTENSION_NAME
+    static let LOG_TAG                                  = FRIENDLY_NAME
 
     enum Configuration {
         static let SHARED_STATE_NAME = "com.adobe.module.configuration"
@@ -39,11 +39,6 @@ internal extension MediaConstants {
         static let EVENT_SOURCE_MEDIA_EDGE_SESSION = "media-analytics:new-session"
         static let EVENT_SOURCE_EDGE_ERROR_RESPONSE = "com.adobe.eventSource.errorResponseContent"
 
-    }
-
-    enum MediaConfig {
-        static let CHANNEL = "config.channel"
-        static let DOWNLOADED_CONTENT = "config.downloadedcontent"
     }
 
     enum EventName {

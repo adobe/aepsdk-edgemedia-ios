@@ -96,7 +96,7 @@ import AEPCore
 - import AEPMedia
 + import AEPEdge
 + import AEPEdgeIdentity
-+ import AEPEdgeMedia
++ pod 'AEPEdgeMedia', :git => 'https://github.com/adobe/aepsdk-edgemedia-ios.git', :tag => '1.0.0-beta'
 ```
 
 ```diff
