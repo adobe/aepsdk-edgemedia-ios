@@ -33,14 +33,14 @@ struct AssuranceView: View {
                         Assurance.startSession(url: url)
                     }
                     // step-assurance-end
-                }) {
+                }, label: {
                     Text("Connect Assurance")
                         .frame(minWidth: 0, maxWidth: .infinity)
                         .padding()
                         .background(Color.white)
                         .foregroundColor(.black)
                         .font(.caption)
-                }.cornerRadius(5)
+                }).cornerRadius(5)
             }
         }.padding()
     }
