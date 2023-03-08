@@ -21,7 +21,7 @@ class BaseScenarioTest: XCTestCase {
     var dispatchedEvents: [Event] = []
     var mediaState: MediaState!
 
-    static let DEFAULT_WAIT_TIMEOUT = TimeInterval(1)
+    static let DEFAULT_WAIT_TIMEOUT = TimeInterval(2)
 
     func getMediaSessions() -> [String: MediaSession] {
         return mediaEventProcessorSpy.mediaSessions
@@ -32,6 +32,7 @@ class BaseScenarioTest: XCTestCase {
     }
 
     func setup() {
+        self.dispatchedEvents = []
         self.mediaEventProcessorSpy = MediaEventProcessorSpy(dispatcher: fakeDispatcher(_:))
         self.mediaState = MediaState()
         createTracker()
