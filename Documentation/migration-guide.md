@@ -6,6 +6,8 @@ This is the complete migration guide from AEPMedia to AEPEdgeMedia SDK.
 | --- |
 | [Configuration](#configuration)  |
 | [Add extensions to your app](#add-the-aepedgemedia-extension-to-your-app) <ul> <li>[Dependencies](#dependencies)<li> [Download extension with dependencies](#download-extension-with-dependencies) <li> [Import and register extensions](#import-and-register-extensions) </ul> |
+| [Granular ad tracking](#granular-ad-tracking)  |
+| [Downloaded content tracking](#downloaded-content-tracking)  |
 | [API Reference](#api-reference)|
 
 ------
@@ -148,7 +150,7 @@ MobileCore.registerExtensions([
 
 ------
 
-### Granular Ad Tracking
+### Granular ad tracking
 
 AEPMedia allowed for ad content tracking of `1 second` when setting the `MediaConstants.MediaObjectKey.GRANULAR_AD_TRACKING` key in the media object. AEPEdgeMedia is even more customizable and now the ad content tracking interval can be set using the tracker configuration to a value between `[1-10] seconds`. For more details, refer to the [createTrackerWithConfig API](api-reference.md/#createTrackerWithConfig).
 
@@ -167,9 +169,9 @@ tracker.trackSessionStart(info: mediaObject, metadata: videoMetadata)
 ```
 ------
 
-### Downloaded Content Tracking
+### Downloaded content tracking
 
-AEPMedia supports offline tracking for downloaded videos using the tracker configuration. 
+AEPMedia supports offline tracking for downloaded videos by setting the `MediaConstants.TrackerConfig.DOWNLOADED_CONTENT` key in the tracker configuration and calling `createTrackerWithConfig` API. 
 
 AEPEdgemedia currently does not support this workflow. 
 
