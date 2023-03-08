@@ -45,6 +45,6 @@ enum FunctionalTestConstant {
         static let WAIT_EVENT_TIMEOUT: TimeInterval = 2
         static let WAIT_SHARED_STATE_TIMEOUT: TimeInterval = 3
         static let WAIT_NETWORK_REQUEST_TIMEOUT: TimeInterval = 2
-        static let WAIT_TIMEOUT: UInt32 = 2 // used when no expectation is set
+        static let WAIT_TIMEOUT: UInt32 = 3 // used when no expectation is set
     }
 }

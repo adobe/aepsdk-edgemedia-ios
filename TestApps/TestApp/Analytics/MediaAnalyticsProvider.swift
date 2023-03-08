@@ -26,9 +26,10 @@ class MediaAnalyticsProvider: NSObject {
 
         // Pass optional configuration when creating tracker
         var config: [String: Any] = [:]
+        config[MediaConstants.TrackerConfig.AD_PING_INTERVAL] = 1 // Overwrites ad content ping interval to 1 second
         // config[MediaConstants.TrackerConfig.CHANNEL] = "e2e-swift-channel" // Overwrites channel configured from remote configuration
-        // ​config[MediaConstants.TrackerConfig.AD_PING_INTERVAL] = 1 // Overwrites ad content ping interval to 1 second.
         // config[MediaConstants.TrackerConfig.MAIN_PING_INTERVAL] = 30 // Overwrites main content ping interval to 30 seconds.
+
         _tracker = Media.createTrackerWith(config: config)
 
         setupPlayerNotifications()
@@ -72,7 +73,7 @@ class MediaAnalyticsProvider: NSObject {
         let videoId = videoData?["id"] as? String ?? ""
         let vidLength = videoData?["length"] as? Double ?? 0
 
-        guard var mediaObject = Media.createMediaObjectWith(name: videoName, id: videoId, length: vidLength, streamType: MediaConstants.StreamType.VOD, mediaType: MediaType.Video) else {
+        guard let mediaObject = Media.createMediaObjectWith(name: videoName, id: videoId, length: vidLength, streamType: MediaConstants.StreamType.VOD, mediaType: MediaType.Video) else {
             return
         }
 
@@ -84,7 +85,6 @@ class MediaAnalyticsProvider: NSObject {
         // Custom Metadata
         videoMetadata["isUserLoggedIn"] = "false"
         videoMetadata["tvStation"] = "Sample TV station"
-        mediaObject[MediaConstants.MediaObjectKey.GRANULAR_AD_TRACKING] = true
 
         _tracker?.trackSessionStart(info: mediaObject, metadata: videoMetadata)
     }

@@ -14,7 +14,7 @@ import AVFoundation
 import AVKit
 import Foundation
 
-class PlayerEvent {
+enum PlayerEvent {
     static let PLAYER_EVENT_VIDEO_LOAD = "player_video_load"
     static let PLAYER_EVENT_VIDEO_UNLOAD = "player_video_unload"
     static let PLAYER_EVENT_PLAY = "player_play"

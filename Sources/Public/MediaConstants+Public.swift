@@ -96,7 +96,6 @@ public class MediaConstants: NSObject {
     public class MediaObjectKey: NSObject {
         public static let RESUMED = "media.resumed"
         public static let PREROLL_TRACKING_WAITING_TIME = "media.prerollwaitingtime"
-        public static let GRANULAR_AD_TRACKING = "media.granularadtracking"
     }
 
     /// These constant strings define keys that can be attached to config object.
