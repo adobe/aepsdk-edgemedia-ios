@@ -167,6 +167,14 @@ tracker.trackSessionStart(info: mediaObject, metadata: videoMetadata)
 ```
 ------
 
+### Downloaded Content Tracking
+
+AEPMedia supports offline tracking for downloaded videos using the tracker configuration. 
+
+AEPEdgemedia currently does not support this workflow. 
+
+------
+
 ## API reference
 The AEPEdgeMedia SDK has similar APIs with AEPMedia. Please refer the [API reference docs](api-reference.md) to check out the APIs and their usage.
 
