@@ -98,6 +98,9 @@
 		2EB164F3289AF59C00089C83 /* MediaEventGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB164F2289AF59C00089C83 /* MediaEventGenerator.swift */; };
 		2EB164F5289AF63900089C83 /* MockExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB164F4289AF63900089C83 /* MockExtension.swift */; };
 		2EB164F7289AF6B900089C83 /* TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB164F6289AF6B900089C83 /* TestHelpers.swift */; };
+		2EC3C49329B98C6900B4308B /* MediaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3C49229B98C6900B4308B /* MediaTests.swift */; };
+		2EC3C49529B98CFF00B4308B /* TestableExtensionRuntime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3C49429B98CFF00B4308B /* TestableExtensionRuntime.swift */; };
+		2EC3C49729B98D2800B4308B /* MockDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3C49629B98D2800B4308B /* MockDataStore.swift */; };
 		2EC6027028EB589600C07D5A /* MediaXDMEventHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC6026F28EB589600C07D5A /* MediaXDMEventHelperTests.swift */; };
 		2EC6027228EB797B00C07D5A /* AssertUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC6027128EB797B00C07D5A /* AssertUtils.swift */; };
 		2ED7125728ADA958006A83D0 /* MediaRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED7125428ADA958006A83D0 /* MediaRule.swift */; };
@@ -247,6 +250,9 @@
 		2EB164F2289AF59C00089C83 /* MediaEventGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaEventGenerator.swift; sourceTree = "<group>"; };
 		2EB164F4289AF63900089C83 /* MockExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockExtension.swift; sourceTree = "<group>"; };
 		2EB164F6289AF6B900089C83 /* TestHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestHelpers.swift; sourceTree = "<group>"; };
+		2EC3C49229B98C6900B4308B /* MediaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaTests.swift; sourceTree = "<group>"; };
+		2EC3C49429B98CFF00B4308B /* TestableExtensionRuntime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestableExtensionRuntime.swift; sourceTree = "<group>"; };
+		2EC3C49629B98D2800B4308B /* MockDataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockDataStore.swift; sourceTree = "<group>"; };
 		2EC6026F28EB589600C07D5A /* MediaXDMEventHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaXDMEventHelperTests.swift; sourceTree = "<group>"; };
 		2EC6027128EB797B00C07D5A /* AssertUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssertUtils.swift; sourceTree = "<group>"; };
 		2ED7125428ADA958006A83D0 /* MediaRule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaRule.swift; sourceTree = "<group>"; };
@@ -375,6 +381,8 @@
 		2E4D752E2979E59F00396819 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				2EC3C49629B98D2800B4308B /* MockDataStore.swift */,
+				2EC3C49429B98CFF00B4308B /* TestableExtensionRuntime.swift */,
 				2EC6027128EB797B00C07D5A /* AssertUtils.swift */,
 				2E4D8172293954F6005A4543 /* FakeMediaEventProcessor.swift */,
 				2E37D38928D4185B00B782F8 /* MediaSessionSpy.swift */,
@@ -507,6 +515,7 @@
 				2ED7125E28ADC424006A83D0 /* MediaRuleEngineTests.swift */,
 				2E459865290B7144003111EE /* MediaRealTimeSessionTests.swift */,
 				2ED7126628ADDF5B006A83D0 /* MediaStateTests.swift */,
+				2EC3C49229B98C6900B4308B /* MediaTests.swift */,
 				2E459863290A2EEC003111EE /* MediaXDMEventTests.swift */,
 				2E3BF82F28D961440043DD00 /* MediaXDMEventGeneratorTests.swift */,
 				2EC6026F28EB589600C07D5A /* MediaXDMEventHelperTests.swift */,
@@ -933,7 +942,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [[ -z ${ADB_SKIP_LINT} || ${ADB_SKIP_LINT} -ne \"YES\" ]]; then\n    if which \"${PODS_ROOT}/SwiftLint/swiftlint\" >/dev/null; then\n        ./Pods/SwiftLint/swiftlint lint --config Tests/TestHelpers/.swiftlint.yml --lenient Tests/IntegrationTests Tests/TestHelpers\n    else\n        echo \"warning: SwiftLint is not installed, please run the pod install command from the project root directory.\"\n    fi\nelse\n    echo \"Skipping linting build phase as ADB_SKIP_LINT flag is YES.\"\nfi\n";
+			shellScript = "if [[ -z ${ADB_SKIP_LINT} || ${ADB_SKIP_LINT} -ne \"YES\" ]]; then\n    if which \"${PODS_ROOT}/SwiftLint/swiftlint\" >/dev/null; then\n        ./Pods/SwiftLint/swiftlint lint --config Tests/.swiftlint.yml --lenient Tests/IntegrationTests Tests/TestHelpers\n    else\n        echo \"warning: SwiftLint is not installed, please run the pod install command from the project root directory.\"\n    fi\nelse\n    echo \"Skipping linting build phase as ADB_SKIP_LINT flag is YES.\"\nfi\n";
 		};
 		2E0A1C39299703CB0099C134 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -950,7 +959,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [[ -z ${ADB_SKIP_LINT} || ${ADB_SKIP_LINT} -ne \"YES\" ]]; then\n    if which \"${PODS_ROOT}/SwiftLint/swiftlint\" >/dev/null; then\n        ./Pods/SwiftLint/swiftlint lint --config Tests/TestHelpers/.swiftlint.yml --lenient Tests/FunctionalTests Tests/TestHelpers\n    else\n        echo \"warning: SwiftLint is not installed, please run the pod install command from the project root directory.\"\n    fi\nelse\n    echo \"Skipping linting build phase as ADB_SKIP_LINT flag is YES.\"\nfi\n";
+			shellScript = "if [[ -z ${ADB_SKIP_LINT} || ${ADB_SKIP_LINT} -ne \"YES\" ]]; then\n    if which \"${PODS_ROOT}/SwiftLint/swiftlint\" >/dev/null; then\n        ./Pods/SwiftLint/swiftlint lint --config Tests/.swiftlint.yml --lenient Tests/FunctionalTests Tests/TestHelpers\n    else\n        echo \"warning: SwiftLint is not installed, please run the pod install command from the project root directory.\"\n    fi\nelse\n    echo \"Skipping linting build phase as ADB_SKIP_LINT flag is YES.\"\nfi\n";
 		};
 		2E0A1C3A299703D00099C134 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -967,7 +976,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [[ -z ${ADB_SKIP_LINT} || ${ADB_SKIP_LINT} -ne \"YES\" ]]; then\n    if which \"${PODS_ROOT}/SwiftLint/swiftlint\" >/dev/null; then\n        ./Pods/SwiftLint/swiftlint lint --config Tests/TestHelpers/.swiftlint.yml --lenient Tests/UnitTests Tests/TestHelpers\n    else\n        echo \"warning: SwiftLint is not installed, please run the pod install command from the project root directory.\"\n    fi\nelse\n    echo \"Skipping linting build phase as ADB_SKIP_LINT flag is YES.\"\nfi\n";
+			shellScript = "if [[ -z ${ADB_SKIP_LINT} || ${ADB_SKIP_LINT} -ne \"YES\" ]]; then\n    if which \"${PODS_ROOT}/SwiftLint/swiftlint\" >/dev/null; then\n        ./Pods/SwiftLint/swiftlint lint --config Tests/.swiftlint.yml --lenient Tests/UnitTests Tests/TestHelpers\n    else\n        echo \"warning: SwiftLint is not installed, please run the pod install command from the project root directory.\"\n    fi\nelse\n    echo \"Skipping linting build phase as ADB_SKIP_LINT flag is YES.\"\nfi\n";
 		};
 		3E694DE201739FFC9E121BF0 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1261,6 +1270,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E4D8173293954F6005A4543 /* FakeMediaEventProcessor.swift in Sources */,
+				2EC3C49529B98CFF00B4308B /* TestableExtensionRuntime.swift in Sources */,
 				2EA7BC2928C04796001A7C2A /* XDMChapterDetailsTests.swift in Sources */,
 				2E459866290B7144003111EE /* MediaRealTimeSessionTests.swift in Sources */,
 				2E37D38828D416C100B782F8 /* MediaEventProcessorTests.swift in Sources */,
@@ -1276,6 +1286,7 @@
 				2E3BF83028D961440043DD00 /* MediaXDMEventGeneratorTests.swift in Sources */,
 				2EC6027228EB797B00C07D5A /* AssertUtils.swift in Sources */,
 				2EA7BC2328C02F79001A7C2A /* TestUtils.swift in Sources */,
+				2EC3C49329B98C6900B4308B /* MediaTests.swift in Sources */,
 				2EDFBCF62899E06300D22B25 /* MediaPublicTrackerTests.swift in Sources */,
 				2ED7126928ADDFC0006A83D0 /* TestConstants.swift in Sources */,
 				2EC6027028EB589600C07D5A /* MediaXDMEventHelperTests.swift in Sources */,
@@ -1289,6 +1300,7 @@
 				2EA7BC2528C035FF001A7C2A /* XDMAdvertisingPodDetailsTests.swift in Sources */,
 				2E37D38B28D4186000B782F8 /* MediaSessionSpy.swift in Sources */,
 				2E459868290B8585003111EE /* XDMDataHelper.swift in Sources */,
+				2EC3C49729B98D2800B4308B /* MockDataStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
