@@ -10,17 +10,29 @@
  governing permissions and limitations under the License.
  */
 
+@testable import AEPCore
 @testable import AEPEdgeMedia
 import Foundation
 
-class FakeMediaEventProcessor: MediaEventProcessing {
+class FakeMediaEventProcessor: MediaEventProcessor {
 
     private var sessionEnded = false
     private var processedEvents: [String: [MediaXDMEvent]] = [:]
     private var currentSessionId: String = "-1"
     private var isSessionStartCalled = false
+    var dispatcher: ((_ event: Event) -> Void)?
+    var notifyErrorResponseCalled = false
+    var notifyErrorResponseCalledWithRequestEventId = ""
+    var notifyErrorResponseCalledWithData = [String: Any?]()
+    var notifyBackendSessionIdCalled = false
+    var notifyBackendSessionIdCalledWithBackendSessionId = ""
+    var notifyBackendSessionIdCalledWithRequestEventId = ""
 
-    func createSession(trackerConfig: [String: Any], trackerSessionId: String?) -> String? {
+    init() {
+        super.init(dispatcher: dispatcher)
+    }
+
+    override func createSession(trackerConfig: [String: Any], trackerSessionId: String?) -> String? {
         isSessionStartCalled = true
         var intSessionId = (Int(currentSessionId) ?? 0)
         intSessionId += 1
@@ -33,12 +45,24 @@ class FakeMediaEventProcessor: MediaEventProcessing {
         return currentSessionId
     }
 
-    func endSession(sessionId: String) {
+    override func endSession(sessionId: String) {
         sessionEnded = true
     }
 
-    func processEvent(sessionId: String, event: MediaXDMEvent) {
+    override func processEvent(sessionId: String, event: MediaXDMEvent) {
         processedEvents[sessionId]?.append(event)
+    }
+
+    override func notifyErrorResponse(requestEventId: String, data: [String: Any?]) {
+        notifyErrorResponseCalled = true
+        notifyErrorResponseCalledWithData = data
+        notifyErrorResponseCalledWithRequestEventId = requestEventId
+    }
+
+    override func notifyBackendSessionId(requestEventId: String, backendSessionId: String?) {
+        notifyBackendSessionIdCalled = true
+        notifyBackendSessionIdCalledWithBackendSessionId = backendSessionId ?? "unknown"
+        notifyBackendSessionIdCalledWithRequestEventId = requestEventId
     }
 
     func getEventFromActiveSession(index: Int) -> MediaXDMEvent? {

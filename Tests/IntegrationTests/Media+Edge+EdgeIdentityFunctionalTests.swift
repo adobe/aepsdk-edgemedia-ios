@@ -38,6 +38,8 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
     let testBackendSessionId = "99cf4e3e7145d8e2b8f4f1e9e1a08cd52518a74091c0b0c611ca97b259e03a4d"
     let successResponseBody = "\u{0000}{\"handle\":[{\"payload\":[{\"sessionId\":\"99cf4e3e7145d8e2b8f4f1e9e1a08cd52518a74091c0b0c611ca97b259e03a4d\"}],\"type\":\"media-analytics:new-session\",\"eventIndex\":0}]}"
 
+    let errorResponseBody = "{\"errors\" : [{\"type\" : \"https://ns.adobe.com/aep/errors/va-edge-0404-404\", \"status\" : 404,\"title\" : \"Not Found\", \"detail\" : \"The requested resource could not be found but may be available again in the future.\",\"report\" : {\"details\" : \"Error processing request. If the session is longer than 24h, please start a new one. Returning Not Found\"}}]}"
+
     public class override func setUp() {
         super.setUp()
         FunctionalTestBase.debugEnabled = true
@@ -95,6 +97,31 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
         assertXDMData(networkRequest: networkRequests[1], eventType: "play", backendSessionId: testBackendSessionId)
         assertXDMData(networkRequest: networkRequests[2], eventType: "pauseStart", backendSessionId: testBackendSessionId, playhead: 7)
         assertXDMData(networkRequest: networkRequests[3], eventType: "sessionComplete", backendSessionId: testBackendSessionId, playhead: 7)
+    }
+
+    func testSessionStartErrorResponse_shouldNotSendAnyOtherNetworkRequests() {
+        // setup
+        let responseConnection: HttpConnection = HttpConnection(data: errorResponseBody.data(using: .utf8),
+                                                                response: HTTPURLResponse(url: URL(string: sessionStartEdgeEndpoint)!,
+                                                                                          statusCode: 200,
+                                                                                          httpVersion: nil,
+                                                                                          headerFields: nil),
+                                                                error: nil)
+        setNetworkResponseFor(url: sessionStartEdgeEndpoint, httpMethod: .post, responseHttpConnection: responseConnection)
+
+        // test
+        let tracker = Media.createTracker()
+        tracker.trackSessionStart(info: mediaInfo, metadata: metadata)
+        tracker.trackPlay()
+        tracker.updateCurrentPlayhead(time: 7)
+        tracker.trackPause()
+        tracker.trackComplete()
+
+        // verify
+        let networkRequests = getAllNetworkRequests()
+        XCTAssertEqual(1, networkRequests.count)
+
+        assertXDMData(networkRequest: networkRequests[0], eventType: "sessionStart", info: mediaInfo, metadata: metadata, configuration: configuration)
     }
 
     func testPlayback_withPrerollAdBreak() {

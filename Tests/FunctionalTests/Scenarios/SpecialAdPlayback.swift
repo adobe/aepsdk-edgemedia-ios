@@ -193,7 +193,7 @@ class SpecialAdPlayback: BaseScenarioTest {
 
         // test
         mediaTracker.trackSessionStart(info: mediaInfoWithDefaultPreroll.toMap(), metadata: mediaMetadata)
-        wait()
+        wait(4)
 
         // mock sessionIDUpdate
         mediaEventProcessorSpy.mockBackendSessionId(sessionId: curSessionId, sessionStartEvent: dispatchedEvents[0], fakeBackendId: backendSessionId)
