@@ -21,7 +21,7 @@ class BaseScenarioTest: XCTestCase {
     var dispatchedEvents: [Event] = []
     var mediaState: MediaState!
 
-    static let DEFAULT_WAIT_TIMEOUT = TimeInterval(2)
+    static let DEFAULT_WAIT_TIMEOUT: UInt32 = 1
 
     func getMediaSessions() -> [String: MediaSession] {
         return mediaEventProcessorSpy.mediaSessions
@@ -83,7 +83,7 @@ class BaseScenarioTest: XCTestCase {
         }
     }
 
-    func wait(_ interval: TimeInterval = DEFAULT_WAIT_TIMEOUT) {
-        Thread.sleep(forTimeInterval: interval)
+    func wait(_ interval: UInt32 = DEFAULT_WAIT_TIMEOUT) {
+        sleep(interval)
     }
 }
