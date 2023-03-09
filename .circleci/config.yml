@@ -137,9 +137,8 @@ jobs:
 
     steps:
       - codecov/upload:
-          file: coverage
           upload_name: Coverage Report for AEPEdgeMedia
-          xtra_args: -c -v --xc
+          xtra_args: -c -v --xc --xp coverage/*.xcresult
 
   build_xcframework_and_app:
     macos:
