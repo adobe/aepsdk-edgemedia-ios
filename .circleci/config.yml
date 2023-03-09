@@ -134,11 +134,12 @@ jobs:
   upload_coverage:
     macos:
       xcode: 13.4.0 # Specify the Xcode version to use
-      
+
     steps:
       - codecov/upload:
+          file: coverage
           upload_name: Coverage Report for AEPEdgeMedia
-          xtra_args: -c -v --xc --xp coverage
+          xtra_args: -c -v --xc
 
   build_xcframework_and_app:
     macos:
