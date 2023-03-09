@@ -132,6 +132,9 @@ jobs:
   # Code coverage upload using Codecov
   # See options explanation here: https://docs.codecov.com/docs/codecov-uploader
   upload_coverage:
+    macos:
+      xcode: 13.4.0 # Specify the Xcode version to use
+      
     steps:
       - codecov/upload:
           upload_name: Coverage Report for AEPEdgeMedia
