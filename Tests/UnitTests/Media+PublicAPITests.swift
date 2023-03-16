@@ -42,7 +42,7 @@ class MediaPublicAPITests: XCTestCase {
         let expectation = XCTestExpectation(description: "createTracker should dispatch createTracker request an event")
         expectation.assertForOverFulfill = true
 
-        EventHub.shared.getExtensionContainer(MockExtension.self)?.registerListener(type: MediaConstants.Media.EVENT_TYPE, source: MediaConstants.Media.EVENT_SOURCE_TRACKER_REQUEST) { event in
+        EventHub.shared.getExtensionContainer(MockExtension.self)?.registerListener(type: MediaConstants.Media.EVENT_TYPE, source: MediaConstants.Media.EVENT_SOURCE_CREATE_TRACKER) { event in
             let eventData = event.data
             let trackerId = eventData?[MediaConstants.Tracker.ID] as? String
             let trackerConfig = eventData?[MediaConstants.Tracker.EVENT_PARAM] as? [String: Any]
@@ -64,7 +64,7 @@ class MediaPublicAPITests: XCTestCase {
         let expectation = XCTestExpectation(description: "createTracker should dispatch createTracker request an event")
         expectation.assertForOverFulfill = true
 
-        EventHub.shared.getExtensionContainer(MockExtension.self)?.registerListener(type: MediaConstants.Media.EVENT_TYPE, source: MediaConstants.Media.EVENT_SOURCE_TRACKER_REQUEST) { event in
+        EventHub.shared.getExtensionContainer(MockExtension.self)?.registerListener(type: MediaConstants.Media.EVENT_TYPE, source: MediaConstants.Media.EVENT_SOURCE_CREATE_TRACKER) { event in
             let eventData = event.data
             let trackerId = eventData?[MediaConstants.Tracker.ID] as? String
             let trackerConfig = eventData?[MediaConstants.Tracker.EVENT_PARAM] as? [String: Any]

@@ -26,7 +26,7 @@ extension Event {
 
     /// Returns tracker config associated with EVENT_SOURCE_TRACKER_REQUEST Event
     var trackerConfig: [String: Any]? {
-        guard source == MediaConstants.Media.EVENT_SOURCE_TRACKER_REQUEST else {
+        guard source == MediaConstants.Media.EVENT_SOURCE_CREATE_TRACKER else {
             return nil
         }
         return data?[MediaConstants.Tracker.EVENT_PARAM] as? [String: Any]
