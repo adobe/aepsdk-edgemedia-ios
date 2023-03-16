@@ -53,7 +53,6 @@ class CustomError: BaseScenarioTest {
 
         let expectedEvents: [Event] = [
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.sessionStart, playhead: 0, ts: 0, backendSessionId: backendSessionId, info: mediaInfoWithDefaultPreroll.toMap(), metadata: mediaMetadata, mediaState: mediaState),
-            EdgeEventHelper.generateSessionCreatedEvent(trackerSessionId: mediaEventProcessorSpy.getTrackerSessionId(sessionId: curSessionId), backendSessionId: backendSessionId),
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.play, playhead: 0, ts: 0, backendSessionId: backendSessionId),
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.play, playhead: 1, ts: 1, backendSessionId: backendSessionId),
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.error, playhead: 5, ts: 5, backendSessionId: backendSessionId, info: errorInfo1),

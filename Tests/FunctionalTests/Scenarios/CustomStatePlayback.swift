@@ -57,7 +57,6 @@ class CustomStatePlayback: BaseScenarioTest {
 
         let expectedEvents: [Event] = [
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.sessionStart, playhead: 0, ts: 0, backendSessionId: backendSessionId, info: mediaInfo.toMap(), metadata: mediaMetadata, mediaState: mediaState),
-            EdgeEventHelper.generateSessionCreatedEvent(trackerSessionId: mediaEventProcessorSpy.getTrackerSessionId(sessionId: curSessionId), backendSessionId: backendSessionId),
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.play, playhead: 0, ts: 0, backendSessionId: backendSessionId),
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.statesUpdate, playhead: 0, ts: 0, backendSessionId: backendSessionId, info: customStateInfo.toMap(), stateStart: true),
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.play, playhead: 1, ts: 1, backendSessionId: backendSessionId),
@@ -100,7 +99,6 @@ class CustomStatePlayback: BaseScenarioTest {
 
         let expectedEvents: [Event] = [
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.sessionStart, playhead: 0, ts: 0, backendSessionId: backendSessionId, info: mediaInfo.toMap(), metadata: mediaMetadata, mediaState: mediaState),
-            EdgeEventHelper.generateSessionCreatedEvent(trackerSessionId: mediaEventProcessorSpy.getTrackerSessionId(sessionId: curSessionId), backendSessionId: backendSessionId),
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.play, playhead: 0, ts: 0, backendSessionId: backendSessionId),
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.statesUpdate, playhead: 0, ts: 0, backendSessionId: backendSessionId, info: customStateInfo.toMap(), stateStart: true),
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.play, playhead: 1, ts: 1, backendSessionId: backendSessionId),
@@ -147,7 +145,6 @@ class CustomStatePlayback: BaseScenarioTest {
 
         var expectedEvents: [Event] = [
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.sessionStart, playhead: 0, ts: 0, backendSessionId: backendSessionId, info: mediaInfo.toMap(), metadata: mediaMetadata, mediaState: mediaState),
-            EdgeEventHelper.generateSessionCreatedEvent(trackerSessionId: mediaEventProcessorSpy.getTrackerSessionId(sessionId: curSessionId), backendSessionId: backendSessionId),
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.play, playhead: 0, ts: 0, backendSessionId: backendSessionId)
         ]
 
