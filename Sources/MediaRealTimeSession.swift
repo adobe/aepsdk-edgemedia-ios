@@ -80,10 +80,9 @@ class MediaRealTimeSession: MediaSession {
             return
         }
 
-        // If valid backendSessionId is received dispatch the sessionCreated event and start processing the queued media events
+        // If valid backendSessionId is received start processing the queued media events
         if updateBackendSessionId(backendSessionId) {
             Log.trace(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - [Session (\(id)] Updating MediaEdge session with backendSessionId:(\(mediaBackendSessionId)).")
-            dispatchSessionCreatedEvent()
             tryDispatchExperienceEvent()
 
         } else {
@@ -247,24 +246,5 @@ class MediaRealTimeSession: MediaSession {
         self.mediaBackendSessionId = backendSessionId
 
         return true
-    }
-
-    /// Dispatches media session created event after receiving the backend session id.
-    private func dispatchSessionCreatedEvent() {
-        // Dispatch session created event
-        var eventData: [String: Any] = [:]
-        eventData[MediaConstants.Tracker.BACKEND_SESSION_ID] = mediaBackendSessionId
-
-        // Attach tracker session Id for debug
-        if trackerSessionId != nil {
-            eventData[MediaConstants.Tracker.SESSION_ID] = trackerSessionId
-        }
-
-        let sessionCreatedEvent = Event(name: MediaConstants.Media.EVENT_NAME_SESSION_CREATED,
-                                        type: MediaConstants.Media.EVENT_TYPE,
-                                        source: MediaConstants.Media.EVENT_SOURCE_SESSION_CREATED,
-                                        data: eventData)
-
-        self.dispatcher?(sessionCreatedEvent)
     }
 }

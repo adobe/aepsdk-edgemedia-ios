@@ -47,7 +47,7 @@ class MediaPublicTracker: MediaTracker {
         ]
         let event = Event(name: MediaConstants.Media.EVENT_NAME_CREATE_TRACKER,
                           type: MediaConstants.Media.EVENT_TYPE,
-                          source: MediaConstants.Media.EVENT_SOURCE_TRACKER_REQUEST,
+                          source: MediaConstants.Media.EVENT_SOURCE_CREATE_TRACKER,
                           data: eventData)
 
         dispatch?(event)

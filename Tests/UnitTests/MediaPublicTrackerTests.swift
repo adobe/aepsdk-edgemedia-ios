@@ -124,7 +124,7 @@ class MediaPublicTrackerTests: XCTestCase {
             capturedEvent = event
         }, config: nil)
 
-        XCTAssertEqual(MediaConstants.Media.EVENT_SOURCE_TRACKER_REQUEST, capturedEvent?.source)
+        XCTAssertEqual(MediaConstants.Media.EVENT_SOURCE_CREATE_TRACKER, capturedEvent?.source)
         XCTAssertEqual(MediaConstants.Media.EVENT_TYPE, capturedEvent?.type)
 
         let data = capturedEvent?.data
@@ -140,7 +140,7 @@ class MediaPublicTrackerTests: XCTestCase {
             capturedEvent = event
         }, config: Self.testConfig)
 
-        XCTAssertEqual(MediaConstants.Media.EVENT_SOURCE_TRACKER_REQUEST, capturedEvent?.source)
+        XCTAssertEqual(MediaConstants.Media.EVENT_SOURCE_CREATE_TRACKER, capturedEvent?.source)
         XCTAssertEqual(MediaConstants.Media.EVENT_TYPE, capturedEvent?.type)
 
         let data = capturedEvent?.data
@@ -160,7 +160,7 @@ class MediaPublicTrackerTests: XCTestCase {
             capturedEvent = event
         }, config: Self.testConfig)
 
-        XCTAssertEqual(MediaConstants.Media.EVENT_SOURCE_TRACKER_REQUEST, capturedEvent?.source)
+        XCTAssertEqual(MediaConstants.Media.EVENT_SOURCE_CREATE_TRACKER, capturedEvent?.source)
         XCTAssertEqual(MediaConstants.Media.EVENT_TYPE, capturedEvent?.type)
 
         let trackerId = capturedEvent?.trackerId

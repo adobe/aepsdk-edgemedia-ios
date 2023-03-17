@@ -306,16 +306,4 @@ class EdgeEventHelper {
                                    data: data)
         return mediaEdgeEvent
     }
-
-    static func generateSessionCreatedEvent(trackerSessionId: String, backendSessionId: String) -> Event {
-        var eventData: [String: Any] = [:]
-        eventData[MediaConstants.Tracker.BACKEND_SESSION_ID] = backendSessionId
-        eventData[MediaConstants.Tracker.SESSION_ID] = trackerSessionId
-
-        let sessionCreatedEvent = Event(name: "Media::SessionCreated",
-                                        type: "com.adobe.eventtype.edgemedia",
-                                        source: "com.adobe.eventsource.edgemedia.sessioncreated",
-                                        data: eventData)
-        return sessionCreatedEvent
-    }
 }

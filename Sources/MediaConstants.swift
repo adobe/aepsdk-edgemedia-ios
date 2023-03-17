@@ -28,13 +28,11 @@ internal extension MediaConstants {
     }
 
     enum Media {
-        static let EVENT_TYPE = "com.adobe.eventtype.edgemedia"
-        static let EVENT_SOURCE_TRACKER_REQUEST = "com.adobe.eventsource.edgemedia.requesttracker"
-        static let EVENT_SOURCE_TRACK_MEDIA = "com.adobe.eventsource.edgemedia.trackmedia"
-        static let EVENT_SOURCE_SESSION_CREATED = "com.adobe.eventsource.edgemedia.sessioncreated"
+        static let EVENT_TYPE = "com.adobe.eventType.edgeMedia"
+        static let EVENT_SOURCE_CREATE_TRACKER = "com.adobe.eventSource.createTracker"
+        static let EVENT_SOURCE_TRACK_MEDIA = "com.adobe.eventSource.trackMedia"
         static let EVENT_NAME_CREATE_TRACKER = "Media::CreateTrackerRequest"
         static let EVENT_NAME_TRACK_MEDIA = "Media::TrackMedia"
-        static let EVENT_NAME_SESSION_CREATED = "Media::SessionCreated"
         static let EVENT_SOURCE_MEDIA_EDGE_SESSION = "media-analytics:new-session"
         static let EVENT_SOURCE_EDGE_ERROR_RESPONSE = "com.adobe.eventSource.errorResponseContent"
 

@@ -494,8 +494,7 @@ class MediaRealTimeSessionTests: XCTestCase {
         XCTAssertTrue(session.isSessionActive)
         XCTAssertEqual(session.mediaBackendSessionId, "testBackendSessionId")
         // 1 sessionCreated event and the 5 queued media events
-        XCTAssertEqual(6, dispatchedEvents.count)
-        assertSessionCreatedEvent(expectedTrackerSessionId: Self.trackerSessionId, expectedBackendSessionId: "testBackendSessionId", actualEvent: dispatchedEvents[0])
+        XCTAssertEqual(5, dispatchedEvents.count)
         XCTAssertEqual(0, session.events.count)
     }
 
@@ -636,21 +635,6 @@ class MediaRealTimeSessionTests: XCTestCase {
     }
 
     // Test Helper
-
-    private func assertSessionCreatedEvent(expectedTrackerSessionId: String, expectedBackendSessionId: String, actualEvent: Event) {
-        XCTAssertEqual("Media::SessionCreated", actualEvent.name)
-        XCTAssertEqual("com.adobe.eventtype.edgemedia", actualEvent.type)
-        XCTAssertEqual("com.adobe.eventsource.edgemedia.sessioncreated", actualEvent.source)
-
-        guard let data = actualEvent.data else {
-            XCTFail("Event data cannot be null for Media::SessionCreated event")
-            return
-        }
-
-        XCTAssertEqual(expectedBackendSessionId, data["mediaservice.sessionid"] as? String ?? "")
-        XCTAssertEqual(expectedTrackerSessionId, data["sessionid"] as? String ?? "")
-
-    }
 
     private func assertBackendSessionId(expectedBackendSessionId: String, actualEvent: Event) {
         guard let eventData = actualEvent.data else {
