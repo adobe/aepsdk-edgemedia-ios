@@ -28,12 +28,10 @@ class MediaSessionSpy: MediaSession {
 
     override func handleSessionEnd() {
         hasSessionEndCalled = true
-        sessionEndHandler?()
     }
 
     override func handleSessionAbort() {
         hasSesionAbortCalled = true
-        sessionEndHandler?()
     }
 
     override func handleQueueEvent(_ event: MediaXDMEvent) {

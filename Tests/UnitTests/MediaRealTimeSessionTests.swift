@@ -70,7 +70,7 @@ class MediaRealTimeSessionTests: XCTestCase {
 
         // verify
         XCTAssertEqual(0, dispatchedEvents.count)
-        XCTAssertEqual(3, session.events.count)
+        XCTAssertEqual(3, session.getQueueSize())
     }
 
     func testQueueMediaEvents_withoutPlayerNameConfig_doesNotDispatchEvent() {
@@ -87,7 +87,7 @@ class MediaRealTimeSessionTests: XCTestCase {
 
         // verify
         XCTAssertEqual(0, dispatchedEvents.count)
-        XCTAssertEqual(3, session.events.count)
+        XCTAssertEqual(3, session.getQueueSize())
     }
 
     func testQueueSessionStart() {
@@ -130,7 +130,7 @@ class MediaRealTimeSessionTests: XCTestCase {
 
         // verify
         XCTAssertEqual(1, dispatchedEvents.count)
-        XCTAssertEqual(17, session.events.count)
+        XCTAssertEqual(17, session.getQueueSize())
         assertEventTypeAndPath(actualEvent: dispatchedEvents[0], expectedEventType: XDMMediaEventType.sessionStart.edgeEventType(), expectedPath: "/va/v1/sessionStart")
     }
 
@@ -146,7 +146,7 @@ class MediaRealTimeSessionTests: XCTestCase {
 
         // verify
         XCTAssertEqual(4, dispatchedEvents.count)
-        XCTAssertEqual(0, session.events.count)
+        XCTAssertEqual(0, session.getQueueSize())
         assertEventTypeAndPath(actualEvent: dispatchedEvents[0], expectedEventType: XDMMediaEventType.sessionStart.edgeEventType(), expectedPath: "/va/v1/sessionStart")
     }
 
@@ -181,7 +181,7 @@ class MediaRealTimeSessionTests: XCTestCase {
 
         // verify
         XCTAssertEqual(1, dispatchedEvents.count)
-        XCTAssertEqual(5, session.events.count)
+        XCTAssertEqual(5, session.getQueueSize())
         assertBackendSessionId(expectedBackendSessionId: "session1", actualEvent: dispatchedEvents[0])
         assertEventTypeAndPath(actualEvent: dispatchedEvents[0], expectedEventType: XDMMediaEventType.sessionStart.edgeEventType(), expectedPath: "/va/v1/sessionStart")
     }
@@ -495,7 +495,7 @@ class MediaRealTimeSessionTests: XCTestCase {
         XCTAssertEqual(session.mediaBackendSessionId, "testBackendSessionId")
         // 1 sessionCreated event and the 5 queued media events
         XCTAssertEqual(5, dispatchedEvents.count)
-        XCTAssertEqual(0, session.events.count)
+        XCTAssertEqual(0, session.getQueueSize())
     }
 
     func testHandleSessionUpdate_withDifferentEdgeRequestId_ignoresTheEventAndWaitsForBackendSessionIdToDispatchQueuedEvents() {
@@ -516,7 +516,7 @@ class MediaRealTimeSessionTests: XCTestCase {
 
         // verify
         XCTAssertTrue(session.isSessionActive)
-        XCTAssertEqual(5, session.events.count)
+        XCTAssertEqual(5, session.getQueueSize())
     }
 
     func testHandleSessionUpdate_withEmptyBackendId_abortsMediaSession() {
@@ -538,7 +538,7 @@ class MediaRealTimeSessionTests: XCTestCase {
         // verify
         XCTAssertFalse(session.isSessionActive)
         XCTAssertEqual(0, dispatchedEvents.count)
-        XCTAssertEqual(0, session.events.count)
+        XCTAssertEqual(0, session.getQueueSize())
     }
 
     func testHandleSessionUpdate_withNilBackendId_abortsMediaSession() {
@@ -560,7 +560,7 @@ class MediaRealTimeSessionTests: XCTestCase {
         // verify
         XCTAssertFalse(session.isSessionActive)
         XCTAssertEqual(0, dispatchedEvents.count)
-        XCTAssertEqual(0, session.events.count)
+        XCTAssertEqual(0, session.getQueueSize())
     }
 
     func testHandleErrorResponse_withVAEdge400Error_abortsSession() {
@@ -576,7 +576,7 @@ class MediaRealTimeSessionTests: XCTestCase {
 
         // verify
         XCTAssertEqual(0, dispatchedEvents.count)
-        XCTAssertEqual(0, session.events.count)
+        XCTAssertEqual(0, session.getQueueSize())
         XCTAssertFalse(session.isSessionActive)
     }
 
@@ -593,7 +593,7 @@ class MediaRealTimeSessionTests: XCTestCase {
 
         // verify
         XCTAssertEqual(0, dispatchedEvents.count)
-        XCTAssertEqual(0, session.events.count)
+        XCTAssertEqual(0, session.getQueueSize())
         XCTAssertFalse(session.isSessionActive)
     }
 
@@ -610,7 +610,7 @@ class MediaRealTimeSessionTests: XCTestCase {
 
         // verify
         XCTAssertEqual(0, dispatchedEvents.count)
-        XCTAssertEqual(1, session.events.count)
+        XCTAssertEqual(1, session.getQueueSize())
         XCTAssertTrue(session.isSessionActive)
     }
 
@@ -630,7 +630,7 @@ class MediaRealTimeSessionTests: XCTestCase {
 
         // verify
         XCTAssertEqual(0, dispatchedEvents.count)
-        XCTAssertEqual(1, session.events.count)
+        XCTAssertEqual(1, session.getQueueSize())
         XCTAssertTrue(session.isSessionActive)
     }
 

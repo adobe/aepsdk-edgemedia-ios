@@ -21,8 +21,8 @@ class MediaSession {
     private(set) var id: String
     private(set) var state: MediaState
     private(set) var dispatcher: ((_ event: Event) -> Void)?
+
     var isSessionActive: Bool
-    var sessionEndHandler: (() -> Void)?
     var trackerSessionId: String?
 
     /// Initializer for `MediaSession`
@@ -52,29 +52,31 @@ class MediaSession {
     }
 
     /// Ends the session
-    /// - Parameter onsessionEnd: An optional closure that will be executed after successfully ending the session.
-    func end(onSessionEnd sessionEndHandler: (() -> Void)? = nil) {
+    func end() {
         guard isSessionActive else {
             Log.debug(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Failed to end session. Media Session (\(id)) is inactive")
             return
         }
 
-        self.sessionEndHandler = sessionEndHandler
         isSessionActive = false
         handleSessionEnd()
     }
 
     /// Aborts the session.
-    /// - Parameter onSessionEnd: An optional closure that will be executed after successfully aborting the session.
-    func abort(onSessionEnd sessionEndHandler: (() -> Void)? = nil) {
+    func abort() {
         guard isSessionActive else {
             Log.debug(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Failed to abort session. Media Session (\(id)) is inactive")
             return
         }
 
-        self.sessionEndHandler = sessionEndHandler
         isSessionActive = false
         handleSessionAbort()
+    }
+
+    /// Get the number of queued `MediaXDMEvent`s
+    func getQueueSize() -> Int {
+        Log.warning(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - This function must be overwridden by the implementing class.")
+        return 0
     }
 
     /// Notifies MediaState updates

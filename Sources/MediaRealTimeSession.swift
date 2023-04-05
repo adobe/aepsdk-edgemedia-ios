@@ -20,54 +20,56 @@ class MediaRealTimeSession: MediaSession {
     private static let CLASS_NAME = "MediaRealTimeSession"
 
     private var lastHitTS: Int64 = 0
+    private var eventQueue: [MediaXDMEvent] = []
 
     #if DEBUG
     var mediaBackendSessionId: String = ""
     var sessionStartEdgeRequestId: String?
-    var events: [MediaXDMEvent] = []
     #else
     private var mediaBackendSessionId: String = ""
     private var sessionStartEdgeRequestId: String?
-    private var events: [MediaXDMEvent] = []
     #endif
 
     typealias ErrorData = MediaConstants.Edge.ErrorData
     typealias ErrorKeys = MediaConstants.Edge.ErrorKeys
+
+    override func getQueueSize() -> Int {
+        return eventQueue.count
+    }
 
     /// Handles media state update. Triggers the dispatch loop if it was halted waiting for media state properties.
     override func handleMediaStateUpdate() {
         Log.trace(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - [Session (\(id))] Handling media state update.")
 
         // Trigger the event dispatch loop if it was blocked by the required media state properties
-        tryDispatchExperienceEvent()
+        processMediaEvents()
     }
 
     /// Add media events to the queue.
     override func handleQueueEvent(_ event: MediaXDMEvent) {
-        if !isSessionActive {
-            return
-        }
-
         Log.trace(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - [Session (\(id))] Queuing media event (\(event.eventType)).")
-        events.append(event)
+        eventQueue.append(event)
 
         // Start processing and dispatching media events
-        tryDispatchExperienceEvent()
+        processMediaEvents()
     }
 
     /// handles media session end scenario.
     override func handleSessionEnd() {
-        Log.trace(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - [Session (\(id))] Ending media session.")
-
         // Trigger the event dispatch loop and ensure all the events are dispatched before ending the session
-        tryDispatchExperienceEvent()
+        processMediaEvents()
+
+        if eventQueue.isEmpty {
+            Log.trace(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - [Session (\(id))] Successfully ended media session with id \(mediaBackendSessionId).")
+        } else {
+            Log.trace(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - [Session (\(id))] Media session with id \(mediaBackendSessionId) was ended but not all queued events could be processed.")
+        }
     }
 
     /// Handles session abort scenario.
     override func handleSessionAbort() {
-        Log.trace(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] -[Session (\(id))] Aborting media.")
-        events.removeAll()
-        sessionEndHandler?()
+        eventQueue.removeAll()
+        Log.trace(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] -[Session (\(id))] Successfully aborted media session with id \(mediaBackendSessionId).")
     }
 
     /// Handles media backend session id dispatched by the edge extension.
@@ -83,12 +85,12 @@ class MediaRealTimeSession: MediaSession {
         // If valid backendSessionId is received start processing the queued media events
         if updateBackendSessionId(backendSessionId) {
             Log.trace(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - [Session (\(id)] Updating MediaEdge session with backendSessionId:(\(mediaBackendSessionId)).")
-            tryDispatchExperienceEvent()
+            processMediaEvents()
 
         } else {
             // Unable to update backend session id as it is invalid, so abort the session
             Log.warning(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - [Session (\(id)] Dropping the current tracking media session as invalid session id returned by the backend.")
-            abort(onSessionEnd: sessionEndHandler)
+            abort()
         }
     }
 
@@ -115,8 +117,8 @@ class MediaRealTimeSession: MediaSession {
     }
 
     /// Sends the  Media Edge `Event` with XDM data to the edge extension
-    private func tryDispatchExperienceEvent() {
-        if events.isEmpty {
+    private func processMediaEvents() {
+        if eventQueue.isEmpty {
             Log.trace(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - [Session (\(id)] Exiting as there are no events to be dispatched.")
             return
         }
@@ -131,8 +133,8 @@ class MediaRealTimeSession: MediaSession {
             return
         }
 
-        while !events.isEmpty {
-            var event = events[0]
+        while !eventQueue.isEmpty {
+            var event = eventQueue[0]
 
             if !isReadyToDispatchEvent(eventType: event.eventType) {
                 break
@@ -143,15 +145,9 @@ class MediaRealTimeSession: MediaSession {
             generateMediaEdgeEventAndDispatch(dispatcher: dispatcher, event: event)
 
             // Remove the processed event from the list
-            events.removeFirst()
+            eventQueue.removeFirst()
         }
 
-        // Check if session has ended
-        // Call the sessionEndHandler closure after processing all the events if the session is not active
-        if events.isEmpty && !isSessionActive {
-            sessionEndHandler?()
-            return
-        }
     }
 
     /// Checks if current event can be dispatched based on type and backend session id. It specifically checks if mediaBackendSessionId is available for all the media events except sessionStart.
