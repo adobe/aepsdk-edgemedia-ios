@@ -39,13 +39,10 @@ class MediaEventProcessor: MediaEventProcessing {
     }
 
     /// Creates session with provided tracker configuration
-    /// - Parameters:
-    ///    - trackerConfig: tracker configuration.
-    ///    - trackerSessionId: A `UUID` string representing tracker session ID which can be used for debugging.
-    func createSession(trackerConfig: [String: Any], trackerSessionId: String?) -> String? {
+    func createSession() -> String {
         dispatchQueue.sync {
             let sessionId = uuid
-            let session = MediaRealTimeSession(id: sessionId, trackerSessionId: trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: dispatcher)
+            let session = MediaRealTimeSession(id: sessionId, state: mediaState, dispatcher: dispatcher)
 
             mediaSessions[sessionId] = session
             Log.trace(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Created a new session (\(sessionId))")

@@ -23,18 +23,14 @@ class MediaSession {
     private(set) var dispatcher: ((_ event: Event) -> Void)?
 
     var isSessionActive: Bool
-    var trackerSessionId: String?
 
     /// Initializer for `MediaSession`
     /// - Parameters:
     ///    - id: Unique `MediaSession id`
-    ///    - trackerSessionId: A `UUID` string representing tracker session ID which can used be for debugging.
     ///    - mediaState: `MediaState` object
-    ///    - dispatchQueue: `DispatchQueue` used for handling response after processing `MediaHit`
     ///    - dispather: A closure used for dispatching `Event`
-    init(id: String, trackerSessionId: String?, state: MediaState, dispatchQueue: DispatchQueue, dispatcher: ((_ event: Event) -> Void)?) {
+    init(id: String, state: MediaState, dispatcher: ((_ event: Event) -> Void)?) {
         self.id = id
-        self.trackerSessionId = trackerSessionId
         self.state = state
         self.dispatcher = dispatcher
         isSessionActive = true

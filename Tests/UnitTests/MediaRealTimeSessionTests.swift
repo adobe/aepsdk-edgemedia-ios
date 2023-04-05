@@ -42,23 +42,11 @@ class MediaRealTimeSessionTests: XCTestCase {
         dispatchedEvents.append(event)
     }
 
-    func testTrackerSessionId_isValidStringWhenSetValidStringOnCreateSession() {
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
-
-        XCTAssertEqual("testTrackerSessionId", session.trackerSessionId)
-    }
-
-    func testTrackerSessionId_isNilWhenSetNilOnCreateSession() {
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: nil, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
-
-        XCTAssertNil(session.trackerSessionId)
-    }
-
     func testQueueMediaEvents_withoutChannelConfig_doesNotDispatchEvent() {
         // setup
         mediaState.updateConfigurationSharedState([MediaConstants.Configuration.MEDIA_APP_VERSION: "testAppVersion",
                                                    MediaConstants.Configuration.MEDIA_PLAYER_NAME: "testPlayerName"])
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
         session.mediaBackendSessionId = "testBackendSessionId"
 
         // test
@@ -76,7 +64,7 @@ class MediaRealTimeSessionTests: XCTestCase {
     func testQueueMediaEvents_withoutPlayerNameConfig_doesNotDispatchEvent() {
         // setup
         mediaState.updateConfigurationSharedState([MediaConstants.Configuration.MEDIA_CHANNEL: "testChannel", MediaConstants.Configuration.MEDIA_APP_VERSION: "testAppVersion"])
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
 
         // test
         session.queue(event: MediaXDMEvent(eventType: XDMMediaEventType.sessionStart, timestamp: getDateFormattedTimestampFor(1), mediaCollection: XDMDataHelper.getSessionStartData()))
@@ -93,7 +81,7 @@ class MediaRealTimeSessionTests: XCTestCase {
     func testQueueSessionStart() {
         // setup
         mediaState.updateConfigurationSharedState(config)
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
 
         // test
         session.queue(event: MediaXDMEvent(eventType: XDMMediaEventType.sessionStart, timestamp: getDateFormattedTimestampFor(1), mediaCollection: XDMDataHelper.getSessionStartData()))
@@ -106,7 +94,7 @@ class MediaRealTimeSessionTests: XCTestCase {
     func testQueueMediaEvents_withoutBackendSessionId_doesNotDispatchEventsOtherThanSessionStart() {
         // setup
         mediaState.updateConfigurationSharedState(config)
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
 
         // test
         session.queue(event: MediaXDMEvent(eventType: XDMMediaEventType.sessionStart, timestamp: getDateFormattedTimestampFor(1), mediaCollection: XDMMediaCollection()))
@@ -136,7 +124,7 @@ class MediaRealTimeSessionTests: XCTestCase {
 
     func testQueueMediaEvents_withoutBackendSessionId_dispatchesConsecutiveSessionStartEvents() {
         mediaState.updateConfigurationSharedState(config)
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
 
         // test
         session.queue(event: MediaXDMEvent(eventType: XDMMediaEventType.sessionStart, timestamp: getDateFormattedTimestampFor(1), mediaCollection: XDMMediaCollection()))
@@ -153,7 +141,7 @@ class MediaRealTimeSessionTests: XCTestCase {
     // The session start ping present at the top of the event queue will be dispatched but the other sessionStart events are blocked by low level events waiting for backendSessionId
     func testQueueMediaEvents_withoutBackendSessionId_dispatchesSessionStartEventAtTopOfEventQueue() {
         mediaState.updateConfigurationSharedState(config)
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
 
         var mediaCollection1 = XDMMediaCollection()
         mediaCollection1.sessionID = "session1"
@@ -189,7 +177,7 @@ class MediaRealTimeSessionTests: XCTestCase {
     func testQueue_sessionComplete() {
         // setup
         mediaState.updateConfigurationSharedState(config)
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
 
         // set fake backendSessionId
         session.mediaBackendSessionId = "testBackendSessionId"
@@ -206,7 +194,7 @@ class MediaRealTimeSessionTests: XCTestCase {
     func testQueue_sessionEnd() {
         // setup
         mediaState.updateConfigurationSharedState(config)
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
 
         // set fake backendSessionId
         session.mediaBackendSessionId = "testBackendSessionId"
@@ -223,7 +211,7 @@ class MediaRealTimeSessionTests: XCTestCase {
     func testQueue_play() {
         // setup
         mediaState.updateConfigurationSharedState(config)
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
 
         // set fake backendSessionId
         session.mediaBackendSessionId = "testBackendSessionId"
@@ -240,7 +228,7 @@ class MediaRealTimeSessionTests: XCTestCase {
     func testQueue_pause() {
         // setup
         mediaState.updateConfigurationSharedState(config)
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
 
         // set fake backendSessionId
         session.mediaBackendSessionId = "testBackendSessionId"
@@ -257,7 +245,7 @@ class MediaRealTimeSessionTests: XCTestCase {
     func testQueue_ping() {
         // setup
         mediaState.updateConfigurationSharedState(config)
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
 
         // set fake backendSessionId
         session.mediaBackendSessionId = "testBackendSessionId"
@@ -273,7 +261,7 @@ class MediaRealTimeSessionTests: XCTestCase {
     func testQueue_error() {
         // setup
         mediaState.updateConfigurationSharedState(config)
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
 
         // set fake backendSessionId
         session.mediaBackendSessionId = "testBackendSessionId"
@@ -290,7 +278,7 @@ class MediaRealTimeSessionTests: XCTestCase {
     func testQueue_bufferStart() {
         // setup
         mediaState.updateConfigurationSharedState(config)
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
 
         // set fake backendSessionId
         session.mediaBackendSessionId = "testBackendSessionId"
@@ -307,7 +295,7 @@ class MediaRealTimeSessionTests: XCTestCase {
     func testQueue_bitrateChange() {
         // setup
         mediaState.updateConfigurationSharedState(config)
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
 
         // set fake backendSessionId
         session.mediaBackendSessionId = "testBackendSessionId"
@@ -324,7 +312,7 @@ class MediaRealTimeSessionTests: XCTestCase {
     func testQueue_adBreakStart() {
         // setup
         mediaState.updateConfigurationSharedState(config)
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
 
         // set fake backendSessionId
         session.mediaBackendSessionId = "testBackendSessionId"
@@ -341,7 +329,7 @@ class MediaRealTimeSessionTests: XCTestCase {
     func testQueue_adBreakComplete() {
         // setup
         mediaState.updateConfigurationSharedState(config)
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
 
         // set fake backendSessionId
         session.mediaBackendSessionId = "testBackendSessionId"
@@ -358,7 +346,7 @@ class MediaRealTimeSessionTests: XCTestCase {
     func testQueue_adStart() {
         // setup
         mediaState.updateConfigurationSharedState(config)
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
 
         // set fake backendSessionId
         session.mediaBackendSessionId = "testBackendSessionId"
@@ -375,7 +363,7 @@ class MediaRealTimeSessionTests: XCTestCase {
     func testQueue_adSkip() {
         // setup
         mediaState.updateConfigurationSharedState(config)
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
 
         // set fake backendSessionId
         session.mediaBackendSessionId = "testBackendSessionId"
@@ -392,7 +380,7 @@ class MediaRealTimeSessionTests: XCTestCase {
     func testQueue_adComplete() {
         // setup
         mediaState.updateConfigurationSharedState(config)
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
 
         // set fake backendSessionId
         session.mediaBackendSessionId = "testBackendSessionId"
@@ -409,7 +397,7 @@ class MediaRealTimeSessionTests: XCTestCase {
     func testQueue_chapterSkip() {
         // setup
         mediaState.updateConfigurationSharedState(config)
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
 
         // set fake backendSessionId
         session.mediaBackendSessionId = "testBackendSessionId"
@@ -426,7 +414,7 @@ class MediaRealTimeSessionTests: XCTestCase {
     func testQueue_chapterStart() {
         // setup
         mediaState.updateConfigurationSharedState(config)
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
 
         // set fake backendSessionId
         session.mediaBackendSessionId = "testBackendSessionId"
@@ -443,7 +431,7 @@ class MediaRealTimeSessionTests: XCTestCase {
     func testQueue_chapterComplete() {
         // setup
         mediaState.updateConfigurationSharedState(config)
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
 
         // set fake backendSessionId
         session.mediaBackendSessionId = "testBackendSessionId"
@@ -460,7 +448,7 @@ class MediaRealTimeSessionTests: XCTestCase {
     func testQueue_statesUpdate() {
         // setup
         mediaState.updateConfigurationSharedState(config)
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
 
         // set fake backendSessionId
         session.mediaBackendSessionId = "testBackendSessionId"
@@ -476,7 +464,7 @@ class MediaRealTimeSessionTests: XCTestCase {
 
     func testHandleSessionUpdate_updatesBackendSessionIdAndDispatchesEvents() {
         mediaState.updateConfigurationSharedState(config)
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
 
         // set fake sessionStartEdgeRequestId
         session.sessionStartEdgeRequestId = "testSessionStartEdgeRequestId"
@@ -500,7 +488,7 @@ class MediaRealTimeSessionTests: XCTestCase {
 
     func testHandleSessionUpdate_withDifferentEdgeRequestId_ignoresTheEventAndWaitsForBackendSessionIdToDispatchQueuedEvents() {
         mediaState.updateConfigurationSharedState(config)
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
 
         // set fake sessionStartEdgeRequestId
         session.sessionStartEdgeRequestId = "testSessionStartEdgeRequestId"
@@ -521,7 +509,7 @@ class MediaRealTimeSessionTests: XCTestCase {
 
     func testHandleSessionUpdate_withEmptyBackendId_abortsMediaSession() {
         mediaState.updateConfigurationSharedState(config)
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
 
         // set fake sessionStartEdgeRequestId
         session.sessionStartEdgeRequestId = "testSessionStartEdgeRequestId"
@@ -543,7 +531,7 @@ class MediaRealTimeSessionTests: XCTestCase {
 
     func testHandleSessionUpdate_withNilBackendId_abortsMediaSession() {
         mediaState.updateConfigurationSharedState(config)
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
 
         // set fake sessionStartEdgeRequestId
         session.sessionStartEdgeRequestId = "testSessionStartEdgeRequestId"
@@ -565,7 +553,7 @@ class MediaRealTimeSessionTests: XCTestCase {
 
     func testHandleErrorResponse_withVAEdge400Error_abortsSession() {
         mediaState.updateConfigurationSharedState(config)
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
 
         // set fake sessionStartEdgeRequestId
         session.sessionStartEdgeRequestId = "testSessionStartEdgeRequestId"
@@ -582,7 +570,7 @@ class MediaRealTimeSessionTests: XCTestCase {
 
     func testHandleErrorResponse_withExtraFieldsInErrorData_abortsSession() {
         mediaState.updateConfigurationSharedState(config)
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
 
         // set fake sessionStartEdgeRequestId
         session.sessionStartEdgeRequestId = "testSessionStartEdgeRequestId"
@@ -599,7 +587,7 @@ class MediaRealTimeSessionTests: XCTestCase {
 
     func testHandleErrorResponse_withDifferentEdgeRequestIdAndValidError_doesNotAbortSession() {
         mediaState.updateConfigurationSharedState(config)
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
 
         // set fake sessionStartEdgeRequestId
         session.sessionStartEdgeRequestId = "testSessionStartEdgeRequestId"
@@ -616,7 +604,7 @@ class MediaRealTimeSessionTests: XCTestCase {
 
     func testHandleErrorResponse_withInvalidErrorData_doesNotAbortSession() {
         mediaState.updateConfigurationSharedState(config)
-        let session = MediaRealTimeSession(id: "testId", trackerSessionId: Self.trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: fakeDispatcher)
+        let session = MediaRealTimeSession(id: "testId", state: mediaState, dispatcher: fakeDispatcher)
 
         // set fake sessionStartEdgeRequestId
         session.sessionStartEdgeRequestId = "testSessionStartEdgeRequestId"

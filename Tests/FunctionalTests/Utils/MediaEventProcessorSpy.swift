@@ -27,8 +27,4 @@ class MediaEventProcessorSpy: MediaEventProcessor {
             session.handleSessionUpdate(requestEventId: sessionStartEvent.id.uuidString, backendSessionId: fakeBackendId)
         }
     }
-
-    func getTrackerSessionId(sessionId: String) -> String {
-        return mediaSessions[sessionId]?.trackerSessionId ?? ""
-    }
 }
