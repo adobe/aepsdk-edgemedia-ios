@@ -45,7 +45,7 @@ class  MediaXDMEventGenerator {
         self.refTS = refTS
         self.currentPlaybackState = .Init
         self.currentPlaybackStateStartRefTS = refTS
-        startTrackingSession(trackerSessionId: refEvent.sessionId)
+        startTrackingSession()
     }
 
     func processSessionStart(forceResume: Bool = false) {
@@ -131,7 +131,7 @@ class  MediaXDMEventGenerator {
         currentPlaybackStateStartRefTS = refTS
 
         lastReportedQoe = nil
-        startTrackingSession(trackerSessionId: refEvent.sessionId)
+        startTrackingSession()
         processSessionStart(forceResume: true)
 
         if mediaContext.chapterInfo != nil {
@@ -211,16 +211,10 @@ class  MediaXDMEventGenerator {
     }
 
     /// Signals event processor to start a new media session.
-    ///    - Parameter trackerSessionId: A `UUID` string representing tracker session ID which can used be for debugging.
-    private func startTrackingSession(trackerSessionId: String?) {
-        guard let sessionId = mediaEventProcessor.createSession(trackerConfig: trackerConfig, trackerSessionId: trackerSessionId) else {
-            Log.debug(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Unable to create a tracking session.")
-            isTracking = false
-            return
-        }
-        self.sessionId = sessionId
-        Log.debug(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Started a new session with id (\(self.sessionId)).")
+    private func startTrackingSession() {
+        self.sessionId = mediaEventProcessor.createSession()
         isTracking = true
+        Log.debug(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Started a new session with id (\(self.sessionId)).")
     }
 
     private func endTrackingSession() {

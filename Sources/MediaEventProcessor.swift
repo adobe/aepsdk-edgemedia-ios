@@ -39,13 +39,10 @@ class MediaEventProcessor: MediaEventProcessing {
     }
 
     /// Creates session with provided tracker configuration
-    /// - Parameters:
-    ///    - trackerConfig: tracker configuration.
-    ///    - trackerSessionId: A `UUID` string representing tracker session ID which can be used for debugging.
-    func createSession(trackerConfig: [String: Any], trackerSessionId: String?) -> String? {
+    func createSession() -> String {
         dispatchQueue.sync {
             let sessionId = uuid
-            let session = MediaRealTimeSession(id: sessionId, trackerSessionId: trackerSessionId, state: mediaState, dispatchQueue: dispatchQueue, dispatcher: dispatcher)
+            let session = MediaRealTimeSession(id: sessionId, state: mediaState, dispatcher: dispatcher)
 
             mediaSessions[sessionId] = session
             Log.trace(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Created a new session (\(sessionId))")
@@ -79,12 +76,8 @@ class MediaEventProcessor: MediaEventProcessing {
                 return
             }
 
-            session.end {
-                self.mediaSessions.removeValue(forKey: sessionId)
-                Log.trace(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Successfully ended media session (\(sessionId))")
-            }
-
-            Log.trace(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Scheduled end for media session (\(sessionId))")
+            session.end()
+            self.mediaSessions.forEach(self.removeInactiveSession)
         }
     }
 
@@ -100,7 +93,9 @@ class MediaEventProcessor: MediaEventProcessing {
     func updateMediaState(configurationSharedStateData: [String: Any]?) {
         dispatchQueue.async {
             self.mediaState.updateConfigurationSharedState(configurationSharedStateData)
-            self.mediaSessions.forEach { sessionId, _ in self.notifyMediaStateUpdate(sessionId: sessionId) }
+            self.mediaSessions.forEach { _, session in
+                session.handleMediaStateUpdate()
+            }
         }
     }
 
@@ -110,7 +105,11 @@ class MediaEventProcessor: MediaEventProcessing {
     ///  - backendSessionId: UUID `String` returned by the backend.
     func notifyBackendSessionId(requestEventId: String, backendSessionId: String?) {
         dispatchQueue.async {
-            self.mediaSessions.forEach { sessionId, _ in self.mediaSessions[sessionId]?.handleSessionUpdate(requestEventId: requestEventId, backendSessionId: backendSessionId) }
+            self.mediaSessions.forEach { sessionId, session in
+                session.handleSessionUpdate(requestEventId: requestEventId, backendSessionId: backendSessionId)
+                // Session may be aborted if session ID is invalid
+                self.removeInactiveSession(sessionId: sessionId, session: session)
+            }
         }
     }
 
@@ -120,20 +119,13 @@ class MediaEventProcessor: MediaEventProcessing {
     ///  - data: dictionary containing errors returned by the backend.
     func notifyErrorResponse(requestEventId: String, data: [String: Any?]) {
         dispatchQueue.async {
-            self.mediaSessions.forEach { sessionId, _ in self.mediaSessions[sessionId]?.handleErrorResponse(requestEventId: requestEventId, data: data) }
+            self.mediaSessions.forEach { sessionId, session in
+                session.handleErrorResponse(requestEventId: requestEventId, data: data)
+                // Session may be aborted on error
+                self.removeInactiveSession(sessionId: sessionId, session: session)
+            }
         }
 
-    }
-
-    /// Notify MediaState updates
-    /// - Parameter sessionId: Unique sessionId of session
-    private func notifyMediaStateUpdate(sessionId: String) {
-        guard let session = self.mediaSessions[sessionId] else {
-            Log.debug(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Cannot notify states changes for media session (\(sessionId)). SessionId is invalid.")
-            return
-        }
-
-        session.handleMediaStateUpdate()
     }
 
     /// Abort the session `sessionId`.
@@ -145,11 +137,17 @@ class MediaEventProcessor: MediaEventProcessing {
             return
         }
 
-        session.abort {
-            self.mediaSessions.removeValue(forKey: sessionId)
-            Log.trace(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Successfully aborted media session (\(sessionId)).")
-        }
+        session.abort()
+        self.mediaSessions.removeValue(forKey: sessionId)
+    }
 
-        Log.trace(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Scheduled abort for media session (\(sessionId).")
+    /// Remove the `MediaSession` from the `mediaSessions` dictionary if that session is not longer active.
+    ///  - Parameters:
+    ///    - sessionId the ID of the `MediaSession` used as the key in `mediaSessions` dictionary
+    ///    - session the `MediaSession` to remove if inactive
+    private func removeInactiveSession(sessionId: String, session: MediaSession) {
+        if !session.isSessionActive && session.getQueueSize() == 0 {
+            mediaSessions[sessionId] = nil
+        }
     }
 }

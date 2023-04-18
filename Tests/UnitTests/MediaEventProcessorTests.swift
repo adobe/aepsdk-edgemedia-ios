@@ -25,10 +25,7 @@ class MediaEventProcessorTests: XCTestCase {
 
         // test
         let mediaProcessor = MediaEventProcessor(dispatcher: nil)
-        guard let sessionId = mediaProcessor.createSession(trackerConfig: emptytrackerConfig, trackerSessionId: Self.trackerSessionId) else {
-            XCTFail("Could not create session id")
-            return
-        }
+        let sessionId = mediaProcessor.createSession()
 
         // Assert
         XCTAssertNotNil(sessionId)
@@ -42,12 +39,9 @@ class MediaEventProcessorTests: XCTestCase {
 
         // Action
         let mediaProcessor = MediaEventProcessor(dispatcher: nil)
-        guard let sessionId = mediaProcessor.createSession(trackerConfig: emptytrackerConfig, trackerSessionId: Self.trackerSessionId) else {
-            XCTFail("Could not create session id")
-            return
-        }
+        let sessionId = mediaProcessor.createSession()
 
-        let mediaSessionSpy = MediaSessionSpy(id: sessionId, trackerSessionId: Self.trackerSessionId, state: MediaState(), dispatchQueue: DispatchQueue(label: "testMediaEventProcessor"), dispatcher: nil)
+        let mediaSessionSpy = MediaSessionSpy(id: sessionId, state: MediaState(), dispatcher: nil)
         mediaProcessor.mediaSessions[sessionId] = mediaSessionSpy
         mediaProcessor.processEvent(sessionId: sessionId, event: MediaXDMEvent(eventType: XDMMediaEventType.sessionStart, timestamp: Date(timeIntervalSince1970: 0), mediaCollection: XDMMediaCollection()))
         Thread.sleep(forTimeInterval: 0.25)
@@ -62,7 +56,7 @@ class MediaEventProcessorTests: XCTestCase {
     func testProcessEvent_invalidSessionId() {
         // setup
         let mediaProcessor = MediaEventProcessor(dispatcher: nil)
-        let mediaSessionSpy = MediaSessionSpy(id: "SessionID-1", trackerSessionId: Self.trackerSessionId, state: MediaState(), dispatchQueue: DispatchQueue(label: "testMediaEventProcessor"), dispatcher: nil)
+        let mediaSessionSpy = MediaSessionSpy(id: "SessionID-1", state: MediaState(), dispatcher: nil)
 
         // test
         mediaProcessor.processEvent(sessionId: "InvalidSessionID", event: MediaXDMEvent(eventType: XDMMediaEventType.sessionStart, timestamp: Date(timeIntervalSince1970: 0), mediaCollection: XDMMediaCollection()))
@@ -81,16 +75,13 @@ class MediaEventProcessorTests: XCTestCase {
 
         // test
         let mediaProcessor = MediaEventProcessor(dispatcher: nil)
-        guard let sessionId = mediaProcessor.createSession(trackerConfig: emptytrackerConfig, trackerSessionId: Self.trackerSessionId) else {
-            XCTFail("Could not create session id")
-            return
-        }
+        let sessionId = mediaProcessor.createSession()
 
         // Assert
         XCTAssertNotNil(sessionId)
         XCTAssertTrue(mediaProcessor.mediaSessions.keys.contains(sessionId))
         XCTAssertNotNil(mediaProcessor.mediaSessions[sessionId])
-        let mediaSessionSpy = MediaSessionSpy(id: sessionId, trackerSessionId: Self.trackerSessionId, state: MediaState(), dispatchQueue: DispatchQueue(label: "testMediaEventProcessor"), dispatcher: nil)
+        let mediaSessionSpy = MediaSessionSpy(id: sessionId, state: MediaState(), dispatcher: nil)
         mediaProcessor.mediaSessions[sessionId] = mediaSessionSpy
         mediaProcessor.endSession(sessionId: sessionId)
         Thread.sleep(forTimeInterval: 0.25)
@@ -104,7 +95,7 @@ class MediaEventProcessorTests: XCTestCase {
     func testEndSession_invalidSessionId() {
         // setup
         let mediaProcessor = MediaEventProcessor(dispatcher: nil)
-        let mediaSessionSpy = MediaSessionSpy(id: "SessionID-1", trackerSessionId: Self.trackerSessionId, state: MediaState(), dispatchQueue: DispatchQueue(label: "testMediaEventProcessor"), dispatcher: nil)
+        let mediaSessionSpy = MediaSessionSpy(id: "SessionID-1", state: MediaState(), dispatcher: nil)
 
         // test
         mediaProcessor.endSession(sessionId: "InvalidSessionID")
@@ -122,14 +113,8 @@ class MediaEventProcessorTests: XCTestCase {
 
         // test
         let mediaProcessor = MediaEventProcessor(dispatcher: nil)
-        guard let sessionId1 = mediaProcessor.createSession(trackerConfig: emptytrackerConfig, trackerSessionId: Self.trackerSessionId) else {
-            XCTFail("Could not create session id")
-            return
-        }
-        guard let sessionId2 = mediaProcessor.createSession(trackerConfig: emptytrackerConfig, trackerSessionId: Self.trackerSessionId) else {
-            XCTFail("Could not create session id")
-            return
-        }
+        let sessionId1 = mediaProcessor.createSession()
+        let sessionId2 = mediaProcessor.createSession()
 
         // Assert
         XCTAssertNotNil(sessionId1)
@@ -139,8 +124,8 @@ class MediaEventProcessorTests: XCTestCase {
         XCTAssertNotNil(mediaProcessor.mediaSessions[sessionId1])
         XCTAssertNotNil(mediaProcessor.mediaSessions[sessionId2])
 
-        let mediaSessionSpy1 = MediaSessionSpy(id: sessionId1, trackerSessionId: Self.trackerSessionId, state: MediaState(), dispatchQueue: DispatchQueue(label: "testMediaEventProcessor"), dispatcher: nil)
-        let mediaSessionSpy2 = MediaSessionSpy(id: sessionId2, trackerSessionId: Self.trackerSessionId, state: MediaState(), dispatchQueue: DispatchQueue(label: "testMediaEventProcessor"), dispatcher: nil)
+        let mediaSessionSpy1 = MediaSessionSpy(id: sessionId1, state: MediaState(), dispatcher: nil)
+        let mediaSessionSpy2 = MediaSessionSpy(id: sessionId2, state: MediaState(), dispatcher: nil)
         mediaProcessor.mediaSessions[sessionId1] = mediaSessionSpy1
         mediaProcessor.mediaSessions[sessionId2] = mediaSessionSpy2
 
@@ -159,8 +144,8 @@ class MediaEventProcessorTests: XCTestCase {
         // setup
         let mediaProcessor = MediaEventProcessor(dispatcher: nil)
 
-        let mediaSessionSpy1 = MediaSessionSpy(id: "sessionId1", trackerSessionId: Self.trackerSessionId, state: MediaState(), dispatchQueue: DispatchQueue(label: "testMediaEventProcessor"), dispatcher: nil)
-        let mediaSessionSpy2 = MediaSessionSpy(id: "SessionId2", trackerSessionId: Self.trackerSessionId, state: MediaState(), dispatchQueue: DispatchQueue(label: "testMediaEventProcessor"), dispatcher: nil)
+        let mediaSessionSpy1 = MediaSessionSpy(id: "sessionId1", state: MediaState(), dispatcher: nil)
+        let mediaSessionSpy2 = MediaSessionSpy(id: "SessionId2", state: MediaState(), dispatcher: nil)
 
         mediaProcessor.mediaSessions["sessionId2"] = mediaSessionSpy2
 
@@ -180,17 +165,14 @@ class MediaEventProcessorTests: XCTestCase {
 
         // test
         let mediaProcessor = MediaEventProcessor(dispatcher: nil)
-        guard let sessionId = mediaProcessor.createSession(trackerConfig: emptytrackerConfig, trackerSessionId: Self.trackerSessionId) else {
-            XCTFail("Could not create session id")
-            return
-        }
+        let sessionId = mediaProcessor.createSession()
 
         // Assert
         XCTAssertNotNil(sessionId)
         XCTAssertTrue(mediaProcessor.mediaSessions.keys.contains(sessionId))
         XCTAssertNotNil(mediaProcessor.mediaSessions[sessionId])
 
-        let mediaSessionSpy = MediaSessionSpy(id: sessionId, trackerSessionId: Self.trackerSessionId, state: MediaState(), dispatchQueue: DispatchQueue(label: "testMediaEventProcessor"), dispatcher: nil)
+        let mediaSessionSpy = MediaSessionSpy(id: sessionId, state: MediaState(), dispatcher: nil)
         mediaProcessor.mediaSessions[sessionId] = mediaSessionSpy
         mediaProcessor.notifyBackendSessionId(requestEventId: "testRequestEventId", backendSessionId: "testSessionId")
         Thread.sleep(forTimeInterval: 0.25)
@@ -207,17 +189,14 @@ class MediaEventProcessorTests: XCTestCase {
 
         // test
         let mediaProcessor = MediaEventProcessor(dispatcher: nil)
-        guard let sessionId = mediaProcessor.createSession(trackerConfig: emptytrackerConfig, trackerSessionId: Self.trackerSessionId) else {
-            XCTFail("Could not create session id")
-            return
-        }
+        let sessionId = mediaProcessor.createSession()
 
         // Assert
         XCTAssertNotNil(sessionId)
         XCTAssertTrue(mediaProcessor.mediaSessions.keys.contains(sessionId))
         XCTAssertNotNil(mediaProcessor.mediaSessions[sessionId])
 
-        let mediaSessionSpy = MediaSessionSpy(id: sessionId, trackerSessionId: Self.trackerSessionId, state: MediaState(), dispatchQueue: DispatchQueue(label: "testMediaEventProcessor"), dispatcher: nil)
+        let mediaSessionSpy = MediaSessionSpy(id: sessionId, state: MediaState(), dispatcher: nil)
         mediaProcessor.mediaSessions[sessionId] = mediaSessionSpy
         mediaProcessor.notifyErrorResponse(requestEventId: "testRequestEventId", data: ["error1": "errorMsg"])
         Thread.sleep(forTimeInterval: 0.25)
