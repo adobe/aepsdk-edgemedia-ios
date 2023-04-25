@@ -9,40 +9,40 @@ project 'AEPEdgeMedia.xcodeproj'
 pod 'SwiftLint', '0.44.0'
 
 target 'AEPEdgeMedia' do
-  pod 'AEPCore'
-  pod 'AEPServices'
+  pod 'AEPCore', :git => 'https://github.com/adobe/aepsdk-core-ios.git', :branch => 'dev-v3.9.0'
+  pod 'AEPServices', :git => 'https://github.com/adobe/aepsdk-core-ios.git', :branch => 'dev-v3.9.0'
 end
 
 target 'UnitTests' do
-  pod 'AEPCore'
-  pod 'AEPServices'
+  pod 'AEPCore', :git => 'https://github.com/adobe/aepsdk-core-ios.git', :branch => 'dev-v3.9.0'
+  pod 'AEPServices', :git => 'https://github.com/adobe/aepsdk-core-ios.git', :branch => 'dev-v3.9.0'
 end
 
 target 'FunctionalTests' do
-  pod 'AEPCore'
-  pod 'AEPServices'
+  pod 'AEPCore', :git => 'https://github.com/adobe/aepsdk-core-ios.git', :branch => 'dev-v3.9.0'
+  pod 'AEPServices', :git => 'https://github.com/adobe/aepsdk-core-ios.git', :branch => 'dev-v3.9.0'
 end
 
 target 'IntegrationTests' do
-  pod 'AEPCore'
-  pod 'AEPServices'
+  pod 'AEPCore', :git => 'https://github.com/adobe/aepsdk-core-ios.git', :branch => 'dev-v3.9.0'
+  pod 'AEPServices', :git => 'https://github.com/adobe/aepsdk-core-ios.git', :branch => 'dev-v3.9.0'
   pod 'AEPEdge'
   pod 'AEPEdgeIdentity'
 end
 
 target 'TestAppiOS' do
-  pod 'AEPCore'
+  pod 'AEPCore', :git => 'https://github.com/adobe/aepsdk-core-ios.git', :branch => 'dev-v3.9.0'
   pod 'AEPEdge'
   pod 'AEPEdgeIdentity'
   pod 'AEPAssurance'
-  pod 'AEPServices'
+  pod 'AEPServices', :git => 'https://github.com/adobe/aepsdk-core-ios.git', :branch => 'dev-v3.9.0'
 end
 
 target 'TestApptvOS' do
-  pod 'AEPCore'
+  pod 'AEPCore', :git => 'https://github.com/adobe/aepsdk-core-ios.git', :branch => 'dev-v3.9.0'
   pod 'AEPEdge'
   pod 'AEPEdgeIdentity'
-  pod 'AEPServices'
+  pod 'AEPServices', :git => 'https://github.com/adobe/aepsdk-core-ios.git', :branch => 'dev-v3.9.0'
 end
 
 post_install do |pi|

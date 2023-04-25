@@ -100,7 +100,7 @@ class MediaEventTrackerTests: XCTestCase {
         eventData?.removeValue(forKey: MediaConstants.Tracker.EVENT_NAME)
 
         let event = Event(name: "",
-                          type: MediaConstants.Media.EVENT_TYPE,
+                          type: EventType.edgeMedia,
                           source: MediaConstants.Media.EVENT_NAME_TRACK_MEDIA,
                           data: eventData)
         XCTAssertFalse(mediaTracker.track(event: event))
@@ -113,7 +113,7 @@ class MediaEventTrackerTests: XCTestCase {
         eventData?[MediaConstants.Tracker.EVENT_NAME] = "incorrect"
 
         let event = Event(name: "",
-                          type: MediaConstants.Media.EVENT_TYPE,
+                          type: EventType.edgeMedia,
                           source: MediaConstants.Media.EVENT_NAME_TRACK_MEDIA,
                           data: eventData)
         XCTAssertFalse(mediaTracker.track(event: event))
@@ -126,7 +126,7 @@ class MediaEventTrackerTests: XCTestCase {
         eventData?.removeValue(forKey: MediaConstants.Tracker.EVENT_TIMESTAMP)
 
         let event = Event(name: "",
-                          type: MediaConstants.Media.EVENT_TYPE,
+                          type: EventType.edgeMedia,
                           source: MediaConstants.Media.EVENT_NAME_TRACK_MEDIA,
                           data: eventData)
         XCTAssertFalse(mediaTracker.track(event: event))

@@ -46,8 +46,8 @@ class MediaPublicTracker: MediaTracker {
             MediaConstants.Tracker.EVENT_PARAM: self.config ?? [:]
         ]
         let event = Event(name: MediaConstants.Media.EVENT_NAME_CREATE_TRACKER,
-                          type: MediaConstants.Media.EVENT_TYPE,
-                          source: MediaConstants.Media.EVENT_SOURCE_CREATE_TRACKER,
+                          type: EventType.edgeMedia,
+                          source: EventSource.createTracker,
                           data: eventData)
 
         dispatch?(event)
@@ -143,7 +143,7 @@ class MediaPublicTracker: MediaTracker {
         let ts = getCurrentTimeStamp()
         eventData[MediaConstants.Tracker.EVENT_TIMESTAMP] = ts
 
-        let event = Event(name: MediaConstants.Media.EVENT_NAME_TRACK_MEDIA, type: MediaConstants.Media.EVENT_TYPE, source: MediaConstants.Media.EVENT_SOURCE_TRACK_MEDIA, data: eventData)
+        let event = Event(name: MediaConstants.Media.EVENT_NAME_TRACK_MEDIA, type: EventType.edgeMedia, source: EventSource.trackMedia, data: eventData)
 
         dispatch?(event)
 

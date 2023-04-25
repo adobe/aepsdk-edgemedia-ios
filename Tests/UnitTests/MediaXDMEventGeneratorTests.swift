@@ -24,8 +24,8 @@ class MediaXDMEventGeneratorTests: XCTestCase {
     private var mockPlayhead = Int64(0)
     static let trackerSessionId = "clientSessionId"
     static let refEvent = Event(name: MediaConstants.Media.EVENT_NAME_TRACK_MEDIA,
-                                type: MediaConstants.Media.EVENT_TYPE,
-                                source: MediaConstants.Media.EVENT_SOURCE_TRACK_MEDIA,
+                                type: EventType.edgeMedia,
+                                source: EventSource.trackMedia,
                                 data: [MediaConstants.Tracker.SESSION_ID: trackerSessionId])
 
     override func setUp() {
