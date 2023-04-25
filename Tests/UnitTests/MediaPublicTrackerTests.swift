@@ -92,8 +92,8 @@ class MediaPublicTrackerTests: XCTestCase {
             return
         }
 
-        XCTAssertEqual(event.source, MediaConstants.Media.EVENT_SOURCE_TRACK_MEDIA)
-        XCTAssertEqual(event.type, MediaConstants.Media.EVENT_TYPE)
+        XCTAssertEqual(event.source, EventSource.trackMedia)
+        XCTAssertEqual(event.type, EventType.edgeMedia)
 
         let actualEventName = event.data?[MediaConstants.Tracker.EVENT_NAME] as? String ?? ""
         XCTAssertEqual(actualEventName, expectedEventName)
@@ -124,8 +124,8 @@ class MediaPublicTrackerTests: XCTestCase {
             capturedEvent = event
         }, config: nil)
 
-        XCTAssertEqual(MediaConstants.Media.EVENT_SOURCE_CREATE_TRACKER, capturedEvent?.source)
-        XCTAssertEqual(MediaConstants.Media.EVENT_TYPE, capturedEvent?.type)
+        XCTAssertEqual(EventSource.createTracker, capturedEvent?.source)
+        XCTAssertEqual(EventType.edgeMedia, capturedEvent?.type)
 
         let data = capturedEvent?.data
         XCTAssertFalse((data?[MediaConstants.Tracker.ID] as? String ?? "").isEmpty)
@@ -140,8 +140,8 @@ class MediaPublicTrackerTests: XCTestCase {
             capturedEvent = event
         }, config: Self.testConfig)
 
-        XCTAssertEqual(MediaConstants.Media.EVENT_SOURCE_CREATE_TRACKER, capturedEvent?.source)
-        XCTAssertEqual(MediaConstants.Media.EVENT_TYPE, capturedEvent?.type)
+        XCTAssertEqual(EventSource.createTracker, capturedEvent?.source)
+        XCTAssertEqual(EventType.edgeMedia, capturedEvent?.type)
 
         let data = capturedEvent?.data
         XCTAssertFalse((data?[MediaConstants.Tracker.ID] as? String ?? "").isEmpty)
@@ -160,8 +160,8 @@ class MediaPublicTrackerTests: XCTestCase {
             capturedEvent = event
         }, config: Self.testConfig)
 
-        XCTAssertEqual(MediaConstants.Media.EVENT_SOURCE_CREATE_TRACKER, capturedEvent?.source)
-        XCTAssertEqual(MediaConstants.Media.EVENT_TYPE, capturedEvent?.type)
+        XCTAssertEqual(EventSource.createTracker, capturedEvent?.source)
+        XCTAssertEqual(EventType.edgeMedia, capturedEvent?.type)
 
         let trackerId = capturedEvent?.trackerId
         XCTAssertFalse((trackerId ?? "").isEmpty)
