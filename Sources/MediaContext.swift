@@ -41,7 +41,7 @@ class MediaContext {
 
     private(set) var errorInfo: [String: String]?
 
-    var playhead = 0.0
+    var playhead = 0
     var qoeInfo: QoEInfo?
 
     init(mediaInfo: MediaInfo, metadata: [String: String]?) {

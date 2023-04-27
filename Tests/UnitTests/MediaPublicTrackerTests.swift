@@ -85,7 +85,7 @@ class MediaPublicTrackerTests: XCTestCase {
         return true
     }
 
-    func assertTrackEvent(event: Event?, expectedEventName: String, expectedParam: [String: Any] = [:], expectedMetadata: [String: Any] = [:], expectedTimestamp: Int64 = 0, expectedEventInternal: Bool = false) {
+    func assertTrackEvent(event: Event?, expectedEventName: String, expectedParam: [String: Any] = [:], expectedMetadata: [String: Any] = [:], expectedTimestamp: Int = 0, expectedEventInternal: Bool = false) {
 
         guard let event = event else {
             XCTFail("Event cannot be null!")
@@ -104,7 +104,7 @@ class MediaPublicTrackerTests: XCTestCase {
         let actualMetadata = event.data?[MediaConstants.Tracker.EVENT_METADATA] as? [String: Any] ?? [:]
         XCTAssertTrue(isEqual(map1: actualMetadata, map2: expectedMetadata))
 
-        let actualTimestamp = event.data?[MediaConstants.Tracker.EVENT_TIMESTAMP] as? Int64 ?? 0
+        let actualTimestamp = event.data?[MediaConstants.Tracker.EVENT_TIMESTAMP] as? Int ?? -1
         XCTAssertEqual(actualTimestamp, expectedTimestamp)
 
         let actualEventInternal = event.data?[MediaConstants.Tracker.EVENT_INTERNAL] as? Bool ?? false
@@ -238,10 +238,10 @@ class MediaPublicTrackerTests: XCTestCase {
 
     func test_updateCurrentPlayhead() {
         let tracker = MediaEventGenerator()
-        tracker.updateCurrentPlayhead(time: 1.23)
+        tracker.updateCurrentPlayhead(time: 1)
 
         assertTrackEvent(event: tracker.dispatchedEvent, expectedEventName: MediaConstants.EventName.PLAYHEAD_UPDATE, expectedParam: [
-            MediaConstants.Tracker.PLAYHEAD: 1.23
+            MediaConstants.Tracker.PLAYHEAD: 1
         ])
     }
 

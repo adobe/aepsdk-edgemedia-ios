@@ -129,11 +129,11 @@ class MediaEventTracker: MediaEventTracking {
     private var mediaIdle = false
     private var prerollQueuedRules: [(name: RuleName, context: [String: Any])] = []
     private var contentStarted = false
-    private static let INVALID_TS: Int64 = -1
-    private var prerollRefTS: Int64 = INVALID_TS
-    private var contentStartRefTS: Int64 = INVALID_TS
-    private var mediaSessionStartTS: Int64 = INVALID_TS
-    private var mediaIdleStartTS: Int64 = INVALID_TS
+    private static let INVALID_TS: Int = -1
+    private var prerollRefTS: Int = INVALID_TS
+    private var contentStartRefTS: Int = INVALID_TS
+    private var mediaSessionStartTS: Int = INVALID_TS
+    private var mediaIdleStartTS: Int = INVALID_TS
     private let ruleEngine: MediaRuleEngine
 
     init(eventProcessor: MediaEventProcessing, config: [String: Any]) {
@@ -966,20 +966,20 @@ class MediaEventTracker: MediaEventTracking {
         return errorId
     }
 
-    func getPlayhead(context: [String: Any]) -> Double? {
+    func getPlayhead(context: [String: Any]) -> Int? {
         guard let playheadInfo = context[Self.KEY_INFO] as? [String: Any] else {
             return nil
         }
 
-        guard let playhead = playheadInfo[MediaConstants.Tracker.PLAYHEAD] as? Double else {
+        guard let playhead = playheadInfo[MediaConstants.Tracker.PLAYHEAD] as? Int else {
             return nil
         }
 
         return playhead
     }
 
-    func getRefTS(context: [String: Any]) -> Int64 {
-        guard let ts = context[Self.KEY_EVENT_TS] as? Int64 else {
+    func getRefTS(context: [String: Any]) -> Int {
+        guard let ts = context[Self.KEY_EVENT_TS] as? Int else {
             return 0
         }
 

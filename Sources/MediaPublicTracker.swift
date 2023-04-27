@@ -22,7 +22,7 @@ class MediaPublicTracker: MediaTracker {
     typealias DispatchFn = (Event) -> Void
 
     let TICK_INTERVAL = TimeInterval(0.75)
-    let EVENT_TIMEOUT_MS: Int64 = 500
+    let EVENT_TIMEOUT_MS: Int = 500
     private let dispatchQueue: DispatchQueue = DispatchQueue(label: LOG_TAG)
 
     var dispatch: DispatchFn?
@@ -30,7 +30,7 @@ class MediaPublicTracker: MediaTracker {
     let trackerId: String
     var sessionId: String
     var inSession = true
-    var lastEventTs: Int64 = 0
+    var lastEventTs: Int = 0
     var lastPlayheadParams: [String: Any]?
     var timer: Timer?
 
@@ -102,7 +102,7 @@ class MediaPublicTracker: MediaTracker {
         }
     }
 
-    public func updateCurrentPlayhead(time: Double) {
+    public func updateCurrentPlayhead(time: Int) {
         dispatchQueue.async {
             let params: [String: Any] = [MediaConstants.Tracker.PLAYHEAD: time]
             self.trackInternal(eventName: MediaConstants.EventName.PLAYHEAD_UPDATE, params: params)
@@ -182,14 +182,14 @@ class MediaPublicTracker: MediaTracker {
         timer = nil
     }
 
-    func getCurrentTimeStamp() -> Int64 {
+    func getCurrentTimeStamp() -> Int {
         return Date().millisecondsSince1970
     }
 }
 
 private extension Date {
-    var millisecondsSince1970: Int64 {
-        return Int64((timeIntervalSince1970 * 1000.0).rounded())
+    var millisecondsSince1970: Int {
+        return Int((timeIntervalSince1970 * 1000.0).rounded())
     }
 
 }

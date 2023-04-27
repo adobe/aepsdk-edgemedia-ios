@@ -20,8 +20,8 @@ class MediaXDMEventGeneratorTests: XCTestCase {
     private var eventProcessor: FakeMediaEventProcessor!
     private var eventGenerator: MediaXDMEventGenerator!
 
-    private var mockTimestamp = Int64(0)
-    private var mockPlayhead = Int64(0)
+    private var mockTimestamp = 0
+    private var mockPlayhead = 0
     static let trackerSessionId = "clientSessionId"
     static let refEvent = Event(name: MediaConstants.Media.EVENT_NAME_TRACK_MEDIA,
                                 type: EventType.edgeMedia,
@@ -295,7 +295,7 @@ class MediaXDMEventGeneratorTests: XCTestCase {
 
     func testProcessBitrateChange() {
         // setup
-        let qoeInfo = QoEInfo(bitrate: 123.4, droppedFrames: 10, fps: 120, startupTime: 1)
+        let qoeInfo = QoEInfo(bitrate: 123, droppedFrames: 10, fps: 120, startupTime: 1)
         mediaContext.qoeInfo = qoeInfo
 
         let qoeDetails = MediaXDMEventHelper.generateQoEDataDetails(qoeInfo: qoeInfo)
@@ -452,7 +452,7 @@ class MediaXDMEventGeneratorTests: XCTestCase {
     }
 
     func testCustomMainPingInterval_validRange_sendsPingWithCustomValue() {
-        let validIntervals: [Int64] = [10, 11, 22, 33, 44, 50]
+        let validIntervals: [Int] = [10, 11, 22, 33, 44, 50]
 
         for interval in validIntervals {
             // setup
@@ -466,7 +466,7 @@ class MediaXDMEventGeneratorTests: XCTestCase {
 
             // verify
             let generatedEvent = eventProcessor.getEventFromActiveSession(index: 0)
-            let result = verifyPing(event: generatedEvent, expectedTS: getDate((interval)), expectedPlayhead: (interval))
+            let result = verifyPing(event: generatedEvent, expectedTS: getDate((interval)), expectedPlayhead: interval)
             XCTAssertTrue(result.success, result.errors)
         }
     }
@@ -498,7 +498,7 @@ class MediaXDMEventGeneratorTests: XCTestCase {
             let intervalMS = interval * 1000
             let trackerConfig = [MediaConstants.TrackerConfig.AD_PING_INTERVAL: interval]
             createXDMEventGeneratorWith(trackerConfig)
-            updateTs(interval: Int64(intervalMS), reset: true)
+            updateTs(interval: intervalMS, reset: true)
             // mock adStart
             mediaContext.setAdInfo(AdInfo(id: "testId", name: "name", position: 1, length: 10)!, metadata: [:])
 
@@ -507,7 +507,7 @@ class MediaXDMEventGeneratorTests: XCTestCase {
 
             // verify
             let generatedEvent = eventProcessor.getEventFromActiveSession(index: 0)
-            let result = verifyPing(event: generatedEvent, expectedTS: getDate(Int64(interval)), expectedPlayhead: Int64(interval))
+            let result = verifyPing(event: generatedEvent, expectedTS: getDate(interval), expectedPlayhead: interval)
             XCTAssertTrue(result.success, result.errors)
         }
     }
@@ -603,24 +603,24 @@ class MediaXDMEventGeneratorTests: XCTestCase {
         // verify reporting interval for main content is 21 seconds
         let mainPingEvent1 = eventProcessor.getEventFromActiveSession(index: 0)
         var intervalMS = (21 * 1000)
-        let result1 = verifyPing(event: mainPingEvent1, expectedTS: getDate(Int64(intervalMS / 1000)), expectedPlayhead: Int64((intervalMS / 1000)))
+        let result1 = verifyPing(event: mainPingEvent1, expectedTS: getDate(intervalMS / 1000), expectedPlayhead: (intervalMS / 1000))
         XCTAssertTrue(result1.success, result1.errors)
 
         // verify reporting interval for ad content is 10 seconds
         let adPingEvent1 = eventProcessor.getEventFromActiveSession(index: 1)
         intervalMS += Int(MediaConstants.PingInterval.REALTIME_TRACKING_MS)
-        let result2 = verifyPing(event: adPingEvent1, expectedTS: getDate(Int64(intervalMS / 1000)), expectedPlayhead: Int64((intervalMS / 1000)))
+        let result2 = verifyPing(event: adPingEvent1, expectedTS: getDate(intervalMS / 1000), expectedPlayhead: (intervalMS / 1000))
         XCTAssertTrue(result2.success, result2.errors)
 
         // verify reporting interval for main content is 21 seconds
         let mainPingEvent2 = eventProcessor.getEventFromActiveSession(index: 2)
         intervalMS += (21 * 1000)
-        let result3 = verifyPing(event: mainPingEvent2, expectedTS: getDate(Int64((intervalMS / 1000))), expectedPlayhead: Int64((intervalMS / 1000)))
+        let result3 = verifyPing(event: mainPingEvent2, expectedTS: getDate((intervalMS / 1000)), expectedPlayhead: (intervalMS / 1000))
         XCTAssertTrue(result3.success, result3.errors)
     }
 
     // Utils
-    private func verifyPing(event: MediaXDMEvent?, expectedTS: Date, expectedPlayhead: Int64) -> (success: Bool, errors: String) {
+    private func verifyPing(event: MediaXDMEvent?, expectedTS: Date, expectedPlayhead: Int) -> (success: Bool, errors: String) {
         var errorString = ""
         guard let event = event else {
             return (success: false, "Event should not be null")
@@ -647,11 +647,11 @@ class MediaXDMEventGeneratorTests: XCTestCase {
         eventGenerator = MediaXDMEventGenerator(context: mediaContext, eventProcessor: eventProcessor, config: trackerConfig, refEvent: Self.refEvent, refTS: mockTimestamp)
     }
 
-    private func getDate(_ ts: Int64) -> Date {
+    private func getDate(_ ts: Int) -> Date {
         return Date(timeIntervalSince1970: Double(ts))
     }
 
-    private func updateTs(interval: Int64, updatePlayhead: Bool = true, reset: Bool = false) {
+    private func updateTs(interval: Int, updatePlayhead: Bool = true, reset: Bool = false) {
         if reset {
             mockPlayhead = 0
             mockTimestamp = 0
@@ -659,17 +659,17 @@ class MediaXDMEventGeneratorTests: XCTestCase {
         mockTimestamp += interval
         if updatePlayhead {
             mockPlayhead += (interval / 1000)
-            mediaContext.playhead = Double(mockPlayhead)
+            mediaContext.playhead = mockPlayhead
         }
         eventGenerator.setRefTS(ts: mockTimestamp)
     }
 
-    private func getPlayhead() -> Int64 {
-        return Int64(mediaContext.playhead)
+    private func getPlayhead() -> Int {
+        return mediaContext.playhead
     }
 
-    private func setPlayhead(value: Int64) {
-        mediaContext.playhead = Double(value)
+    private func setPlayhead(value: Int) {
+        mediaContext.playhead = value
     }
 
     private func getDateFormattedTimestampFor(_ value: Int64) -> Date {

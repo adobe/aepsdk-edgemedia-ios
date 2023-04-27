@@ -25,7 +25,7 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
                                  "edgemedia.playerName": "testPlayerName"
     ]
 
-    let mediaInfo = Media.createMediaObjectWith(name: "testName", id: "testId", length: 30.0, streamType: "VOD", mediaType: MediaType.Video)!
+    let mediaInfo = Media.createMediaObjectWith(name: "testName", id: "testId", length: 30, streamType: "VOD", mediaType: MediaType.Video)!
     let adBreakInfo = Media.createAdBreakObjectWith(name: "testName", position: 1, startTime: 1)!
     let adInfo = Media.createAdObjectWith(name: "testName", id: "testId", position: 1, length: 15)!
     let chapterInfo = Media.createChapterObjectWith(name: "testName", position: 1, length: 30, startTime: 2)!
@@ -365,7 +365,7 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
 
     // Test Assert Utils
 
-    func assertXDMData(networkRequest: NetworkRequest, eventType: String, info: [String: Any] = [:], metadata: [String: String] = [:], configuration: [String: Any] = [:], backendSessionId: String? = nil, qoeInfo: [String: Any]? = nil, playhead: Int64? = nil, stateStart: Bool = true) {
+    func assertXDMData(networkRequest: NetworkRequest, eventType: String, info: [String: Any] = [:], metadata: [String: String] = [:], configuration: [String: Any] = [:], backendSessionId: String? = nil, qoeInfo: [String: Any]? = nil, playhead: Int? = nil, stateStart: Bool = true) {
         let expectedMediaCollectionData = EdgeEventHelper.generateMediaCollection(eventType: XDMMediaEventType(rawValue: eventType) ?? XDMMediaEventType.sessionEnd,
                                                                                   playhead: playhead ?? 0,
                                                                                   backendSessionId: testBackendSessionId,

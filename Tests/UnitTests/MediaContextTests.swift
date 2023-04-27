@@ -15,12 +15,12 @@ import AEPCore
 import XCTest
 
 class MediaContextTests: XCTestCase {
-    let mediaInfo = MediaInfo(id: "mediaID", name: "mediaName", streamType: MediaConstants.StreamType.AOD, mediaType: MediaType.Audio, length: 30.0, prerollWaitingTime: 0)!
+    let mediaInfo = MediaInfo(id: "mediaID", name: "mediaName", streamType: MediaConstants.StreamType.AOD, mediaType: MediaType.Audio, length: 30, prerollWaitingTime: 0)!
     let mediaMetadata = ["media.show": "sampleshow", MediaConstants.AudioMetadataKeys.ARTIST: "sampleArtist", "key2": "мểŧẳđαţả"]
-    let adBreakInfo = AdBreakInfo(name: "adBreakName", position: 1, startTime: 1.1)!
-    let adInfo = AdInfo(id: "adID", name: "adName", position: 1, length: 15.0)!
+    let adBreakInfo = AdBreakInfo(name: "adBreakName", position: 1, startTime: 1)!
+    let adInfo = AdInfo(id: "adID", name: "adName", position: 1, length: 15)!
     let adMetadata = [MediaConstants.AdMetadataKeys.ADVERTISER: "sampleAdvertiser", "key1": "value1", "key2": "мểŧẳđαţả"]
-    let chapterInfo = ChapterInfo(name: "chapterName", position: 1, startTime: 1.1, length: 30)!
+    let chapterInfo = ChapterInfo(name: "chapterName", position: 1, startTime: 1, length: 30)!
     let chapterMetadata = ["media.artist": "sampleArtist", "key1": "value1", "key2": "мểŧẳđαţả"]
     var muteStateInfo = StateInfo(stateName: MediaConstants.PlayerState.MUTE)!
     var testStateInfo = StateInfo(stateName: "testStateName")!
@@ -33,7 +33,7 @@ class MediaContextTests: XCTestCase {
         XCTAssertEqual("mediaName", mediaContext.mediaInfo.name)
         XCTAssertEqual("aod", mediaContext.mediaInfo.streamType)
         XCTAssertEqual("audio", mediaContext.mediaInfo.mediaType.rawValue)
-        XCTAssertEqual(30.0, mediaContext.mediaInfo.length)
+        XCTAssertEqual(30, mediaContext.mediaInfo.length)
         XCTAssertEqual(0, mediaContext.mediaInfo.prerollWaitingTime)
         XCTAssertEqual(mediaMetadata, mediaContext.mediaMetadata)
         XCTAssertEqual(3, mediaContext.mediaMetadata.count)
@@ -72,7 +72,7 @@ class MediaContextTests: XCTestCase {
         XCTAssertNotNil(mediaContext.adBreakInfo)
         XCTAssertEqual("adBreakName", mediaContext.adBreakInfo?.name)
         XCTAssertEqual(1, mediaContext.adBreakInfo?.position)
-        XCTAssertEqual(1.1, mediaContext.adBreakInfo?.startTime)
+        XCTAssertEqual(1, mediaContext.adBreakInfo?.startTime)
     }
 
     func testClearAdbreakInfo_clearsAdbreakInfo() {
@@ -93,7 +93,7 @@ class MediaContextTests: XCTestCase {
         XCTAssertEqual("chapterName", mediaContext.chapterInfo?.name)
         XCTAssertEqual(1, mediaContext.chapterInfo?.position)
         XCTAssertEqual(30, mediaContext.chapterInfo?.length)
-        XCTAssertEqual(1.1, mediaContext.chapterInfo?.startTime)
+        XCTAssertEqual(1, mediaContext.chapterInfo?.startTime)
     }
 
     func testClearChapterInfo_clearsChapterInfo() {
