@@ -15,19 +15,19 @@ import AEPCore
 
 class SpecialAdPlayback: BaseScenarioTest {
 
-    let mediaInfoWithDefaultPreroll = MediaInfo(id: "mediaID", name: "mediaName", streamType: "aod", mediaType: MediaType.Audio, length: 30.0)!
+    let mediaInfoWithDefaultPreroll = MediaInfo(id: "mediaID", name: "mediaName", streamType: "aod", mediaType: MediaType.Audio, length: 30)!
     let mediaMetadata = ["media.show": "sampleshow", "key1": "value1", "key2": "мểŧẳđαţả"]
 
-    let adBreakInfo = AdBreakInfo(name: "adBreakName", position: 1, startTime: 1.1)!
-    let adBreakInfo2 = AdBreakInfo(name: "adBreakName2", position: 2, startTime: 2.2)!
+    let adBreakInfo = AdBreakInfo(name: "adBreakName", position: 1, startTime: 1)!
+    let adBreakInfo2 = AdBreakInfo(name: "adBreakName2", position: 2, startTime: 2)!
 
-    let adInfo = AdInfo(id: "adID", name: "adName", position: 1, length: 15.0)!
+    let adInfo = AdInfo(id: "adID", name: "adName", position: 1, length: 15)!
     let adMetadata = ["media.ad.advertiser": "sampleAdvertiser", "key1": "value1", "key2": "мểŧẳđαţả"]
 
-    let adInfo2 = AdInfo(id: "adID2", name: "adName2", position: 2, length: 20.0)!
+    let adInfo2 = AdInfo(id: "adID2", name: "adName2", position: 2, length: 20)!
     let adMetadata2 = ["media.ad.advertiser": "sampleAdvertiser2", "key2": "value2", "key3": "мểŧẳđαţả"]
 
-    let chapterInfo = ChapterInfo(name: "chapterName", position: 1, startTime: 1.1, length: 30)!
+    let chapterInfo = ChapterInfo(name: "chapterName", position: 1, startTime: 1, length: 30)!
     let chapterMetadata = ["media.artist": "sampleArtist", "key1": "value1", "key2": "мểŧẳđαţả"]
 
     var mediaSharedState: [String: Any] = ["edgemedia.channel": "test_channel", "edgemedia.playerName": "test_playerName", "edgemedia.appVersion": "test_appVersion"]

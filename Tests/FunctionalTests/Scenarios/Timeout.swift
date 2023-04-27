@@ -16,7 +16,7 @@ import AEPCore
 class Timeout: BaseScenarioTest {
 
     let standardStateCC = StateInfo(stateName: MediaConstants.PlayerState.CLOSED_CAPTION)!
-    let mediaInfoWithDefaultPreroll = MediaInfo(id: "mediaID", name: "mediaName", streamType: "vod", mediaType: MediaType.Video, length: 30.0)!
+    let mediaInfoWithDefaultPreroll = MediaInfo(id: "mediaID", name: "mediaName", streamType: "vod", mediaType: MediaType.Video, length: 30)!
     let mediaMetadata = ["media.show": "sampleshow", "key1": "value1", "key2": "мểŧẳđαţả"]
     var mediaSharedState: [String: Any] = ["edgemedia.channel": "test_channel", "edgemedia.playerName": "test_playerName", "edgemedia.appVersion": "test_appVersion"]
 
@@ -64,7 +64,7 @@ class Timeout: BaseScenarioTest {
 
         var pingList = [Event]()
         for i in stride(from: 11, to: 86400, by: 10) {
-            pingList.append(EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.ping, playhead: Int64(i), ts: TimeInterval(i), backendSessionId: backendSessionId))
+            pingList.append(EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.ping, playhead: i, ts: TimeInterval(i), backendSessionId: backendSessionId))
         }
 
         expectedEvents.insert(contentsOf: pingList, at: expectedEvents.endIndex)

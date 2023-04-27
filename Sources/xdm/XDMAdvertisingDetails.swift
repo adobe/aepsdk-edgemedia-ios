@@ -15,9 +15,9 @@ import Foundation
 struct XDMAdvertisingDetails: Encodable {
     // Required fields sourced from public APIs
     let friendlyName: String
-    let length: Int64
+    let length: Int
     let name: String
-    let podPosition: Int64
+    let podPosition: Int
 
     // Required field sourced from media configuration
     // It is marked optional here to allow lazy initalization of the field
@@ -31,7 +31,7 @@ struct XDMAdvertisingDetails: Encodable {
     var placementID: String?
     var siteID: String?
 
-    init(name: String, friendlyName: String, length: Int64, podPosition: Int64) {
+    init(name: String, friendlyName: String, length: Int, podPosition: Int) {
         self.name = name
         self.friendlyName = friendlyName
         self.length = length
