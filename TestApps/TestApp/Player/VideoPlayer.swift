@@ -44,21 +44,21 @@ class VideoPlayer: AVPlayer {
     var _isInAd: Bool = false
     var _chapterPosition: Int?
 
-    let AD_START_POS: Double = 15
-    let AD_END_POS: Double = 30
-    let AD_LENGTH: Double = 15
+    let AD_START_POS: Int = 15
+    let AD_END_POS: Int = 30
+    let AD_LENGTH: Int = 15
 
-    let CHAPTER1_START_POS: Double = 0
-    let CHAPTER1_END_POS: Double = 15
-    let CHAPTER1_LENGTH: Double = 15
+    let CHAPTER1_START_POS: Int = 0
+    let CHAPTER1_END_POS: Int = 15
+    let CHAPTER1_LENGTH: Int = 15
 
-    let CHAPTER2_START_POS: Double = 30
-    let CHAPTER2_LENGTH: Double = 30
+    let CHAPTER2_START_POS: Int = 30
+    let CHAPTER2_LENGTH: Int = 30
 
-    let QOEINFO_BITRATRE: Double = 500000
-    let QOEINFO_STARTUPTIME: Double = 2
-    let QOEINFO_FPS: Double = 24
-    let QOEINFO_DROPPEDFRAMES: Double = 10
+    let QOEINFO_BITRATRE: Int = 500000
+    let QOEINFO_STARTUPTIME: Int = 2
+    let QOEINFO_FPS: Int = 24
+    let QOEINFO_DROPPEDFRAMES: Int = 10
     let VIDEO_NAME: String = "Adobe Analytics marketing video"
     let VIDEO_ID: String = "adobeanalytics"
 
@@ -99,10 +99,10 @@ class VideoPlayer: AVPlayer {
         player.play()
     }
 
-    func getCurrentPlaybackTime() -> TimeInterval {
+    func getCurrentPlaybackTime() -> Int {
         let time = player.currentTime().seconds
 
-        return time
+        return Int(time)
     }
 
     func duration() -> Double {
@@ -212,7 +212,7 @@ class VideoPlayer: AVPlayer {
         let videoLength = player.currentItem?.duration.seconds ?? 0
         // Prepare the video info.
         let videoInfo = ["id": VIDEO_ID,
-                         "length": videoLength,
+                         "length": Int(videoLength),
                          "name": VIDEO_NAME] as [String: Any]
 
         _videoLoaded = true
