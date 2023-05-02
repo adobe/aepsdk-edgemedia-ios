@@ -22,9 +22,9 @@ class  MediaXDMEventGenerator {
     private let refEvent: Event
     private var lastReportedQoe: XDMQoeDataDetails?
     private var isTracking: Bool = false
-    private var refTS: Int
+    private var refTS: TimeInterval
     private var currentPlaybackState: MediaContext.MediaPlaybackState?
-    private var currentPlaybackStateStartRefTS: Int
+    private var currentPlaybackStateStartRefTS: TimeInterval
     private let allowedAdPingIntervalRangeInSeconds = 1...10
     private let allowedMainPingIntervalRangeInSeconds = 10...50
 
@@ -37,7 +37,7 @@ class  MediaXDMEventGenerator {
     #endif
 
     /// Initializes the Media XDM Event Generator
-    public required init(context: MediaContext, eventProcessor: MediaEventProcessing, config: [String: Any], refEvent: Event, refTS: Int) {
+    public required init(context: MediaContext, eventProcessor: MediaEventProcessing, config: [String: Any], refEvent: Event, refTS: TimeInterval) {
         self.mediaContext = context
         self.mediaEventProcessor = eventProcessor
         self.trackerConfig = config
@@ -183,7 +183,7 @@ class  MediaXDMEventGenerator {
             addGenericDataAndProcess(eventType: eventType, mediaCollection: nil)
             currentPlaybackState = newPlaybackState
             currentPlaybackStateStartRefTS = refTS
-        } else if (newPlaybackState == currentPlaybackState) && (refTS - currentPlaybackStateStartRefTS >= reportingInterval) {
+        } else if (newPlaybackState == currentPlaybackState) && (Int(refTS - currentPlaybackStateStartRefTS) >= reportingInterval) {
             // If the ts difference is more than interval we need to send it as multiple pings
             addGenericDataAndProcess(eventType: XDMMediaEventType.ping, mediaCollection: nil)
             currentPlaybackStateStartRefTS = refTS
@@ -206,7 +206,7 @@ class  MediaXDMEventGenerator {
         addGenericDataAndProcess(eventType: XDMMediaEventType.statesUpdate, mediaCollection: mediaCollection)
     }
 
-    func setRefTS(ts: Int) {
+    func setRefTS(_ ts: TimeInterval) {
         refTS = ts
     }
 
@@ -243,7 +243,7 @@ class  MediaXDMEventGenerator {
         mediaCollection.playhead = mediaContext.playhead
 
         // Convert the refTS from milliseconds to seconds
-        let timestampAsDate = Date(timeIntervalSince1970: Double(refTS / 1000))
+        let timestampAsDate = Date(timeIntervalSince1970: refTS)
         let xdmEvent = MediaXDMEvent(eventType: eventType, timestamp: timestampAsDate, mediaCollection: mediaCollection)
 
         mediaEventProcessor.processEvent(sessionId: sessionId, event: xdmEvent)
@@ -308,17 +308,17 @@ class  MediaXDMEventGenerator {
     private func getReportingIntervalFromTrackerConfig(isAdStart: Bool = false) -> Int {
         if isAdStart {
             guard let customAdPingInterval = trackerConfig[MediaConstants.TrackerConfig.AD_PING_INTERVAL] as? Int, allowedAdPingIntervalRangeInSeconds.contains(customAdPingInterval) else {
-                return MediaConstants.PingInterval.REALTIME_TRACKING_MS
+                return MediaConstants.PingInterval.REALTIME_TRACKING_S
             }
 
-            return customAdPingInterval * 1000 // convert to Milliseconds
+            return customAdPingInterval
 
         } else {
             guard let customMainPingInterval = trackerConfig[MediaConstants.TrackerConfig.MAIN_PING_INTERVAL] as? Int, allowedMainPingIntervalRangeInSeconds.contains(customMainPingInterval) else {
-                return MediaConstants.PingInterval.REALTIME_TRACKING_MS
+                return MediaConstants.PingInterval.REALTIME_TRACKING_S
             }
 
-            return customMainPingInterval * 1000 // convert to Milliseconds
+            return customMainPingInterval
         }
     }
 }

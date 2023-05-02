@@ -969,7 +969,7 @@ class MediaEventTrackerTests: XCTestCase {
         eventGenerator.trackEvent(event: MediaEvent.SeekStart)
         XCTAssertTrue(handleTrackAPI())
 
-        eventGenerator.incrementTimeStamp(value: (31 * 60 * 1000))
+        eventGenerator.incrementTimeStamp(value: (31 * 60))
         eventGenerator.updateCurrentPlayhead(time: 1)
         XCTAssertTrue(handleTrackAPI())
 
@@ -1010,13 +1010,13 @@ class MediaEventTrackerTests: XCTestCase {
 
         XCTAssertTrue(mediaTracker.inPrerollInterval)
 
-        eventGenerator.incrementTimeStamp(value: 200)
+        eventGenerator.incrementTimeStamp(value: 0.2)
         eventGenerator.updateCurrentPlayhead(time: 0)
         XCTAssertTrue(handleTrackAPI())
 
         XCTAssertTrue(mediaTracker.inPrerollInterval)
 
-        eventGenerator.incrementTimeStamp(value: 200)
+        eventGenerator.incrementTimeStamp(value: 0.2)
         eventGenerator.updateCurrentPlayhead(time: 0)
         XCTAssertTrue(handleTrackAPI())
 
@@ -1029,13 +1029,13 @@ class MediaEventTrackerTests: XCTestCase {
 
         XCTAssertTrue(mediaTracker.inPrerollInterval)
 
-        eventGenerator.incrementTimeStamp(value: 2000)
+        eventGenerator.incrementTimeStamp(value: 2)
         eventGenerator.updateCurrentPlayhead(time: 2)
         XCTAssertTrue(handleTrackAPI())
 
         XCTAssertTrue(mediaTracker.inPrerollInterval)
 
-        eventGenerator.incrementTimeStamp(value: 3001)
+        eventGenerator.incrementTimeStamp(value: 3.001)
         eventGenerator.updateCurrentPlayhead(time: 5)
         XCTAssertTrue(handleTrackAPI())
 
@@ -1234,8 +1234,8 @@ class MediaEventTrackerTests: XCTestCase {
         context[Self.KEY_EVENT_TS] = ""
         XCTAssertEqual(0, mediaTracker.getRefTS(context: context))
 
-        context[Self.KEY_EVENT_TS] = 100
-        XCTAssertEqual(100, mediaTracker.getRefTS(context: context))
+        context[Self.KEY_EVENT_TS] = TimeInterval(100)
+        XCTAssertEqual(TimeInterval(100), mediaTracker.getRefTS(context: context))
     }
 
     func testHelperGetError() {

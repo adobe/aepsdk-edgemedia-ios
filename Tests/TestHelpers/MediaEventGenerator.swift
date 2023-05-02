@@ -17,14 +17,14 @@ import XCTest
 class MediaEventGenerator: MediaTracker {
 
     class MediaPublicTrackerMock: MediaPublicTracker {
-        var mockTimeStamp: Int = 0
+        var mockTimeStamp = TimeInterval(0)
         var mockCurrentPlayhead: Int = 0
 
         override init(dispatch: DispatchFn?, config: [String: Any]?) {
             super.init(dispatch: dispatch, config: config)
         }
 
-        override func getCurrentTimeStamp() -> Int {
+        override func getCurrentTimeStamp() -> TimeInterval {
             return mockTimeStamp
         }
 
@@ -107,15 +107,15 @@ class MediaEventGenerator: MediaTracker {
         coreEventTracker = tracker
     }
 
-    func getTimeStamp() -> Int {
+    func getTimeStamp() -> TimeInterval {
         return tracker.mockTimeStamp
     }
 
-    func setTimeStamp(value: Int) {
+    func setTimeStamp(value: TimeInterval) {
         tracker.mockTimeStamp = value
     }
 
-    func incrementTimeStamp(value: Int) {
+    func incrementTimeStamp(value: TimeInterval) {
         tracker.mockTimeStamp += value
     }
 

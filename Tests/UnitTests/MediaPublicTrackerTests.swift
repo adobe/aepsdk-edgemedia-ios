@@ -20,39 +20,39 @@ class MediaPublicTrackerTests: XCTestCase {
     static let validMediaInfo: [String: Any] = [
         MediaConstants.MediaInfo.ID: "testId",
         MediaConstants.MediaInfo.NAME: "testName",
-        MediaConstants.MediaInfo.LENGTH: 10.0,
+        MediaConstants.MediaInfo.LENGTH: 10,
         MediaConstants.MediaInfo.STREAM_TYPE: "aod",
         MediaConstants.MediaInfo.MEDIA_TYPE: "audio",
         MediaConstants.MediaInfo.RESUMED: true,
-        MediaConstants.MediaInfo.PREROLL_TRACKING_WAITING_TIME: 2000.0, // 2000 milliseconds
+        MediaConstants.MediaInfo.PREROLL_TRACKING_WAITING_TIME: 2000, // 2000 milliseconds
         MediaConstants.MediaInfo.GRANULAR_AD_TRACKING: true
     ]
 
     static let validQoeInfo: [String: Any] = [
-        MediaConstants.QoEInfo.BITRATE: 1.1,
-        MediaConstants.QoEInfo.DROPPED_FRAMES: 2.2,
-        MediaConstants.QoEInfo.FPS: 3.3,
-        MediaConstants.QoEInfo.STARTUP_TIME: 4.4
+        MediaConstants.QoEInfo.BITRATE: 1,
+        MediaConstants.QoEInfo.DROPPED_FRAMES: 2,
+        MediaConstants.QoEInfo.FPS: 3,
+        MediaConstants.QoEInfo.STARTUP_TIME: 4
     ]
 
     static let validAdBreakInfo: [String: Any] = [
         MediaConstants.AdBreakInfo.NAME: "testAdBreakName",
         MediaConstants.AdBreakInfo.POSITION: 2,
-        MediaConstants.AdBreakInfo.START_TIME: 1.1
+        MediaConstants.AdBreakInfo.START_TIME: 1
     ]
 
     static let validAdInfo: [String: Any] = [
         MediaConstants.AdInfo.ID: "testAdId",
         MediaConstants.AdInfo.NAME: "testAdName",
         MediaConstants.AdInfo.POSITION: 1,
-        MediaConstants.AdInfo.LENGTH: 16.0
+        MediaConstants.AdInfo.LENGTH: 16
     ]
 
     static let validChapterInfo: [String: Any] = [
         MediaConstants.ChapterInfo.NAME: "testChapterName",
         MediaConstants.ChapterInfo.POSITION: 1,
-        MediaConstants.ChapterInfo.START_TIME: 0.2,
-        MediaConstants.ChapterInfo.LENGTH: 30.0
+        MediaConstants.ChapterInfo.START_TIME: 0,
+        MediaConstants.ChapterInfo.LENGTH: 30
     ]
 
     static let validStateInfo: [String: Any] = [
@@ -85,7 +85,7 @@ class MediaPublicTrackerTests: XCTestCase {
         return true
     }
 
-    func assertTrackEvent(event: Event?, expectedEventName: String, expectedParam: [String: Any] = [:], expectedMetadata: [String: Any] = [:], expectedTimestamp: Int = 0, expectedEventInternal: Bool = false) {
+    func assertTrackEvent(event: Event?, expectedEventName: String, expectedParam: [String: Any] = [:], expectedMetadata: [String: Any] = [:], expectedTimestamp: TimeInterval = 0, expectedEventInternal: Bool = false) {
 
         guard let event = event else {
             XCTFail("Event cannot be null!")
@@ -104,7 +104,7 @@ class MediaPublicTrackerTests: XCTestCase {
         let actualMetadata = event.data?[MediaConstants.Tracker.EVENT_METADATA] as? [String: Any] ?? [:]
         XCTAssertTrue(isEqual(map1: actualMetadata, map2: expectedMetadata))
 
-        let actualTimestamp = event.data?[MediaConstants.Tracker.EVENT_TIMESTAMP] as? Int ?? -1
+        let actualTimestamp = event.data?[MediaConstants.Tracker.EVENT_TIMESTAMP] as? TimeInterval ?? TimeInterval(-1)
         XCTAssertEqual(actualTimestamp, expectedTimestamp)
 
         let actualEventInternal = event.data?[MediaConstants.Tracker.EVENT_INTERNAL] as? Bool ?? false

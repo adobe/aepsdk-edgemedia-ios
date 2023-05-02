@@ -44,8 +44,8 @@ extension Event {
         return data?[MediaConstants.Tracker.EVENT_NAME] as? String
     }
 
-    var eventTs: Int? {
-        return data?[MediaConstants.Tracker.EVENT_TIMESTAMP] as? Int
+    var eventTs: TimeInterval? {
+        return data?[MediaConstants.Tracker.EVENT_TIMESTAMP] as? TimeInterval
     }
 
     var requestEventId: String? {

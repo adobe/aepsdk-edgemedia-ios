@@ -127,7 +127,7 @@ class SpecialAdPlayback: BaseScenarioTest {
         incrementTrackerTime(seconds: 5, updatePlayhead: false)
         // seek out of ad into main content chapter
         mediaTracker.trackEvent(event: MediaEvent.SeekStart)
-        mediaTracker.incrementTimeStamp(value: 1000)
+        mediaTracker.incrementTimeStamp(value: 1)
         mediaTracker.incrementCurrentPlayhead(time: 5)
         mediaTracker.trackEvent(event: MediaEvent.SeekComplete)
         mediaTracker.trackEvent(event: MediaEvent.AdSkip) // seeking from ad to main section
@@ -137,7 +137,7 @@ class SpecialAdPlayback: BaseScenarioTest {
         incrementTrackerTime(seconds: 15, updatePlayhead: true)
         // seek out of chapter into Ad
         mediaTracker.trackEvent(event: MediaEvent.SeekStart)
-        mediaTracker.incrementTimeStamp(value: 1000)
+        mediaTracker.incrementTimeStamp(value: 1)
         mediaTracker.incrementCurrentPlayhead(time: 5)
         mediaTracker.trackEvent(event: MediaEvent.ChapterSkip) // Seeking from chapter to ad section
         mediaTracker.trackEvent(event: MediaEvent.SeekComplete)
