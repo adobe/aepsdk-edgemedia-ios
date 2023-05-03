@@ -183,7 +183,7 @@ class  MediaXDMEventGenerator {
             addGenericDataAndProcess(eventType: eventType, mediaCollection: nil)
             currentPlaybackState = newPlaybackState
             currentPlaybackStateStartRefTS = refTS
-        } else if (newPlaybackState == currentPlaybackState) && (Int(refTS - currentPlaybackStateStartRefTS) >= reportingInterval) {
+        } else if (newPlaybackState == currentPlaybackState) && ((refTS - currentPlaybackStateStartRefTS) >= reportingInterval) {
             // If the ts difference is more than interval we need to send it as multiple pings
             addGenericDataAndProcess(eventType: XDMMediaEventType.ping, mediaCollection: nil)
             currentPlaybackStateStartRefTS = refTS
@@ -304,21 +304,21 @@ class  MediaXDMEventGenerator {
 
     /// Gets the custom reporting interval set in the tracker configuration. Valid custom main ping interval range is (10 seconds - 50 seconds) and valid ad ping interval is (1 second - 10 seconds)
     /// - Parameter isAdStart: A Boolean  when true denotes reporting interval is needed for Ad content or denotes Main content when false.
-    /// - Return: the custom interval in `MILLISECONDS` if found in tracker configuration. Returns the default `MediaConstants.PingInterval.REALTIME_TRACKING` if the custom values are invalid or not found
-    private func getReportingIntervalFromTrackerConfig(isAdStart: Bool = false) -> Int {
+    /// - Return: the custom interval in `SECONDS` if found in tracker configuration. Returns the default `MediaConstants.PingInterval.REALTIME_TRACKING` if the custom values are invalid or not found
+    private func getReportingIntervalFromTrackerConfig(isAdStart: Bool = false) -> TimeInterval {
         if isAdStart {
             guard let customAdPingInterval = trackerConfig[MediaConstants.TrackerConfig.AD_PING_INTERVAL] as? Int, allowedAdPingIntervalRangeInSeconds.contains(customAdPingInterval) else {
-                return MediaConstants.PingInterval.REALTIME_TRACKING_S
+                return MediaConstants.PingInterval.REALTIME_TRACKING
             }
 
-            return customAdPingInterval
+            return TimeInterval(customAdPingInterval)
 
         } else {
             guard let customMainPingInterval = trackerConfig[MediaConstants.TrackerConfig.MAIN_PING_INTERVAL] as? Int, allowedMainPingIntervalRangeInSeconds.contains(customMainPingInterval) else {
-                return MediaConstants.PingInterval.REALTIME_TRACKING_S
+                return MediaConstants.PingInterval.REALTIME_TRACKING
             }
 
-            return customMainPingInterval
+            return TimeInterval(customMainPingInterval)
         }
     }
 }

@@ -109,9 +109,9 @@ class MediaEventTracker: MediaEventTracking {
 
     private static let LOG_TAG = MediaConstants.LOG_TAG
     private static let CLASS_NAME = "MediaEventTracker"
-    private static let IDLE_TIMEOUT_S: Int64 = 1800 // 30 min
-    private static let MEDIA_SESSION_TIMEOUT_S: Int64 = 86400 // 24 hours
-    private static let CONTENT_START_DURATION_S: Int64 = 1 // 1 sec
+    private static let IDLE_TIMEOUT = TimeInterval(1800) // 30 min
+    private static let MEDIA_SESSION_TIMEOUT = TimeInterval(86400) // 24 hours
+    private static let CONTENT_START_DURATION = TimeInterval(1) // 1 sec
 
     #if DEBUG
     var inPrerollInterval = false
@@ -782,9 +782,9 @@ class MediaEventTracker: MediaEventTracking {
             mediaSessionStartTS = refTS
         }
 
-        let mediaSessionLength = Int(refTS - mediaSessionStartTS)
+        let mediaSessionLength = refTS - mediaSessionStartTS
 
-        if !trackerIdle && (mediaSessionLength >= Self.MEDIA_SESSION_TIMEOUT_S) {
+        if !trackerIdle && (mediaSessionLength >= Self.MEDIA_SESSION_TIMEOUT) {
             xdmEventGenerator?.processSessionAbort()
             xdmEventGenerator?.processSessionRestart()
 
@@ -809,9 +809,9 @@ class MediaEventTracker: MediaEventTracking {
         if mediaContext.isIdle() {
             let refTS = getRefTS(context: context)
             if mediaIdle {
-                let idleTime = Int(refTS - mediaIdleStartTS)
+                let idleTime = refTS - mediaIdleStartTS
                 // Media was already idle during previous call
-                if !trackerIdle && idleTime >= Self.IDLE_TIMEOUT_S {
+                if !trackerIdle && idleTime >= Self.IDLE_TIMEOUT {
                     // Stop tracking if media has been idle for 30 mins
                     xdmEventGenerator?.processSessionAbort()
                     trackerIdle = true
@@ -863,8 +863,8 @@ class MediaEventTracker: MediaEventTracking {
             contentStartRefTS = refTS
         }
 
-        let timeSinceFirstPlay = Int(refTS - contentStartRefTS)
-        if timeSinceFirstPlay >= Self.CONTENT_START_DURATION_S {
+        let timeSinceFirstPlay = refTS - contentStartRefTS
+        if timeSinceFirstPlay >= Self.CONTENT_START_DURATION {
             xdmEventGenerator?.processPlayback(doFlush: true)
             contentStarted = true
         }
