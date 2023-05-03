@@ -56,7 +56,7 @@ class BaseScenarioTest: XCTestCase {
 
     func incrementTrackerTime(seconds: Int, updatePlayhead: Bool) {
         for _ in 1...seconds {
-            mediaTracker.incrementTimeStamp(value: 1000)
+            mediaTracker.incrementTimeStamp(value: 1)
             mediaTracker.incrementCurrentPlayhead(time: updatePlayhead ? 1 : 0)
         }
     }

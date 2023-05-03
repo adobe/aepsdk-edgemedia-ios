@@ -22,7 +22,7 @@ class MediaPublicTracker: MediaTracker {
     typealias DispatchFn = (Event) -> Void
 
     let TICK_INTERVAL = TimeInterval(0.75)
-    let EVENT_TIMEOUT_MS: Int64 = 500
+    let EVENT_TIMEOUT_MS: Int = 500
     private let dispatchQueue: DispatchQueue = DispatchQueue(label: LOG_TAG)
 
     var dispatch: DispatchFn?
@@ -30,7 +30,7 @@ class MediaPublicTracker: MediaTracker {
     let trackerId: String
     var sessionId: String
     var inSession = true
-    var lastEventTs: Int64 = 0
+    var lastEventTs = TimeInterval(0)
     var lastPlayheadParams: [String: Any]?
     var timer: Timer?
 
@@ -102,7 +102,7 @@ class MediaPublicTracker: MediaTracker {
         }
     }
 
-    public func updateCurrentPlayhead(time: Double) {
+    public func updateCurrentPlayhead(time: Int) {
         dispatchQueue.async {
             let params: [String: Any] = [MediaConstants.Tracker.PLAYHEAD: time]
             self.trackInternal(eventName: MediaConstants.EventName.PLAYHEAD_UPDATE, params: params)
@@ -160,7 +160,8 @@ class MediaPublicTracker: MediaTracker {
             }
 
             let currentTs = self.getCurrentTimeStamp()
-            if (currentTs - self.lastEventTs) > self.EVENT_TIMEOUT_MS {
+            let tsDelta = Int(currentTs - self.lastEventTs)
+            if tsDelta > self.EVENT_TIMEOUT_MS {
                 // We have not got any public api call for 500 ms.
                 // We manually send an event to keep our internal processsing alive (idle tracking / ping processing).
                 self.trackInternal(eventName: MediaConstants.EventName.PLAYHEAD_UPDATE, params: self.lastPlayheadParams, internalEvent: true)
@@ -182,14 +183,14 @@ class MediaPublicTracker: MediaTracker {
         timer = nil
     }
 
-    func getCurrentTimeStamp() -> Int64 {
+    func getCurrentTimeStamp() -> TimeInterval {
         return Date().millisecondsSince1970
     }
 }
 
 private extension Date {
-    var millisecondsSince1970: Int64 {
-        return Int64((timeIntervalSince1970 * 1000.0).rounded())
+    var millisecondsSince1970: TimeInterval {
+        return (timeIntervalSince1970 * 1000.0)
     }
 
 }

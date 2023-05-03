@@ -19,16 +19,16 @@ class AdInfo: Equatable {
     let id: String
     let name: String
     let position: Int
-    let length: Double
+    let length: Int
 
     static func == (lhs: AdInfo, rhs: AdInfo) -> Bool {
         return  lhs.id == rhs.id &&
             lhs.name == rhs.name &&
             lhs.position == rhs.position &&
-            lhs.length.isAlmostEqual(rhs.length)
+            lhs.length == rhs.length
     }
 
-    init?(id: String, name: String, position: Int, length: Double) {
+    init?(id: String, name: String, position: Int, length: Int) {
 
         guard !id.isEmpty else {
             Log.debug(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Error creating AdInfo, id must not be Empty")
@@ -76,7 +76,7 @@ class AdInfo: Equatable {
             return nil
         }
 
-        guard let length = info?[MediaConstants.AdInfo.LENGTH] as? Double else {
+        guard let length = info?[MediaConstants.AdInfo.LENGTH] as? Int else {
             Log.debug(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Error parsing AdInfo, invalid length")
             return nil
         }

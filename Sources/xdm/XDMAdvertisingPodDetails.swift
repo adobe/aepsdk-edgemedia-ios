@@ -13,10 +13,10 @@
 import Foundation
 struct XDMAdvertisingPodDetails: Encodable {
     let friendlyName: String
-    let index: Int64
-    let offset: Int64
+    let index: Int
+    let offset: Int
 
-    init(friendlyName: String, index: Int64, offset: Int64) {
+    init(friendlyName: String, index: Int, offset: Int) {
         self.friendlyName = friendlyName
         self.index = index
         self.offset = offset

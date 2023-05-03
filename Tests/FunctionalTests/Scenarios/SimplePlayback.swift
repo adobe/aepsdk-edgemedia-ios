@@ -16,7 +16,7 @@ import Foundation
 
 class SimplePlayback: BaseScenarioTest {
 
-    var mediaInfo = MediaInfo(id: "mediaID", name: "mediaName", streamType: "aod", mediaType: MediaType.Audio, length: 30.0, prerollWaitingTime: 0)!
+    var mediaInfo = MediaInfo(id: "mediaID", name: "mediaName", streamType: "aod", mediaType: MediaType.Audio, length: 30, prerollWaitingTime: 0)!
     var mediaMetadata = ["media.show": "sampleshow", "key1": "value1"]
     var mediaSharedState: [String: Any] = ["edgemedia.channel": "test_channel", "edgemedia.playerName": "test_playerName", "edgemedia.appVersion": "test_appVersion"]
 

@@ -119,8 +119,8 @@ internal extension MediaConstants {
     }
 
     enum PingInterval {
-        static let OFFLINE_TRACKING_MS: Int64 = 50 * 1000 // 50 sec
-        static let REALTIME_TRACKING_MS: Int64 = 10 * 1000  // 10 sec
+        static let OFFLINE_TRACKING = TimeInterval(50) // 50 sec
+        static let REALTIME_TRACKING = TimeInterval(10)  // 10 sec
     }
 
     enum XDMKeys {

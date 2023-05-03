@@ -17,7 +17,7 @@ struct XDMSessionDetails: Encodable {
     let contentType: String
     let friendlyName: String
     let hasResume: Bool
-    let length: Int64
+    let length: Int
     let name: String
     let streamType: XDMStreamType
     // Required fields sourced from media configuration
@@ -56,7 +56,7 @@ struct XDMSessionDetails: Encodable {
     var showType: String?
     var streamFormat: String?
 
-    init(name: String, friendlyName: String, length: Int64, streamType: XDMStreamType, contentType: String, hasResume: Bool) {
+    init(name: String, friendlyName: String, length: Int, streamType: XDMStreamType, contentType: String, hasResume: Bool) {
         self.name = name
         self.friendlyName = friendlyName
         self.length = length

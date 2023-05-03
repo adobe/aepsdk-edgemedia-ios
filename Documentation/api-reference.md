@@ -202,7 +202,7 @@ Creates an instance of the Media object which is a dictionary that contains info
 ```swift
 static func createMediaObjectWith(name: String,
                                     id: String,
-                                length: Double,
+                                length: Int,
                             streamType: String,
                              mediaType: MediaType) -> [String: Any]?
 ```
@@ -220,7 +220,7 @@ let mediaObject = Media.createMediaObjectWith(name: "video-name",
 
 ##### Syntax
 ```objectivec
-+ (NSDictionary<NSString *, id> * _Nullable) createMediaObjectWith:(NSString * _Nonnull) id:(NSString * _Nonnull) length:(double) streamType:(NSString * _Nonnull) mediaType:(enum AEPMediaType)
++ (NSDictionary<NSString *, id> * _Nullable) createMediaObjectWith:(NSString * _Nonnull) id:(NSString * _Nonnull) length:(NSInteger) streamType:(NSString * _Nonnull) mediaType:(enum AEPMediaType)
 ```
 
 ##### Example
@@ -248,7 +248,7 @@ Creates an instance of the AdBreak object which is a dictionary that contains in
 ```swift
 static func createAdBreakObjectWith(name: String,
                                 position: Int,
-                                startTime: Double) -> [String: Any]?
+                                startTime: Int) -> [String: Any]?
 ```
 
 ##### Example
@@ -262,7 +262,7 @@ let adBreakObject = Media.createAdBreakObjectWith(name: "adbreak-name",
 
 ##### Syntax
 ```objectivec
-+ (NSDictionary  <NSString *, id> * _Nullable) createAdBreakObjectWith:(NSString * _Nonnull)position:(NSInteger) startTime:(double)
++ (NSDictionary  <NSString *, id> * _Nullable) createAdBreakObjectWith:(NSString * _Nonnull)position:(NSInteger) startTime:(NSInteger)
 ```
 
 ##### Example
@@ -290,7 +290,7 @@ Creates an instance of the Ad object which is a dictionary that contains informa
 static func createAdObjectWith(name: String,
                                  id: String,
                            position: Int,
-                             length: Double) -> [String: Any]?
+                             length: Int) -> [String: Any]?
 ```
 
 ##### Example
@@ -308,7 +308,7 @@ let adObject = Media.createObjectWith(name: "ad-name",
 + (NSDictionary  <NSString *, id> * _Nullable) createAdObjectWith: (NSString * _Nonnull
                                                                id:(NSString * _Nonnull)
                                                          position:(NSInteger)
-                                                           length:(double)
+                                                           length:(NSInteger)
 ```
 
 ##### Example
@@ -336,8 +336,8 @@ Creates an instance of the Chapter object which is a dictionary that contains in
 ```swift
 static func createChapterObjectWith(name: String,
                                 position: Int,
-                                  length: Double,
-                               startTime: Double) -> [String: Any]?
+                                  length: Int,
+                               startTime: Int) -> [String: Any]?
 ```
 
 ##### Example
@@ -354,8 +354,8 @@ let chapterObject = Media.createChapterObjectWith(name: "chapter_name",
 ```objectivec
 + (NSDictionary  <NSString *, id> * _Nullable) createChapterObjectWith:(NSString * _Nonnull)
                                                               position:(NSInteger)
-                                                                length:(double)
-                                                             startTime:(double)
+                                                                length:(NSInteger)
+                                                             startTime:(NSInteger)
 ```
 
 ##### Example
@@ -384,10 +384,10 @@ Creates an instance of the QoE (Quality of Experience) object which is a diction
 
 ##### Syntax
 ```swift
-static func createQoEObjectWith(bitrate: Double,
-                            startupTime: Double,
-                                    fps: Double,
-                          droppedFrames: Double) -> [String: Any]?
+static func createQoEObjectWith(bitrate: Int,
+                            startupTime: Int,
+                                    fps: Int,
+                          droppedFrames: Int) -> [String: Any]?
 ```
 
 ##### Example
@@ -402,10 +402,10 @@ let qoeObject = Media.createQoEObjectWith(bitrate: 500000,
 
 ##### Syntax
 ```objectivec
-+ (NSDictionary  <NSString *, id> * _Nullable) createQoEObjectWith:(double)
-                                                         startTime:(double)
-                                                               fps:(double)
-                                                     droppedFrames:(double)
++ (NSDictionary  <NSString *, id> * _Nullable) createQoEObjectWith:(NSInteger)
+                                                         startTime:(NSInteger)
+                                                               fps:(NSInteger)
+                                                     droppedFrames:(NSInteger)
 ```
 
 ##### Example
@@ -857,7 +857,7 @@ Provides the current media playhead value to the media tracker instance. For acc
 
 ##### Syntax
 ```swift
-func updateCurrentPlayhead(time: Double)
+func updateCurrentPlayhead(time: Int)
 ```
 
 ##### Example
@@ -878,7 +878,7 @@ tracker.updateCurrentPlayhead(time: timeFromMidnightInSecond)
 
 ##### Syntax
 ```objectivec
-- (void) updateCurrentPlayhead:(double)
+- (void) updateCurrentPlayhead:(NSInteger)
 ```
 
 ##### Example

@@ -150,6 +150,48 @@ MobileCore.registerExtensions([
 
 ------
 
+### Public API changes
+
+All Numeric parameters of the public APIs have been updated to type Int.
+
+##### updateCurrentPlayhead
+```diff
+- func updateCurrentPlayhead(time: Double)
++ func updateCurrentPlayhead(time: Int)
+```
+
+##### createMediaObjectWith
+```diff
+- static func createMediaObjectWith(name: String, id: String, length: Double, streamType: String, mediaType: MediaType) -> [String: Any]?
++ static func createMediaObjectWith(name: String, id: String, length: Int, streamType: String, mediaType: MediaType) -> [String: Any]?
+```
+
+##### createAdBreakObjectWith
+```diff
+- static func createAdBreakObjectWith(name: String, position: Int, startTime: Double) -> [String: Any]?
++ static func createAdBreakObjectWith(name: String, position: Int, startTime: Int) -> [String: Any]?
+```
+
+##### createAdbjectWith
+```diff
+- static func createAdObjectWith(name: String, id: String, position: Int, length: Double) -> [String: Any]?
++ static func createAdObjectWith(name: String, id: String, position: Int, length: Int) -> [String: Any]?
+```
+
+##### createChapterObjectWith
+```diff
+- static func createChapterObjectWith(name: String, position: Int, length: Double, startTime: Double) -> [String: Any]?
++ static func createChapterObjectWith(name: String, position: Int, length: Int, startTime: Int) -> [String: Any]?
+```
+
+##### createQoEObjectWith
+```diff
+- static func createQoEObjectWith(bitrate: Double, startupTime: Double, fps: Double, droppedFrames: Double) -> [String: Any]?
++ static func createQoEObjectWith(bitrate: Int, startupTime: Int, fps: Int, droppedFrames: Int) -> [String: Any]?
+```
+
+------
+
 ### Granular ad tracking
 
 AEPMedia allowed for ad content tracking of `1 second` when setting the `MediaConstants.MediaObjectKey.GRANULAR_AD_TRACKING` key in the media object. AEPEdgeMedia is even more customizable and now the ad content tracking interval can be set using the tracker configuration to a value between `[1-10] seconds`. For more details, refer to the [createTrackerWithConfig API](api-reference.md/#createTrackerWithConfig).

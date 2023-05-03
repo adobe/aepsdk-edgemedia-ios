@@ -15,7 +15,7 @@ import AEPCore
 
 class CustomStatePlayback: BaseScenarioTest {
 
-    let mediaInfo = MediaInfo(id: "mediaID", name: "mediaName", streamType: "aod", mediaType: MediaType.Audio, length: 30.0, prerollWaitingTime: 0)!
+    let mediaInfo = MediaInfo(id: "mediaID", name: "mediaName", streamType: "aod", mediaType: MediaType.Audio, length: 30, prerollWaitingTime: 0)!
     let mediaMetadata = ["media.show": "sampleshow", "key1": "value1", "key2": "мểŧẳđαţả"]
 
     let customStateInfo = StateInfo(stateName: "customStateName")!

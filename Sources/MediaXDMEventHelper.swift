@@ -62,7 +62,7 @@ enum MediaXDMEventHelper {
 
         var sessionDetailsXDM = XDMSessionDetails(name: mediaInfo.id,
                                                   friendlyName: mediaInfo.name,
-                                                  length: Int64(mediaInfo.length),
+                                                  length: mediaInfo.length,
                                                   streamType: streamType,
                                                   contentType: mediaInfo.streamType,
                                                   hasResume: hasResume)
@@ -151,7 +151,7 @@ enum MediaXDMEventHelper {
             return nil
         }
 
-        let advertisingPodDetailsXDM = XDMAdvertisingPodDetails(friendlyName: adBreakInfo.name, index: Int64(adBreakInfo.position), offset: Int64(adBreakInfo.startTime))
+        let advertisingPodDetailsXDM = XDMAdvertisingPodDetails(friendlyName: adBreakInfo.name, index: adBreakInfo.position, offset: adBreakInfo.startTime)
 
         return advertisingPodDetailsXDM
     }
@@ -162,7 +162,7 @@ enum MediaXDMEventHelper {
             return nil
         }
 
-        var advertisingDetailsXDM = XDMAdvertisingDetails(name: adInfo.id, friendlyName: adInfo.name, length: Int64(adInfo.length), podPosition: Int64(adInfo.position))
+        var advertisingDetailsXDM = XDMAdvertisingDetails(name: adInfo.id, friendlyName: adInfo.name, length: adInfo.length, podPosition: adInfo.position)
 
         // Append standard metadata to advertisingDetails
         for (key, value) in adMetadata {
@@ -211,7 +211,7 @@ enum MediaXDMEventHelper {
             return nil
         }
 
-        let chapterDetailsXDM = XDMChapterDetails(friendlyName: chapterInfo.name, index: Int64(chapterInfo.position), length: Int64(chapterInfo.length), offset: Int64(chapterInfo.startTime))
+        let chapterDetailsXDM = XDMChapterDetails(friendlyName: chapterInfo.name, index: chapterInfo.position, length: chapterInfo.length, offset: chapterInfo.startTime)
         return chapterDetailsXDM
     }
 
@@ -233,10 +233,10 @@ enum MediaXDMEventHelper {
             Log.trace(label: LOG_TAG, "[\(CLASS_NAME)<\(#function)>] - found empty chapter info.")
             return nil
         }
-        let qoeDetailsXDM = XDMQoeDataDetails(bitrate: Int64(qoeInfo.bitrate),
-                                              droppedFrames: Int64(qoeInfo.droppedFrames),
-                                              framesPerSecond: Int64(qoeInfo.fps),
-                                              timeToStart: Int64(qoeInfo.startupTime))
+        let qoeDetailsXDM = XDMQoeDataDetails(bitrate: qoeInfo.bitrate,
+                                              droppedFrames: qoeInfo.droppedFrames,
+                                              framesPerSecond: qoeInfo.fps,
+                                              timeToStart: qoeInfo.startupTime)
 
         return qoeDetailsXDM
     }

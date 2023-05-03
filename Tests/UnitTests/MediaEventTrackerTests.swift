@@ -46,16 +46,16 @@ class MediaEventTrackerTests: XCTestCase {
     static let KEY_METADATA = "key_metadata"
     static let  KEY_EVENT_TS = "key_eventts"
 
-    static let adbreak1 = AdBreakInfo(name: "adbreak1", position: 1, startTime: 10.0)
-    static let adbreak2 = AdBreakInfo(name: "adbreak2", position: 2, startTime: 20.0)
+    static let adbreak1 = AdBreakInfo(name: "adbreak1", position: 1, startTime: 10)
+    static let adbreak2 = AdBreakInfo(name: "adbreak2", position: 2, startTime: 20)
 
-    static let ad1 = AdInfo(id: "ad1", name: "adname1", position: 1, length: 15.0)
-    static let ad2 = AdInfo(id: "ad2", name: "adname2", position: 2, length: 15.0)
+    static let ad1 = AdInfo(id: "ad1", name: "adname1", position: 1, length: 15)
+    static let ad2 = AdInfo(id: "ad2", name: "adname2", position: 2, length: 15)
 
-    static let chapter1 = ChapterInfo(name: "chapter1", position: 1, startTime: 10.0, length: 30.0)
-    static let chapter2 = ChapterInfo(name: "chapter2", position: 2, startTime: 30.0, length: 30.0)
+    static let chapter1 = ChapterInfo(name: "chapter1", position: 1, startTime: 10, length: 30)
+    static let chapter2 = ChapterInfo(name: "chapter2", position: 2, startTime: 30, length: 30)
 
-    static let qoe = QoEInfo(bitrate: 1.1, droppedFrames: 2.2, fps: 3.3, startupTime: 4.4)
+    static let qoe = QoEInfo(bitrate: 1, droppedFrames: 2, fps: 3, startupTime: 4)
 
     static let stateMute = StateInfo(stateName: "mute")
 
@@ -151,7 +151,7 @@ class MediaEventTrackerTests: XCTestCase {
         eventGenerator.trackEvent(event: MediaEvent.BitrateChange)
         XCTAssertFalse(handleTrackAPI())
 
-        eventGenerator.updateCurrentPlayhead(time: 1.0)
+        eventGenerator.updateCurrentPlayhead(time: 1)
         XCTAssertFalse(handleTrackAPI())
 
         eventGenerator.updateQoEObject(qoe: Self.qoe!.toMap())
@@ -215,7 +215,7 @@ class MediaEventTrackerTests: XCTestCase {
         eventGenerator.trackEvent(event: MediaEvent.BitrateChange)
         XCTAssertFalse(handleTrackAPI())
 
-        eventGenerator.updateCurrentPlayhead(time: 1.0)
+        eventGenerator.updateCurrentPlayhead(time: 1)
         XCTAssertFalse(handleTrackAPI())
 
         eventGenerator.updateQoEObject(qoe: Self.qoe!.toMap())
@@ -255,7 +255,7 @@ class MediaEventTrackerTests: XCTestCase {
         eventGenerator.trackEvent(event: MediaEvent.BitrateChange)
         XCTAssertFalse(handleTrackAPI())
 
-        eventGenerator.updateCurrentPlayhead(time: 1.0)
+        eventGenerator.updateCurrentPlayhead(time: 1)
         XCTAssertFalse(handleTrackAPI())
 
         eventGenerator.updateQoEObject(qoe: Self.qoe!.toMap())
@@ -795,11 +795,11 @@ class MediaEventTrackerTests: XCTestCase {
         eventGenerator.trackSessionStart(info: Self.media!.toMap(), metadata: Self.metadata)
         XCTAssertTrue(handleTrackAPI())
 
-        eventGenerator.updateCurrentPlayhead(time: 1.1)
+        eventGenerator.updateCurrentPlayhead(time: 1)
         XCTAssertTrue(handleTrackAPI())
 
         let actualPlayhead = mediaTracker.mediaContext!.playhead
-        XCTAssertEqual(1.1, actualPlayhead)
+        XCTAssertEqual(1, actualPlayhead)
     }
 
     func testUpdateQoEPass() {
@@ -969,7 +969,7 @@ class MediaEventTrackerTests: XCTestCase {
         eventGenerator.trackEvent(event: MediaEvent.SeekStart)
         XCTAssertTrue(handleTrackAPI())
 
-        eventGenerator.incrementTimeStamp(value: (31 * 60 * 1000))
+        eventGenerator.incrementTimeStamp(value: (31 * 60))
         eventGenerator.updateCurrentPlayhead(time: 1)
         XCTAssertTrue(handleTrackAPI())
 
@@ -1010,14 +1010,14 @@ class MediaEventTrackerTests: XCTestCase {
 
         XCTAssertTrue(mediaTracker.inPrerollInterval)
 
-        eventGenerator.incrementTimeStamp(value: 200)
-        eventGenerator.updateCurrentPlayhead(time: 0.2)
+        eventGenerator.incrementTimeStamp(value: 0.2)
+        eventGenerator.updateCurrentPlayhead(time: 0)
         XCTAssertTrue(handleTrackAPI())
 
         XCTAssertTrue(mediaTracker.inPrerollInterval)
 
-        eventGenerator.incrementTimeStamp(value: 200)
-        eventGenerator.updateCurrentPlayhead(time: 0.4)
+        eventGenerator.incrementTimeStamp(value: 0.2)
+        eventGenerator.updateCurrentPlayhead(time: 0)
         XCTAssertTrue(handleTrackAPI())
 
         XCTAssertFalse(mediaTracker.inPrerollInterval)
@@ -1029,13 +1029,13 @@ class MediaEventTrackerTests: XCTestCase {
 
         XCTAssertTrue(mediaTracker.inPrerollInterval)
 
-        eventGenerator.incrementTimeStamp(value: 2000)
+        eventGenerator.incrementTimeStamp(value: 2)
         eventGenerator.updateCurrentPlayhead(time: 2)
         XCTAssertTrue(handleTrackAPI())
 
         XCTAssertTrue(mediaTracker.inPrerollInterval)
 
-        eventGenerator.incrementTimeStamp(value: 3001)
+        eventGenerator.incrementTimeStamp(value: 3.001)
         eventGenerator.updateCurrentPlayhead(time: 5)
         XCTAssertTrue(handleTrackAPI())
 
@@ -1219,8 +1219,8 @@ class MediaEventTrackerTests: XCTestCase {
         context[Self.KEY_INFO] = [MediaConstants.Tracker.PLAYHEAD: ""]
         XCTAssertNil(mediaTracker.getPlayhead(context: context))
 
-        context[Self.KEY_INFO] = [MediaConstants.Tracker.PLAYHEAD: 1.0]
-        XCTAssertEqual(1.0, mediaTracker.getPlayhead(context: context))
+        context[Self.KEY_INFO] = [MediaConstants.Tracker.PLAYHEAD: 1]
+        XCTAssertEqual(1, mediaTracker.getPlayhead(context: context))
     }
 
     func testHelperGetRefTS() {
@@ -1234,8 +1234,8 @@ class MediaEventTrackerTests: XCTestCase {
         context[Self.KEY_EVENT_TS] = ""
         XCTAssertEqual(0, mediaTracker.getRefTS(context: context))
 
-        context[Self.KEY_EVENT_TS] = Int64(100)
-        XCTAssertEqual(100, mediaTracker.getRefTS(context: context))
+        context[Self.KEY_EVENT_TS] = TimeInterval(100)
+        XCTAssertEqual(TimeInterval(100), mediaTracker.getRefTS(context: context))
     }
 
     func testHelperGetError() {
@@ -1252,7 +1252,7 @@ class MediaEventTrackerTests: XCTestCase {
         context[Self.KEY_INFO] = [MediaConstants.ErrorInfo.ID: nil]
         XCTAssertNil(mediaTracker.getError(context: context))
 
-        context[Self.KEY_INFO] = [MediaConstants.ErrorInfo.ID: 1.0]
+        context[Self.KEY_INFO] = [MediaConstants.ErrorInfo.ID: 1]
         XCTAssertNil(mediaTracker.getError(context: context))
 
         context[Self.KEY_INFO] = [MediaConstants.ErrorInfo.ID: "error"]

@@ -16,19 +16,19 @@ import Foundation
 class QoEInfo: Equatable {
     private static let LOG_TAG = MediaConstants.LOG_TAG
     private static let CLASS_NAME = "QoEInfo"
-    let bitrate: Double
-    let droppedFrames: Double
-    let fps: Double
-    let startupTime: Double
+    let bitrate: Int
+    let droppedFrames: Int
+    let fps: Int
+    let startupTime: Int
 
     static func == (lhs: QoEInfo, rhs: QoEInfo) -> Bool {
-        return  lhs.bitrate.isAlmostEqual(rhs.bitrate) &&
-            lhs.droppedFrames.isAlmostEqual(rhs.droppedFrames) &&
-            lhs.fps.isAlmostEqual(rhs.fps) &&
-            lhs.startupTime.isAlmostEqual(rhs.startupTime)
+        return  lhs.bitrate == rhs.bitrate &&
+            lhs.droppedFrames == rhs.droppedFrames &&
+            lhs.fps == rhs.fps &&
+            lhs.startupTime == rhs.startupTime
     }
 
-    init?(bitrate: Double, droppedFrames: Double, fps: Double, startupTime: Double) {
+    init?(bitrate: Int, droppedFrames: Int, fps: Int, startupTime: Int) {
         guard bitrate >= 0 else {
             Log.debug(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Error creating QoEInfo, bitrate must not be less than zero")
             return nil
@@ -60,22 +60,22 @@ class QoEInfo: Equatable {
             return nil
         }
 
-        guard let bitrate = info?[MediaConstants.QoEInfo.BITRATE] as? Double else {
+        guard let bitrate = info?[MediaConstants.QoEInfo.BITRATE] as? Int else {
             Log.debug(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Error parsing QoEInfo, invalid bitrate")
             return nil
         }
 
-        guard let droppedFrames = info?[MediaConstants.QoEInfo.DROPPED_FRAMES] as? Double else {
+        guard let droppedFrames = info?[MediaConstants.QoEInfo.DROPPED_FRAMES] as? Int else {
             Log.debug(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Error parsing QoEInfo, invalid dropped frames")
             return nil
         }
 
-        guard let fps = info?[MediaConstants.QoEInfo.FPS] as? Double else {
+        guard let fps = info?[MediaConstants.QoEInfo.FPS] as? Int else {
             Log.debug(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Error parsing QoEInfo, invalid fps")
             return nil
         }
 
-        guard let startupTime = info?[MediaConstants.QoEInfo.STARTUP_TIME] as? Double else {
+        guard let startupTime = info?[MediaConstants.QoEInfo.STARTUP_TIME] as? Int else {
             Log.debug(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Error parsing QoEInfo, invalid start time")
             return nil
         }
