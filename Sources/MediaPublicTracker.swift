@@ -21,8 +21,8 @@ class MediaPublicTracker: MediaTracker {
 
     typealias DispatchFn = (Event) -> Void
 
-    let TICK_INTERVAL = TimeInterval(0.75)
-    let EVENT_TIMEOUT_MS: Int = 500
+    let TICK_INTERVAL = TimeInterval(0.5)
+    let EVENT_TIMEOUT = TimeInterval(1)
     private let dispatchQueue: DispatchQueue = DispatchQueue(label: LOG_TAG)
 
     var dispatch: DispatchFn?
@@ -32,7 +32,7 @@ class MediaPublicTracker: MediaTracker {
     var inSession = true
     var lastEventTs = TimeInterval(0)
     var lastPlayheadParams: [String: Any]?
-    var timer: Timer?
+    var timer: DispatchSourceTimer?
 
     // MediaTracker Impl
     init(dispatch: DispatchFn?, config: [String: Any]?) {
@@ -160,9 +160,9 @@ class MediaPublicTracker: MediaTracker {
             }
 
             let currentTs = self.getCurrentTimeStamp()
-            let tsDelta = Int(currentTs - self.lastEventTs)
-            if tsDelta > self.EVENT_TIMEOUT_MS {
-                // We have not got any public api call for 500 ms.
+            let tsDelta = currentTs - self.lastEventTs
+            if tsDelta > self.EVENT_TIMEOUT {
+                // We have not got any public api call for 1 second.
                 // We manually send an event to keep our internal processsing alive (idle tracking / ping processing).
                 self.trackInternal(eventName: MediaConstants.EventName.PLAYHEAD_UPDATE, params: self.lastPlayheadParams, internalEvent: true)
             }
@@ -171,26 +171,23 @@ class MediaPublicTracker: MediaTracker {
 
     private func startTimer() {
         if timer == nil {
-            timer = Timer.scheduledTimer(withTimeInterval: TICK_INTERVAL, repeats: true, block: { _ in
-                self.tick()
-            })
-            timer?.fire()
+            timer = DispatchSource.makeTimerSource(queue: dispatchQueue)
+            timer?.setEventHandler { [weak self] in
+                self?.tick()
+            }
+            timer?.schedule(deadline: .now(), repeating: self.TICK_INTERVAL)
+            timer?.resume()
         }
     }
 
     private func stopTimer() {
-        timer?.invalidate()
-        timer = nil
+        if let timer = self.timer, !timer.isCancelled {
+            self.timer?.cancel()
+            self.timer = nil
+        }
     }
 
     func getCurrentTimeStamp() -> TimeInterval {
-        return Date().millisecondsSince1970
+        return Date().timeIntervalSince1970
     }
-}
-
-private extension Date {
-    var millisecondsSince1970: TimeInterval {
-        return (timeIntervalSince1970 * 1000.0)
-    }
-
 }
