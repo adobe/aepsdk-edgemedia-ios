@@ -14,7 +14,7 @@ import AEPCore
 import AEPServices
 import Foundation
 
-class MediaPublicTracker: MediaTracker {
+class MediaTrackerEventGenerator: MediaTracker {
 
     private static let LOG_TAG = MediaConstants.LOG_TAG
     private static let CLASS_NAME = "MediaPublicTracker"
