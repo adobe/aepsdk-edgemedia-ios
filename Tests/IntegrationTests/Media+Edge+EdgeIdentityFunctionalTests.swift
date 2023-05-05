@@ -21,8 +21,8 @@ import XCTest
 class EdgeMediaIntegrationTests: FunctionalTestBase {
     private let sessionStartEdgeEndpoint = "https://edge.adobedc.net/ee/va/v1/sessionStart"
     private let configuration = ["edge.configId": "12345-example",
-                                 "edgemedia.channel": "testChannel",
-                                 "edgemedia.playerName": "testPlayerName"
+                                 "edgeMedia.channel": "testChannel",
+                                 "edgeMedia.playerName": "testPlayerName"
     ]
 
     let mediaInfo = Media.createMediaObjectWith(name: "testName", id: "testId", length: 30, streamType: "VOD", mediaType: MediaType.Video)!
