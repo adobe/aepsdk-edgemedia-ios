@@ -18,7 +18,7 @@ class CustomPingDuration: BaseScenarioTest {
 
     var mediaInfo = MediaInfo(id: "mediaID", name: "mediaName", streamType: "aod", mediaType: MediaType.Audio, length: 30, prerollWaitingTime: 0)!
     var mediaMetadata = ["media.show": "sampleshow", "key1": "value1"]
-    var mediaSharedState: [String: Any] = ["edgemedia.channel": "test_channel", "edgemedia.playerName": "test_playerName", "edgemedia.appVersion": "test_appVersion"]
+    var mediaSharedState: [String: Any] = ["edgeMedia.channel": "test_channel", "edgeMedia.playerName": "test_playerName", "edgeMedia.appVersion": "test_appVersion"]
 
     let adBreakInfo = AdBreakInfo(name: "adBreakName", position: 1, startTime: 1)!
     let adInfo = AdInfo(id: "adID", name: "adName", position: 1, length: 15)!

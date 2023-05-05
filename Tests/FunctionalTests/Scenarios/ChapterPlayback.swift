@@ -25,7 +25,7 @@ class ChapterPlayback: BaseScenarioTest {
     let chapterInfo2 = ChapterInfo(name: "chapterName2", position: 2, startTime: 2, length: 40)!
     let chapterMetadata2 = ["media.artist": "sampleArtist2", "key2": "value2", "key3": "мểŧẳđαţả"]
 
-    var mediaSharedState: [String: Any] = ["edgemedia.channel": "test_channel", "edgemedia.playerName": "test_playerName", "edgemedia.appVersion": "test_appVersion"]
+    var mediaSharedState: [String: Any] = ["edgeMedia.channel": "test_channel", "edgeMedia.playerName": "test_playerName", "edgeMedia.appVersion": "test_appVersion"]
 
     override func setUp() {
         super.setup()

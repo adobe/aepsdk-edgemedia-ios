@@ -22,7 +22,7 @@ class CustomStatePlayback: BaseScenarioTest {
     let standardStateMute = StateInfo(stateName: MediaConstants.PlayerState.MUTE)!
     let standardStateFullScreen = StateInfo(stateName: MediaConstants.PlayerState.FULLSCREEN)!
 
-    var mediaSharedState: [String: Any] = ["edgemedia.channel": "test_channel", "edgemedia.playerName": "test_playerName", "edgemedia.appVersion": "test_appVersion"]
+    var mediaSharedState: [String: Any] = ["edgeMedia.channel": "test_channel", "edgeMedia.playerName": "test_playerName", "edgeMedia.appVersion": "test_appVersion"]
 
     override func setUp() {
         super.setup()

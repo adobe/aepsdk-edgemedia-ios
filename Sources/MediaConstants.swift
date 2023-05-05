@@ -22,9 +22,9 @@ internal extension MediaConstants {
 
     enum Configuration {
         static let SHARED_STATE_NAME = "com.adobe.module.configuration"
-        static let MEDIA_CHANNEL = "edgemedia.channel"
-        static let MEDIA_PLAYER_NAME = "edgemedia.playerName"
-        static let MEDIA_APP_VERSION = "edgemedia.appVersion"
+        static let MEDIA_CHANNEL = "edgeMedia.channel"
+        static let MEDIA_PLAYER_NAME = "edgeMedia.playerName"
+        static let MEDIA_APP_VERSION = "edgeMedia.appVersion"
     }
 
     enum Media {
