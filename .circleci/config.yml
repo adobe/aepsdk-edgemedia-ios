@@ -115,6 +115,7 @@ jobs:
           flags: ios-tests
           upload_name: Coverage Report for iOS Tests
           xtra_args: -c -v --xc --xp iosresults.xcresult
+          version: 0.4.1
           
 
   test-tvos:
@@ -139,6 +140,7 @@ jobs:
           flags: tvos-tests
           upload_name: Coverage Report for tvOS Tests
           xtra_args: -c -v --xc --xp tvosresults.xcresult
+          version: 0.4.1
 
   build_xcframework_and_app:
     macos:
