@@ -16,7 +16,7 @@ import XCTest
 
 class MediaEventGenerator: MediaTracker {
 
-    class MediaPublicTrackerMock: MediaPublicTracker {
+    class MediaPublicTrackerMock: MediaTrackerEventGenerator {
         var mockTimeStamp = TimeInterval(0)
         var mockCurrentPlayhead: Int = 0
 

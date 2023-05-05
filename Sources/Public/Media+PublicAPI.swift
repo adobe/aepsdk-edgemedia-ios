@@ -30,7 +30,7 @@ import Foundation
     ///   - config: The configuration for `MediaTracker` instance.
     @objc(createTrackerWithConfig:)
     static func createTrackerWith(config: [String: Any]?) -> MediaTracker {
-        return MediaPublicTracker(dispatch: MobileCore.dispatch(event:), config: config)
+        return MediaTrackerEventGenerator(dispatch: MobileCore.dispatch(event:), config: config)
     }
 
     /// Creates an instance of `MediaInfo` to be used with `trackSessionStart` API.
