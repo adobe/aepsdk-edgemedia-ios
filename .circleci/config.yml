@@ -116,7 +116,6 @@ jobs:
           upload_name: Coverage Report for iOS Tests
           xtra_args: -c -v --xc --xp iosresults.xcresult
           version: v0.4.1
-          token: 2f463804-712b-499e-ad4f-99d95beae6f9
           
 
   test-tvos:
@@ -142,7 +141,6 @@ jobs:
           upload_name: Coverage Report for tvOS Tests
           xtra_args: -c -v --xc --xp tvosresults.xcresult
           version: v0.4.1
-          token: 2f463804-712b-499e-ad4f-99d95beae6f9
 
   build_xcframework_and_app:
     macos:
