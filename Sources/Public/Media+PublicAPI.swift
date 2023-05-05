@@ -126,7 +126,7 @@ import Foundation
 
 /// These enumeration values define the type of a tracking event.
 /// These enumeration are to be used in *trackEvent(event:info:metadata:)*
-@objc(AEPMediaEvent)
+@objc(AEPEdgeMediaEvent)
 public enum MediaEvent: Int, RawRepresentable {
     case AdBreakStart
     case AdBreakComplete
