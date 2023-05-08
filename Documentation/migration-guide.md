@@ -25,9 +25,9 @@ This is the complete migration guide from AEPMedia to AEPEdgeMedia SDK.
 ### AEPEdgeMedia
 | Name | Key | Value | Required |
 | --- | --- | --- | --- |
-| Channel | "edgemedia.channel" | String | Yes |
-| Player Name | "edgemedia.playerName" | String | Yes |
-| Application Version | "edgemedia.appVersion" | String | No |
+| Channel | "edgeMedia.channel" | String | Yes |
+| Player Name | "edgeMedia.playerName" | String | Yes |
+| Application Version | "edgeMedia.appVersion" | String | No |
 
 Please refer [AEPEdgeMedia configuration](getting-started.md/#configuration) for more details.
 
