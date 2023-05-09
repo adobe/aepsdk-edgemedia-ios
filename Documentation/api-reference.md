@@ -220,7 +220,7 @@ let mediaObject = Media.createMediaObjectWith(name: "video-name",
 
 ##### Syntax
 ```objectivec
-+ (NSDictionary<NSString *, id> * _Nullable) createMediaObjectWith:(NSString * _Nonnull) id:(NSString * _Nonnull) length:(NSInteger) streamType:(NSString * _Nonnull) mediaType:(enum AEPMediaType)
++ (NSDictionary<NSString *, id> * _Nullable) createMediaObjectWith:(NSString * _Nonnull) id:(NSString * _Nonnull) length:(NSInteger) streamType:(NSString * _Nonnull) mediaType:(enum AEPEdgeMediaType)
 ```
 
 ##### Example
@@ -228,8 +228,8 @@ let mediaObject = Media.createMediaObjectWith(name: "video-name",
 NSDictionary *mediaObject = [AEPMobileEdgeMedia createMediaObjectWith:@"video-name"
                                                                 id:@"video-id"
                                                             length:60
-                                                        streamType:AEPMediaStreamType.VOD
-                                                         mediaType:AEPMediaTypeVideo];
+                                                        streamType:AEPEdgeMediaStreamType.VOD
+                                                         mediaType:AEPEdgeMediaTypeVideo];
 ```
 
 ### createAdBreakObjectWith
@@ -493,7 +493,7 @@ tracker.trackSessionStart(info: mediaObject, metadata: videoMetadata)
 
 ##### Example
 ```objectivec
-NSDictionary *mediaObject = [AEPMobileEdgeMedia createMediaObjectWith:@"video-name" id:@"video-id" length:60 streamType:AEPMediaStreamType.VOD mediaType:AEPMediaTypeVideo];
+NSDictionary *mediaObject = [AEPMobileEdgeMedia createMediaObjectWith:@"video-name" id:@"video-id" length:60 streamType:AEPEdgeMediaStreamType.VOD mediaType:AEPEdgeMediaTypeVideo];
 
 NSMutableDictionary *videoMetadata = [[NSMutableDictionary alloc] init];
 // Sample implementation for using standard video metadata keys
@@ -927,7 +927,7 @@ Defines the type of media that is currently being tracked. It can be either `Med
 
 ##### Definition
 ```swift
-@objc(AEPMediaType)
+@objc(AEPEdgeMediaType)
 public enum MediaType: Int, RawRepresentable {
  //Constant defining media type for Video streams
  case Audio
@@ -952,10 +952,10 @@ var mediaObject = Media.createMediaObjectWith(name: "video-name",
 ```objectivec
 
 NSDictionary *mediaObject = [AEPMobileEdgeMedia createMediaObjectWith:@"video-name"
-                                                               id:@"video-id"
-                                                           length:60
-                                                       streamType:AEPMediaStreamType.VOD      
-                                                        mediaType:AEPMediaTypeVideo];
+                                                                   id:@"video-id"
+                                                               length:60
+                                                           streamType:AEPEdgeMediaStreamType.VOD      
+                                                            mediaType:AEPEdgeMediaTypeVideo];
 ```
 
 ### StreamType
@@ -966,7 +966,7 @@ Defines the type of streamed content that is currently being tracked. Use the av
 ```swift
 
 public class MediaConstants: NSObject {
-  @objc(AEPMediaStreamType)
+  @objc(AEPEdgeMediaStreamType)
   public class StreamType: NSObject {
      // Constant defining stream type for VOD streams.
         public static let VOD = "vod"
@@ -1003,8 +1003,8 @@ var mediaObject = Media.createMediaObjectWith(name: "video-name",
 NSDictionary *mediaObject = [AEPMobileEdgeMedia createMediaObjectWith:@"video-name"
                                                                id:@"video-id"
                                                            length:60
-                                                       streamType:AEPMediaStreamType.VOD      
-                                                        mediaType:AEPMediaTypeVideo];
+                                                       streamType:AEPEdgeMediaStreamType.VOD      
+                                                        mediaType:AEPEdgeMediaTypeVideo];
 ```
 
 ### Player state constants
@@ -1085,7 +1085,7 @@ tracker.trackSessionStart(info: mediaObject, metadata: videoMetadata)
 
 ##### Example
 ```objectivec
-NSDictionary *mediaObject = [AEPMobileEdgeMedia createMediaObjectWith:@"video-name" id:@"video-id" length:60 streamType:AEPMediaStreamType.VOD mediaType:AEPMediaTypeVideo];
+NSDictionary *mediaObject = [AEPMobileEdgeMedia createMediaObjectWith:@"video-name" id:@"video-id" length:60 streamType:AEPEdgeMediaStreamType.VOD mediaType:AEPEdgeMediaTypeVideo];
 
 NSMutableDictionary *videoMetadata = [[NSMutableDictionary alloc] init];
 // Standard Video Metadata
@@ -1131,7 +1131,7 @@ tracker.trackSessionStart(info: audioObject, metadata: audioMetadata)
 
 ##### Example
 ```objectivec
-NSDictionary *audioObject = [AEPMobileEdgeMedia createMediaObjectWith:@"audio-name" id:@"audioid" length:30 streamType:AEPMediaStreamType.AOD mediaType:AEPMediaTypeAudio];
+NSDictionary *audioObject = [AEPMobileEdgeMedia createMediaObjectWith:@"audio-name" id:@"audioid" length:30 streamType:AEPEdgeMediaStreamType.AOD mediaType:AEPEdgeMediaTypeAudio];
 
 NSMutableDictionary *audioMetadata = [[NSMutableDictionary alloc] init];
 // Standard Audio Metadata
@@ -1242,7 +1242,7 @@ tracker.trackEvent(event: MediaEvent.BitrateChange, info: nil, metadata: nil)
 ```
 
 ### Media resume
-Constant to denote that the current tracking session is resuming a previously closed session. This information must be provided when starting a tracking session.
+Constant used to denote that the current tracking session is resuming a previously closed session. This information must be provided when starting a tracking session.
 
 #### Swift
 
@@ -1251,8 +1251,7 @@ Constant to denote that the current tracking session is resuming a previously cl
 public class MediaConstants: NSObject {
  @objc(AEPEdgeMediaObjectKey)
  public class MediaObjectKey: NSObject {
-        public static let RESUMED = "media.resumed"
-        public static let PREROLL_TRACKING_WAITING_TIME = "media.prerollwaitingtime"
+      public static let RESUMED = "media.resumed"
     }
 }
 ```
@@ -1275,7 +1274,7 @@ tracker.trackSessionStart(info: mediaObject, metadata: nil)
 
 ##### Example
 ```objectivec
-NSDictionary *mediaObject = [AEPMobileEdgeMedia createMediaObjectWith:@"video-name" id:@"video-id" length:60 streamType:AEPMediaStreamType.VOD mediaType:AEPMediaTypeVideo];
+NSDictionary *mediaObject = [AEPMobileEdgeMedia createMediaObjectWith:@"video-name" id:@"video-id" length:60 streamType:AEPEdgeMediaStreamType.VOD mediaType:AEPEdgeMediaTypeVideo];
 
 // Attach media resumed information.    
 NSMutableDictionary *obj  = [mediaObject mutableCopy];
