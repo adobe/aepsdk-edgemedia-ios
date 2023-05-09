@@ -21,16 +21,16 @@ Currently AEPEdgeMedia doesn't have a Data Collection extension and needs to be 
 #### Configuration Keys
 | Name | Key | Value | Required |
 | --- | --- | --- | --- |
-| Channel | "edgemedia.channel" | String | **Yes** |
-| Player Name | "edgemedia.playerName" | String | **Yes** |
-| Application Version | "edgemedia.appVersion" | String | **No** |
+| Channel | "edgeMedia.channel" | String | **Yes** |
+| Player Name | "edgeMedia.playerName" | String | **Yes** |
+| Application Version | "edgeMedia.appVersion" | String | **No** |
 
 ##### Swift 
 ```swift
 let mediaConfiguration = [String: Any]()
-mediaConfiguration ["edgemedia.channel"] = "<YOUR_CHANNEL_NAME>"
-mediaConfiguration ["edgemedia.playerName"] = "<YOUR_PLAYER_NAME>"
-mediaConfiguration ["edgemedia.appVersion"]  = "<YOUR_APP_VERSION>"
+mediaConfiguration ["edgeMedia.channel"] = "<YOUR_CHANNEL_NAME>"
+mediaConfiguration ["edgeMedia.playerName"] = "<YOUR_PLAYER_NAME>"
+mediaConfiguration ["edgeMedia.appVersion"]  = "<YOUR_APP_VERSION>"
 
 MobileCore.updateConfigurationWith(configDict: mediaConfiguration)
  ```
@@ -38,9 +38,9 @@ MobileCore.updateConfigurationWith(configDict: mediaConfiguration)
 ##### Objective-C
 ```objectivec
 NSMutableDictionary* mediaConfiguration = [NSMutableDictionary dictionary];
-config["edgemedia.channel"] = @"<YOUR_CHANNEL_NAME>";
-config["edgemedia.playerName"] = @"<YOUR_PLAYER_NAME>";
-config["edgemedia.appVersion"] = @"<YOUR_APP_VERSION>";
+config["edgeMedia.channel"] = @"<YOUR_CHANNEL_NAME>";
+config["edgeMedia.playerName"] = @"<YOUR_PLAYER_NAME>";
+config["edgeMedia.appVersion"] = @"<YOUR_APP_VERSION>";
 
  [AEPMobileCore updateConfiguration:mediaConfiguration];
 ```
@@ -125,9 +125,9 @@ Run `make archive` from the root directory to generate `.xcframeworks` for each 
        MobileCore.configureWith(appId: "yourEnvironmentID")
         // Configure EdgeMedia extension
         let mediaConfiguration: [String: Any] = [
-                                                  "edgemedia.channel": "<YOUR_CHANNEL_NAME>", 
-                                                  "edgemedia.playerName": "<YOUR_PLAYER_NAME>", 
-                                                  "edgemedia.appVersion": "<YOUR_APP_VERSION>"
+                                                  "edgeMedia.channel": "<YOUR_CHANNEL_NAME>", 
+                                                  "edgeMedia.playerName": "<YOUR_PLAYER_NAME>", 
+                                                  "edgeMedia.appVersion": "<YOUR_APP_VERSION>"
                                                 ]
         MobileCore.updateConfigurationWith(configDict: mediaConfiguration)
      })
