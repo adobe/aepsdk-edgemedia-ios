@@ -114,7 +114,7 @@ jobs:
       - codecov/upload:
           flags: ios-tests
           upload_name: Coverage Report for iOS Tests
-          xtra_args: -c -v --xc --xp iosresults.xcresult -C $CIRCLE_SHA1
+          xtra_args: -c -v --xc --xp iosresults.xcresult -C ${CIRCLE_SHA1}
           
 
   test-tvos:
@@ -139,7 +139,7 @@ jobs:
           flags: tvos-tests
           upload_name: Coverage Report for tvOS Tests
           xtra_args: -c -v --xc --xp tvosresults.xcresult
-          version: v0.4.1
+          version: v0.4.0
 
   build_xcframework_and_app:
     macos:
