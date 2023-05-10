@@ -111,11 +111,25 @@ jobs:
 
       # Code coverage upload using Codecov
       # See options explanation here: https://docs.codecov.com/docs/codecov-uploader
-      - codecov/upload:
-          flags: ios-tests
-          upload_name: Coverage Report for iOS Tests
-          xtra_args: -c -v --xc --xp iosresults.xcresult -C ${CIRCLE_SHA1}
+      #- codecov/upload:
+      #    flags: ios-tests
+      #    upload_name: Coverage Report for iOS Tests
+      #    xtra_args: -c -v --xc --xp iosresults.xcresult -C ${CIRCLE_SHA1}
           
+      # code coverage
+      - run:
+          name: Download Codecov Uploader
+          command: |
+            curl -s https://codecov.io/bash > codecov;
+            VERSION=$(grep 'VERSION=\"[0-9\.]*\"' codecov | cut -d'"' -f2);
+            for i in 1 256 512
+            do
+              shasum -a $i -c --ignore-missing <(curl -s "https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA${i}SUM") ||
+              shasum -a $i -c <(curl -s "https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA${i}SUM" | grep -w "codecov")
+            done
+      - run:
+          name: Upload Code Coverage Report for iOS
+          command: bash ./codecov -v -X s3 -c -D "./build/out" -J "AEPEdgeMedia"
 
   test-tvos:
     macos:
