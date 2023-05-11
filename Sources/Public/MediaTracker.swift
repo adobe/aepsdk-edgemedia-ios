@@ -13,7 +13,7 @@
 import Foundation
 
 /// Interface to call track APIs
-@objc(AEPMediaTracker)
+@objc(AEPEdgeMediaTracker)
 public protocol MediaTracker {
 
     /// API to track the start of a viewing session.

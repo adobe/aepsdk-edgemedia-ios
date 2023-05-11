@@ -15,7 +15,7 @@ import Foundation
 public class MediaConstants: NSObject {
 
     /// These constant strings define the stream type of the main content that is currently tracked.
-    @objc(AEPMediaStreamType)
+    @objc(AEPEdgeMediaStreamType)
     @objcMembers
     public class StreamType: NSObject {
         /// Constant defining stream type for VOD streams.
@@ -33,7 +33,7 @@ public class MediaConstants: NSObject {
     }
 
     /// These constant strings define standard metadata keys for video content.
-    @objc(AEPVideoMetadataKeys)
+    @objc(AEPEdgeMediaVideoMetadataKeys)
     @objcMembers
     public class VideoMetadataKeys: NSObject {
         public static let AD_LOAD = "adLoad"
@@ -56,7 +56,7 @@ public class MediaConstants: NSObject {
     }
 
     /// These constant strings define standard metadata keys for audio content.
-    @objc(AEPAudioMetadataKeys)
+    @objc(AEPEdgeMediaAudioMetadataKeys)
     @objcMembers
     public class AudioMetadataKeys: NSObject {
         public static let ALBUM = "album"
@@ -68,7 +68,7 @@ public class MediaConstants: NSObject {
     }
 
     /// These constant strings define standard metadata keys for ads.
-    @objc(AEPAdMetadataKeys)
+    @objc(AEPEdgeMediaAdMetadataKeys)
     @objcMembers
     public class AdMetadataKeys: NSObject {
         public static let ADVERTISER = "advertiser"
@@ -80,7 +80,7 @@ public class MediaConstants: NSObject {
     }
 
     /// These constant strings define standard player states.
-    @objc(AEPMediaPlayerState)
+    @objc(AEPEdgeMediaPlayerState)
     @objcMembers
     public class PlayerState: NSObject {
         public static let FULLSCREEN = "fullScreen"
@@ -91,7 +91,7 @@ public class MediaConstants: NSObject {
     }
 
     /// These constant strings define additional event keys that can be attached to media object.
-    @objc(AEPMediaObjectKey)
+    @objc(AEPEdgeMediaObjectKey)
     @objcMembers
     public class MediaObjectKey: NSObject {
         public static let RESUMED = "media.resumed"
@@ -99,7 +99,7 @@ public class MediaConstants: NSObject {
     }
 
     /// These constant strings define keys that can be attached to config object.
-    @objc(AEPMediaTrackerConfig)
+    @objc(AEPEdgeMediaTrackerConfig)
     @objcMembers
     public class TrackerConfig: NSObject {
         public static let CHANNEL = "config.channel"
