@@ -173,7 +173,7 @@ let tracker = Media.createTrackerWith(config: config) // Use the instance for tr
 
 ##### Example
 ```objectivec
-id<AEPMediaTracker> _tracker;
+id<AEPEdgeMediaTracker> _tracker;
 NSMutableDictionary* config = [NSMutableDictionary dictionary];
 
 config[AEPEdgeMediaTrackerConfig.CHANNEL] = @"custom-channel"; // Overrides channel configured in the Data Collection UI
@@ -444,7 +444,7 @@ let fullScreenState = Media.createStateObjectWith(stateName: "fullscreen")
 
 ##### Example
 ```objectivec
-NSDictionary* fullScreenState = [AEPMobileEdgeMedia createStateObjectWith:AEPMediaPlayerState.FULLSCREEN]
+NSDictionary* fullScreenState = [AEPMobileEdgeMedia createStateObjectWith:AEPEdgeMediaPlayerState.FULLSCREEN]
 ```
 
 
@@ -1001,10 +1001,10 @@ var mediaObject = Media.createMediaObjectWith(name: "video-name",
 ```objectivec
 
 NSDictionary *mediaObject = [AEPMobileEdgeMedia createMediaObjectWith:@"video-name"
-                                                               id:@"video-id"
-                                                           length:60
-                                                       streamType:AEPEdgeMediaStreamType.VOD      
-                                                        mediaType:AEPEdgeMediaTypeVideo];
+                                                                   id:@"video-id"
+                                                               length:60
+                                                           streamType:AEPEdgeMediaStreamType.VOD      
+                                                            mediaType:AEPEdgeMediaTypeVideo];
 ```
 
 ### Player state constants
