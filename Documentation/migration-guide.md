@@ -55,7 +55,7 @@ Update pod file in your project
 - pod 'AEPMedia'
 + pod 'AEPEdge'
 + pod 'AEPEdgeIdentity'
-+ pod 'AEPEdgeMedia', :git => 'https://github.com/adobe/aepsdk-edgemedia-ios.git', :tag => '1.0.0-beta'
++ pod 'AEPEdgeMedia'
 ```
 
 #### 2. Using SPM:
@@ -78,9 +78,9 @@ Make changes to your dependencies as shown below:
   .package(url: "https://github.com/adobe/aepsdk-core-ios.git", .upToNextMajor(from: "3.7.0")),
 - .package(url: "https://github.com/adobe/aepsdk-analytics-ios.git", .upToNextMajor(from: "3.0.0")),
 - .package(url: "https://github.com/adobe/aepsdk-media-ios.git", .upToNextMajor(from: "3.0.0"))
-+ .package(url: "https://github.com/adobe/aepsdk-edge-ios.git", .upToNextMajor(from: "1.4.0")),
-+ .package(url: "https://github.com/adobe/aepsdk-edgeidentity-ios.git", .upToNextMajor(from: "1.0.0")),
-+ .package(url: "https://github.com/adobe/aepsdk-edgemedia-ios.git", .upToNextMajor(from: "1.0.0-beta"))
++ .package(url: "https://github.com/adobe/aepsdk-edge-ios.git", .upToNextMajor(from: "4.0.0")),
++ .package(url: "https://github.com/adobe/aepsdk-edgeidentity-ios.git", .upToNextMajor(from: "4.0.0")),
++ .package(url: "https://github.com/adobe/aepsdk-edgemedia-ios.git", .upToNextMajor(from: "4.0.0"))
   ]
 ```
 

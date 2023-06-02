@@ -13,34 +13,71 @@ IOS_SIMULATOR_ARCHIVE_PATH = $(CURR_DIR)/build/ios_simulator.xcarchive/Products/
 IOS_SIMULATOR_ARCHIVE_DSYM_PATH = $(CURR_DIR)/build/ios_simulator.xcarchive/dSYMs/
 IOS_ARCHIVE_PATH = $(CURR_DIR)/build/ios.xcarchive/Products/Library/Frameworks/
 IOS_ARCHIVE_DSYM_PATH = $(CURR_DIR)/build/ios.xcarchive/dSYMs/
-TVOS_SIMULATOR_ARCHIVE_PATH = ./build/tvos_simulator.xcarchive/Products/Library/Frameworks/
+TVOS_SIMULATOR_ARCHIVE_PATH = $(CURR_DIR)/build/tvos_simulator.xcarchive/Products/Library/Frameworks/
 TVOS_SIMULATOR_ARCHIVE_DSYM_PATH = $(CURR_DIR)/build/tvos_simulator.xcarchive/dSYMs/
-TVOS_ARCHIVE_PATH = ./build/tvos.xcarchive/Products/Library/Frameworks/
+TVOS_ARCHIVE_PATH = $(CURR_DIR)/build/tvos.xcarchive/Products/Library/Frameworks/
 TVOS_ARCHIVE_DSYM_PATH = $(CURR_DIR)/build/tvos.xcarchive/dSYMs/
 
 setup:
-	(pod install)
+	pod install
 
 setup-tools: install-githook
 
-pod-repo-update:
-	(pod repo update)
-
-# pod repo update may fail if there is no repo (issue fixed in v1.8.4). Use pod install --repo-update instead
-pod-install:
-	(pod install --repo-update)
-
-ci-pod-install:
-	(bundle exec pod install --repo-update)
-
-pod-update: pod-repo-update
-	(pod update)
+clean:
+	rm -rf build
 
 open:
 	open $(PROJECT_NAME).xcworkspace
 
-clean:
-	(rm -rf build)
+pod-install:
+	pod install --repo-update
+
+pod-repo-update:
+	pod repo update
+
+pod-update: pod-repo-update
+	pod update
+
+ci-pod-install:
+	bundle exec pod install --repo-update
+
+ci-pod-repo-update:
+	bundle exec pod repo update
+
+ci-pod-update: ci-pod-repo-update
+	bundle exec pod update
+
+ci-archive: ci-pod-update _archive
+	
+archive: pod-update _archive
+
+_archive: clean build-ios build-tvos
+	@echo "######################################################################"
+	@echo "### Generating iOS and tvOS Frameworks for $(PROJECT_NAME)"
+	@echo "######################################################################"
+	xcodebuild -create-xcframework -framework $(IOS_SIMULATOR_ARCHIVE_PATH)$(PROJECT_NAME).framework -debug-symbols $(IOS_SIMULATOR_ARCHIVE_DSYM_PATH)$(PROJECT_NAME).framework.dSYM \
+	-framework $(TVOS_SIMULATOR_ARCHIVE_PATH)$(PROJECT_NAME).framework -debug-symbols $(TVOS_SIMULATOR_ARCHIVE_DSYM_PATH)$(PROJECT_NAME).framework.dSYM \
+	-framework $(IOS_ARCHIVE_PATH)$(PROJECT_NAME).framework -debug-symbols $(IOS_ARCHIVE_DSYM_PATH)$(PROJECT_NAME).framework.dSYM \
+	-framework $(TVOS_ARCHIVE_PATH)$(PROJECT_NAME).framework -debug-symbols $(TVOS_ARCHIVE_DSYM_PATH)$(PROJECT_NAME).framework.dSYM \
+	-output ./build/$(PROJECT_NAME).xcframework
+
+build-ios:
+	@echo "######################################################################"
+	@echo "### Building iOS archive"
+	@echo "######################################################################"
+	xcodebuild archive -workspace $(PROJECT_NAME).xcworkspace -scheme $(SCHEME_NAME_XCFRAMEWORK) -archivePath "./build/ios.xcarchive" -sdk iphoneos -destination="iOS" SKIP_INSTALL=NO BUILD_LIBRARIES_FOR_DISTRIBUTION=YES ADB_SKIP_LINT=YES
+	xcodebuild archive -workspace $(PROJECT_NAME).xcworkspace -scheme $(SCHEME_NAME_XCFRAMEWORK) -archivePath "./build/ios_simulator.xcarchive" -sdk iphonesimulator -destination="iOS Simulator" SKIP_INSTALL=NO BUILD_LIBRARIES_FOR_DISTRIBUTION=YES ADB_SKIP_LINT=YES
+
+build-tvos:
+	@echo "######################################################################"
+	@echo "### Building tvOS archive"
+	@echo "######################################################################"
+	xcodebuild archive -workspace $(PROJECT_NAME).xcworkspace -scheme $(SCHEME_NAME_XCFRAMEWORK) -archivePath "./build/tvos.xcarchive" -sdk appletvos -destination="tvOS" SKIP_INSTALL=NO BUILD_LIBRARIES_FOR_DISTRIBUTION=YES ADB_SKIP_LINT=YES
+	xcodebuild archive -workspace $(PROJECT_NAME).xcworkspace -scheme $(SCHEME_NAME_XCFRAMEWORK) -archivePath "./build/tvos_simulator.xcarchive" -sdk appletvsimulator -destination="tvOS Simulator" SKIP_INSTALL=NO BUILD_LIBRARIES_FOR_DISTRIBUTION=YES ADB_SKIP_LINT=YES
+
+zip:
+	cd build && zip -r -X $(PROJECT_NAME).xcframework.zip $(PROJECT_NAME).xcframework/
+	swift package compute-checksum build/$(PROJECT_NAME).xcframework.zip
 
 build-app: setup
 	@echo "######################################################################"
@@ -52,44 +89,55 @@ build-app: setup
 	@echo "### Building $(TEST_APP_TVOS_SCHEME)"
 	@echo "######################################################################"
 	xcodebuild clean build -workspace $(PROJECT_NAME).xcworkspace -scheme $(TEST_APP_TVOS_SCHEME) -destination 'generic/platform=tvOS Simulator'
-	
-archive: pod-update
-	xcodebuild archive -workspace $(PROJECT_NAME).xcworkspace -scheme $(SCHEME_NAME_XCFRAMEWORK) -archivePath "./build/ios.xcarchive" -sdk iphoneos -destination="iOS" SKIP_INSTALL=NO BUILD_LIBRARIES_FOR_DISTRIBUTION=YES
-	xcodebuild archive -workspace $(PROJECT_NAME).xcworkspace -scheme $(SCHEME_NAME_XCFRAMEWORK) -archivePath "./build/tvos.xcarchive" -sdk appletvos -destination="tvOS" SKIP_INSTALL=NO BUILD_LIBRARIES_FOR_DISTRIBUTION=YES
-	xcodebuild archive -workspace $(PROJECT_NAME).xcworkspace -scheme $(SCHEME_NAME_XCFRAMEWORK) -archivePath "./build/ios_simulator.xcarchive" -sdk iphonesimulator -destination="iOS Simulator" SKIP_INSTALL=NO BUILD_LIBRARIES_FOR_DISTRIBUTION=YES
-	xcodebuild archive -workspace $(PROJECT_NAME).xcworkspace -scheme $(SCHEME_NAME_XCFRAMEWORK) -archivePath "./build/tvos_simulator.xcarchive" -sdk appletvsimulator -destination="tvOS Simulator" SKIP_INSTALL=NO BUILD_LIBRARIES_FOR_DISTRIBUTION=YES
-	xcodebuild -create-xcframework -framework $(IOS_SIMULATOR_ARCHIVE_PATH)$(PROJECT_NAME).framework -debug-symbols $(IOS_SIMULATOR_ARCHIVE_DSYM_PATH)$(PROJECT_NAME).framework.dSYM \
-	-framework $(TVOS_SIMULATOR_ARCHIVE_PATH)$(PROJECT_NAME).framework -debug-symbols $(TVOS_SIMULATOR_ARCHIVE_DSYM_PATH)$(PROJECT_NAME).framework.dSYM \
-	-framework $(IOS_ARCHIVE_PATH)$(PROJECT_NAME).framework -debug-symbols $(IOS_ARCHIVE_DSYM_PATH)$(PROJECT_NAME).framework.dSYM \
-	-framework $(TVOS_ARCHIVE_PATH)$(PROJECT_NAME).framework -debug-symbols $(TVOS_ARCHIVE_DSYM_PATH)$(PROJECT_NAME).framework.dSYM \
-	-output ./build/$(TARGET_NAME_XCFRAMEWORK)
+
+test: test-ios test-tvos
 
 test-ios:
 	@echo "######################################################################"
 	@echo "### Testing iOS"
 	@echo "######################################################################"
-	xcodebuild test -workspace $(PROJECT_NAME).xcworkspace -scheme $(PROJECT_NAME) -destination 'platform=iOS Simulator,name=iPhone 8' -derivedDataPath build/outn -resultBundlePath iosresults.xcresult -enableCodeCoverage YES
+	xcodebuild -workspace $(PROJECT_NAME).xcworkspace -list
+	final_scheme=""; \
+	if xcodebuild -workspace $(PROJECT_NAME).xcworkspace -list | grep -q "($(PROJECT_NAME) project)"; \
+	then \
+	   final_scheme="$(EXTENSION_NAME) ($(PROJECT_NAME) project)" ; \
+	   echo $$final_scheme ; \
+	else \
+	   final_scheme="$(EXTENSION_NAME)" ; \
+	   echo $$final_scheme ; \
+	fi; \
+	xcodebuild test -workspace $(PROJECT_NAME).xcworkspace -scheme "$$final_scheme" -destination 'platform=iOS Simulator,name=iPhone 14' -derivedDataPath build/out -resultBundlePath iosresults.xcresult -enableCodeCoverage YES ADB_SKIP_LINT=YES
 
 test-tvos:
 	@echo "######################################################################"
 	@echo "### Testing tvOS"
 	@echo "######################################################################"
-	xcodebuild test -workspace $(PROJECT_NAME).xcworkspace -scheme $(PROJECT_NAME) -destination 'platform=tvOS Simulator,name=Apple TV' -derivedDataPath build/outn -resultBundlePath tvosresults.xcresult -enableCodeCoverage YES
+	xcodebuild -workspace $(PROJECT_NAME).xcworkspace -list
+	final_scheme=""; \
+	if xcodebuild -workspace $(PROJECT_NAME).xcworkspace -list | grep -q "($(PROJECT_NAME) project)"; \
+	then \
+		 final_scheme="$(EXTENSION_NAME) ($(PROJECT_NAME) project)" ; \
+		 echo $$final_scheme ; \
+	else \
+		 final_scheme="$(EXTENSION_NAME)" ; \
+		 echo $$final_scheme ; \
+	fi; \
+	xcodebuild test -workspace $(PROJECT_NAME).xcworkspace -scheme "$$final_scheme" -destination 'platform=tvOS Simulator,name=Apple TV' -derivedDataPath build/out -resultBundlePath tvosresults.xcresult -enableCodeCoverage YES ADB_SKIP_LINT=YES
 
 install-githook:
 	git config core.hooksPath .githooks
 
 lint-autocorrect:
-	(./Pods/SwiftLint/swiftlint --fix)
+	./Pods/SwiftLint/swiftlint --fix
 
 lint:
-	(./Pods/SwiftLint/swiftlint lint Sources TestApps/$(APP_NAME))
+	./Pods/SwiftLint/swiftlint lint Sources TestApps/$(APP_NAME)
 
 check-version:
-	(sh ./Script/version.sh $(VERSION))
+	sh ./Script/version.sh $(VERSION)
 
 test-SPM-integration:
-	(sh ./Script/test-SPM.sh)
+	sh ./Script/test-SPM.sh
 
 test-podspec:
-	(sh ./Script/test-podspec.sh)
+	sh ./Script/test-podspec.sh
