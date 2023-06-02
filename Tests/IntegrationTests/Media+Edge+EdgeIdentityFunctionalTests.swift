@@ -38,7 +38,9 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
     let testBackendSessionId = "99cf4e3e7145d8e2b8f4f1e9e1a08cd52518a74091c0b0c611ca97b259e03a4d"
     let successResponseBody = "\u{0000}{\"handle\":[{\"payload\":[{\"sessionId\":\"99cf4e3e7145d8e2b8f4f1e9e1a08cd52518a74091c0b0c611ca97b259e03a4d\"}],\"type\":\"media-analytics:new-session\",\"eventIndex\":0}]}"
 
+    // swiftlint:disable line_length
     let errorResponseBody = "{\"errors\" : [{\"type\" : \"https://ns.adobe.com/aep/errors/va-edge-0404-404\", \"status\" : 404,\"title\" : \"Not Found\", \"detail\" : \"The requested resource could not be found but may be available again in the future.\",\"report\" : {\"details\" : \"Error processing request. If the session is longer than 24h, please start a new one. Returning Not Found\"}}]}"
+    // swiftlint:enable line_length
 
     public class override func setUp() {
         super.setUp()

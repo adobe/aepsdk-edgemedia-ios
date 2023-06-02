@@ -14,6 +14,7 @@
 @testable import AEPEdgeMedia
 import XCTest
 
+// swiftlint:disable type_body_length
 class MediaEventTrackerTests: XCTestCase {
     typealias RuleName = MediaEventTracker.RuleName
     // Disable preroll logic for tests
@@ -1259,3 +1260,4 @@ class MediaEventTrackerTests: XCTestCase {
         XCTAssertEqual("error", mediaTracker.getError(context: context))
     }
 }
+// swiftlint:enable type_body_length

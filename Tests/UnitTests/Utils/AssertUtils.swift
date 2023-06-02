@@ -40,18 +40,14 @@ class AssertUtils: XCTestCase {
     }
 
     static func checkKeys(_ expected: [String: Any], _ actual: [String: Any]) -> Bool {
-        for k in expected.keys {
-            if actual[k] == nil {
-                XCTFail("key:(\(k)) present in expected but not in actual object")
-                return false
-            }
+        for k in expected.keys where actual[k] == nil {
+            XCTFail("key:(\(k)) present in expected but not in actual object")
+            return false
         }
 
-        for k in actual.keys {
-            if expected[k] == nil {
-                XCTFail("key:(\(k)) present in actual but not in expected object")
-                return false
-            }
+        for k in actual.keys where expected[k] == nil {
+            XCTFail("key:(\(k)) present in actual but not in expected object")
+            return false
         }
 
         return true

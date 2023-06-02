@@ -43,6 +43,7 @@ class MediaEventTracker: MediaEventTracking {
         case StateStart
         case StateEnd
     }
+    // swiftlint:enable identifier_name
 
     static let eventToRuleMap: [String: RuleName] = [
         MediaConstants.EventName.SESSION_START: RuleName.MediaStart,
@@ -75,6 +76,7 @@ class MediaEventTracker: MediaEventTracking {
         MediaConstants.EventName.STATE_END: RuleName.StateEnd
     ]
 
+    // swiftlint:disable identifier_name
     enum ErrorMessage: String {
         case ErrNotInMedia = "Media tracker is not in active tracking session, call 'API:trackSessionStart' to begin a new tracking session."
         case ErrInMedia = "Media tracker is in active tracking session, call 'API:trackSessionEnd' or 'API:trackComplete' to end current tracking session."
@@ -101,6 +103,7 @@ class MediaEventTracker: MediaEventTracking {
         case ErrNotInTrackedState = "Media tracker is not tracking a state with the given state name."
         case ErrTrackedStatesLimitReached = "Media tracker has reached maximum number of states per session (10)."
     }
+    // swiftlint:enable identifier_name
 
     private static let KEY_INFO = "key_info"
     private static let KEY_METADATA = "key_metadata"
@@ -387,6 +390,7 @@ class MediaEventTracker: MediaEventTracking {
         ruleEngine.add(rule: stateEnd)
 
     }
+    // swiftlint:enable function_body_length
 
     // MARK: Rule Predicates
     private func isInMedia(rule: MediaRule, context: [String: Any]) -> Bool {
@@ -986,3 +990,4 @@ class MediaEventTracker: MediaEventTracking {
         return context[Self.KEY_EVENT_TS] as? TimeInterval ?? TimeInterval(0)
     }
 }
+// swiftlint:enable type_body_length

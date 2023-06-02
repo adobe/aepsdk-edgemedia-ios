@@ -62,7 +62,8 @@ class MediaRealTimeSession: MediaSession {
         if eventQueue.isEmpty {
             Log.trace(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - [Session (\(id))] Successfully ended media session with id \(mediaBackendSessionId).")
         } else {
-            Log.trace(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - [Session (\(id))] Media session with id \(mediaBackendSessionId) was ended but not all queued events could be processed.")
+            Log.trace(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - [Session (\(id))]"
+                        + " Media session with id \(mediaBackendSessionId) was ended but not all queued events could be processed.")
         }
     }
 

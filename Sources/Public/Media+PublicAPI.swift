@@ -203,4 +203,5 @@ public enum MediaEvent: Int, RawRepresentable {
             return nil
         }
     }
+    // swiftlint:enable identifier_name
 }
