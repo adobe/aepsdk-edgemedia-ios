@@ -133,6 +133,7 @@ lint-autocorrect:
 lint:
 	./Pods/SwiftLint/swiftlint lint Sources TestApps/$(APP_NAME)
 
+# make check-version VERSION=4.0.0
 check-version:
 	sh ./Script/version.sh $(VERSION)
 
