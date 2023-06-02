@@ -75,7 +75,7 @@ Make changes to your dependencies as shown below:
    
 ```diff
   dependencies: [
-  .package(url: "https://github.com/adobe/aepsdk-core-ios.git", .upToNextMajor(from: "3.7.0")),
+  .package(url: "https://github.com/adobe/aepsdk-core-ios.git", .upToNextMajor(from: "4.0.0")),
 - .package(url: "https://github.com/adobe/aepsdk-analytics-ios.git", .upToNextMajor(from: "3.0.0")),
 - .package(url: "https://github.com/adobe/aepsdk-media-ios.git", .upToNextMajor(from: "3.0.0"))
 + .package(url: "https://github.com/adobe/aepsdk-edge-ios.git", .upToNextMajor(from: "4.0.0")),
