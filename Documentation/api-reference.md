@@ -1,4 +1,4 @@
-# Adobe Experience Platform Streaming Media for Edge Network Extension - iOS
+# Adobe Streaming Media for Edge Network extension - iOS
 
 ## Prerequisites
 

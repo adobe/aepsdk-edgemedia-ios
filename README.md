@@ -1,4 +1,4 @@
-# Adobe Experience Platform Streaming Media For Edge Network Extension
+# Adobe Streaming Media for Edge Network extension
 
 [![CocoaPods](https://img.shields.io/github/v/release/adobe/aepsdk-edgemedia-ios?label=CocoaPods&logo=apple&logoColor=white&color=orange)](https://cocoapods.org/pods/AEPEdgeMedia)
 [![SPM](https://img.shields.io/github/v/release/adobe/aepsdk-edgemedia-ios?label=SPM&logo=apple&logoColor=white&color=orange)](https://github.com/adobe/aepsdk-edgemedia-ios/releases)
@@ -7,7 +7,7 @@
 
 ## About this project
 
-The Adobe Streaming Media on Edge Network extension sends data about audio and video consumption on your streaming applications to the Adobe Experience Platform Edge Network. This enables capabilities for measurement, analysis, and activation with media data across the Adobe Experience Cloud solutions when using the [Adobe Experience Platform Mobile SDK](https://developer.adobe.com/client-sdks) and the Edge Network extension.
+The Adobe Streaming Media for Edge Network extension sends data about audio and video consumption on your streaming applications to the Adobe Experience Platform Edge Network. This enables capabilities for measurement, analysis, and activation with media data across the Adobe Experience Cloud solutions when using the [Adobe Experience Platform Mobile SDK](https://developer.adobe.com/client-sdks) and the Edge Network extension.
 
 ## Requirements
 - Xcode 14.1 (or newer)

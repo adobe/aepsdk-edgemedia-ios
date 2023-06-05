@@ -1,6 +1,6 @@
 ## Getting started
 
-The Adobe Experience Platform Streaming Media for Edge Network mobile extension has the following dependencies, which must be installed prior to installing the extension:
+The Adobe Streaming Media for Edge Network mobile extension has the following dependencies, which must be installed prior to installing the extension:
 - [AEPCore](https://github.com/adobe/aepsdk-core-ios)
 - [AEPEdge](https://github.com/adobe/aepsdk-edge-ios)
 - [AEPEdgeIdentity](https://github.com/adobe/aepsdk-edgeidentity-ios)
