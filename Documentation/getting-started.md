@@ -1,6 +1,6 @@
 ## Getting started
 
-The Adobe Experience Platform Media for Edge Network mobile extension has the following dependencies, which must be installed prior to installing the extension:
+The Adobe Experience Platform Streaming Media for Edge Network mobile extension has the following dependencies, which must be installed prior to installing the extension:
 - [AEPCore](https://github.com/adobe/aepsdk-core-ios)
 - [AEPEdge](https://github.com/adobe/aepsdk-edge-ios)
 - [AEPEdgeIdentity](https://github.com/adobe/aepsdk-edgeidentity-ios)
@@ -15,8 +15,9 @@ Configure the Edge, EdgeIdentity extensions in the mobile property using the Dat
 
 ----
 
-### Configure AEPEdgeMedia extension
-Currently AEPEdgeMedia doesn't have a Data Collection extension and needs to be configured programmatically.
+### Configure Media for Edge Network extension
+Configure the Media for Edge Network extension by installing the "Adobe Streaming Media for Edge Network" extension in the Data Collection Tag mobile property.
+The Media for Edge Network extension may additionally be configured programmatically using the following configuration keys. 
 
 #### Configuration Keys
 | Name | Key | Value | Required |
