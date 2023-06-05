@@ -131,13 +131,12 @@ enum MediaXDMEventHelper {
 
         return sessionDetailsXDM
     }
+    // swiftlint:enable function_body_length
 
     static func generateMediaCustomMetadataDetails(metadata: [String: String]) -> [XDMCustomMetadata] {
         var customMetadataList = [XDMCustomMetadata]()
-        for (key, value) in metadata {
-            if !standardMediaMetadataSet.contains(key) {
-                customMetadataList.append(XDMCustomMetadata(name: key, value: value))
-            }
+        for (key, value) in metadata where !standardMediaMetadataSet.contains(key) {
+            customMetadataList.append(XDMCustomMetadata(name: key, value: value))
         }
 
         customMetadataList.sort { $0.name < $1.name }
@@ -193,11 +192,9 @@ enum MediaXDMEventHelper {
 
     static func generateAdCustomMetadataDetails(metadata: [String: String]) -> [XDMCustomMetadata] {
         var customMetadataList = [XDMCustomMetadata]()
-        for (key, value) in metadata {
-            if !standardAdMetadataSet.contains(key) {
-                let customMetadata = XDMCustomMetadata(name: key, value: value)
-                customMetadataList.append(customMetadata)
-            }
+        for (key, value) in metadata where !standardAdMetadataSet.contains(key) {
+            let customMetadata = XDMCustomMetadata(name: key, value: value)
+            customMetadataList.append(customMetadata)
         }
 
         customMetadataList.sort { $0.name < $1.name }

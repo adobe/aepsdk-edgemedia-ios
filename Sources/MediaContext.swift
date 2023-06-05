@@ -21,6 +21,7 @@ class MediaContext {
         case Seek
         case Init
     }
+    // swiftlint:enable identifier_name
 
     private static let LOG_TAG = MediaConstants.LOG_TAG
     private static let CLASS_NAME = "MediaContext"

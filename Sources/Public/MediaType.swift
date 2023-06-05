@@ -13,13 +13,14 @@
 import AEPServices
 import Foundation
 
-// swiftlint:disable identifier_name
 /// These enumeration values define the type of a media.
 /// These enumeration are to be used in *createMediaObjectWith(name:id:length:streamType:mediaType: )*
 @objc(AEPEdgeMediaType)
 public enum MediaType: Int, RawRepresentable {
+    // swiftlint:disable identifier_name
     case Audio
     case Video
+    // swiftlint:enable identifier_name
 
     public typealias RawValue = String
 

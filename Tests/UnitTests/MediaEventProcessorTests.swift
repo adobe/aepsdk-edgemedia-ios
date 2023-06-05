@@ -19,10 +19,6 @@ class MediaEventProcessorTests: XCTestCase {
     static let trackerSessionId = "testTrackerSessionId"
 
     func testCreateSession() {
-
-        // setup
-        let emptytrackerConfig = [String: Any]()
-
         // test
         let mediaProcessor = MediaEventProcessor(dispatcher: nil)
         let sessionId = mediaProcessor.createSession()
@@ -35,8 +31,6 @@ class MediaEventProcessorTests: XCTestCase {
     }
 
     func testProcessEvent_validSesionId() {
-        let emptytrackerConfig = [String: Any]()
-
         // Action
         let mediaProcessor = MediaEventProcessor(dispatcher: nil)
         let sessionId = mediaProcessor.createSession()
@@ -69,10 +63,6 @@ class MediaEventProcessorTests: XCTestCase {
     }
 
     func testEndSession_validSessionId() {
-
-        // setup
-        let emptytrackerConfig = [String: Any]()
-
         // test
         let mediaProcessor = MediaEventProcessor(dispatcher: nil)
         let sessionId = mediaProcessor.createSession()
@@ -107,10 +97,6 @@ class MediaEventProcessorTests: XCTestCase {
     }
 
     func testAbortAllSession_validSessionIds() {
-
-        // setup
-        let emptytrackerConfig = [String: Any]()
-
         // test
         let mediaProcessor = MediaEventProcessor(dispatcher: nil)
         let sessionId1 = mediaProcessor.createSession()
@@ -160,9 +146,6 @@ class MediaEventProcessorTests: XCTestCase {
     }
 
     func testUpdateSessionId() {
-        // setup
-        let emptytrackerConfig = [String: Any]()
-
         // test
         let mediaProcessor = MediaEventProcessor(dispatcher: nil)
         let sessionId = mediaProcessor.createSession()
@@ -184,9 +167,6 @@ class MediaEventProcessorTests: XCTestCase {
     }
 
     func testHandleErrorResponse() {
-        // setup
-        let emptytrackerConfig = [String: Any]()
-
         // test
         let mediaProcessor = MediaEventProcessor(dispatcher: nil)
         let sessionId = mediaProcessor.createSession()

@@ -1,4 +1,4 @@
-// swift-tools-version: 5.1
+// swift-tools-version:5.1
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 /*
  Copyright 2022 Adobe. All rights reserved.
@@ -15,13 +15,13 @@ import PackageDescription
 
 let package = Package(
     name: "AEPEdgeMedia",
-    platforms: [.iOS(.v10), .tvOS(.v10)],
+    platforms: [.iOS(.v11), .tvOS(.v11)],
     products: [
         .library(name: "AEPEdgeMedia", targets: ["AEPEdgeMedia"])
     ],
     dependencies: [
-        .package(url: "https://github.com/adobe/aepsdk-core-ios.git", .branch("dev-v3.9.0")),
-        .package(url: "https://github.com/adobe/aepsdk-edge-ios.git", .upToNextMajor(from: "1.6.0"))
+        .package(url: "https://github.com/adobe/aepsdk-core-ios.git", .upToNextMajor(from: "4.0.0")),
+        .package(url: "https://github.com/adobe/aepsdk-edge-ios.git", .upToNextMajor(from: "4.0.0"))
     ],
     targets: [
         .target(name: "AEPEdgeMedia",
