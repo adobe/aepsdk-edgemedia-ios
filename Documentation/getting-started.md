@@ -1,24 +1,37 @@
 ## Getting started
 
-The Adobe Experience Platform Media for Edge Network mobile extension has the following dependencies, which must be installed prior to installing the extension:
+The Adobe Streaming Media for Edge Network mobile extension has the following dependencies, which must be installed prior to installing the extension:
 - [AEPCore](https://github.com/adobe/aepsdk-core-ios)
 - [AEPEdge](https://github.com/adobe/aepsdk-edge-ios)
 - [AEPEdgeIdentity](https://github.com/adobe/aepsdk-edgeidentity-ios)
 
-## Configuration
+## Configure the Adobe Streaming Media for Edge Network extension in the Data Collection UI
+The Media for Edge Network extension has specific configuration requirements for including the Media Collection Details field group in the XDM schema, enabling Media Analytics in a datastream, and installing the Adobe Streaming Media for Edge Network extension in a Tag mobile property.
 
-### Configure Dependencies
-Configure the Edge, EdgeIdentity extensions in the mobile property using the Data Collection UI.
+### Configure and Setup Adobe Streaming Media for Edge Network
 
-> **Note** 
-> If this is your first time setting up Edge extensions and using Data Collection UI, please follow this [tutorial](https://github.com/adobe/aepsdk-edge-ios/tree/main/Documentation/Tutorials) to learn about Adobe Experience Platform and how to setup required schemas, datasets, datastreams and creating mobile property etc. 
+1. [Define a report suite](https://experienceleague.adobe.com/docs/media-analytics/using/implementation/implementation-edge.html#define-a-report-suite)
+2. [Set up the schema in Adobe Experience Platform](https://experienceleague.adobe.com/docs/media-analytics/using/implementation/implementation-edge.html#set-up-the-schema-in-adobe-experience-platform)
+3. [Create a dataset in Adobe Experience Platform](https://experienceleague.adobe.com/docs/media-analytics/using/implementation/implementation-edge.html#create-a-dataset-in-adobe-experience-platform)
+4. [Configure a datastream in Adobe Experience Platform](https://experienceleague.adobe.com/docs/media-analytics/using/implementation/implementation-edge.html#configure-a-datastream-in-adobe-experience-platform)
 
-----
+### Configure and Install Dependencies
 
-### Configure AEPEdgeMedia extension
-Currently AEPEdgeMedia doesn't have a Data Collection extension and needs to be configured programmatically.
+Media for Edge Network requires Edge and Edge Identity extensions.
+1. [Configure the Edge extension in Data Collection UI](https://developer.adobe.com/client-sdks/documentation/edge-network/#configure-the-edge-network-extension-in-data-collection-ui)
+2. [Configure the Edge Identity extension in Data Collection UI](https://developer.adobe.com/client-sdks/documentation/identity-for-edge-network/#configure-the-identity-extension-in-the-data-collection-ui)
+
+### Configure Media for Edge Network extension in the Data Collection Tags
+
+1. In the Data Collection Tags, select the **Extensions** tab in your mobile property.
+2. On the **Catalog** tab, locate the **Adobe Streaming Media for Edge Network** extension, and select **Install**.
+3. Type the extension settings for **Channel**, **Player Name**, and **Application Version**.
+4. Select **Save**.
+5. Follow the publishing process to update your SDK configuration.
 
 #### Configuration Keys
+Optionally, the Media for Edge Network configuration may be set or changed programmatically.
+
 | Name | Key | Value | Required |
 | --- | --- | --- | --- |
 | Channel | "edgeMedia.channel" | String | **Yes** |
@@ -31,7 +44,6 @@ let mediaConfiguration = [String: Any]()
 mediaConfiguration ["edgeMedia.channel"] = "<YOUR_CHANNEL_NAME>"
 mediaConfiguration ["edgeMedia.playerName"] = "<YOUR_PLAYER_NAME>"
 mediaConfiguration ["edgeMedia.appVersion"]  = "<YOUR_APP_VERSION>"
-
 MobileCore.updateConfigurationWith(configDict: mediaConfiguration)
  ```
 
@@ -41,12 +53,11 @@ NSMutableDictionary* mediaConfiguration = [NSMutableDictionary dictionary];
 config["edgeMedia.channel"] = @"<YOUR_CHANNEL_NAME>";
 config["edgeMedia.playerName"] = @"<YOUR_PLAYER_NAME>";
 config["edgeMedia.appVersion"] = @"<YOUR_APP_VERSION>";
-
- [AEPMobileCore updateConfiguration:mediaConfiguration];
+[AEPMobileCore updateConfiguration:mediaConfiguration];
 ```
 ----
 
-## Add the AEPEdgeMedia extension to your app
+## Add the Media for Edge Network extension to your app
 
 ### Download AEPEdgeMedia extension
 

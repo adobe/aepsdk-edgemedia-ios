@@ -1,4 +1,4 @@
-# Adobe Experience Platform Media for Edge Network Extension - iOS
+# Adobe Streaming Media for Edge Network extension - iOS
 
 ## Prerequisites
 
@@ -9,7 +9,7 @@ To set up the extension and start using these APIs, see the [Getting Started Gui
 | APIs                                                  |
 | ----------------------------------------------------- |
 | [extensionVersion](#extensionVersion)                 |
-| [registerExtension](#registerExtension)               |
+| [registerExtensions](#registerExtensions)               |
 | [createTracker](#createTracker)                       |
 | [createTrackerWithConfig](#createTrackerWithConfig)   |
 | [createMediaObjectWith](#createMediaObjectWith)               |
@@ -64,7 +64,7 @@ NSString *extensionVersion = [AEPMobileEdgeMedia extensionVersion];
 ```
 ------
 
-### registerExtension
+### registerExtensions
 
 Registers the Media for Edge Network extension with the Mobile Core extension.
 

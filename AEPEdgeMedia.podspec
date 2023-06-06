@@ -1,10 +1,10 @@
 Pod::Spec.new do |s|
   s.name             = "AEPEdgeMedia"
   s.version          = "4.0.0"
-  s.summary          = "Experience Platform Edge Media extension for Adobe Experience Platform Mobile SDK. Written and maintained by Adobe."
+  s.summary          = "Adobe Streaming Media for Edge Network extension for Adobe Experience Platform Mobile SDK. Written and maintained by Adobe."
 
   s.description      = <<-DESC
-                       The Experience Platform Edge Media extension enables handling Media Analytics using Adobe Edge Network.
+                       Adobe Streaming Media for Edge Network extension extension sends data about audio and video consumption on your streaming applications to the Adobe Experience Platform Edge Network.
                        DESC
 
   s.homepage         = "https://github.com/adobe/aepsdk-edgemedia-ios.git"
