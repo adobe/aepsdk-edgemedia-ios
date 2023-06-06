@@ -20,10 +20,36 @@ Media for Edge Network requires Edge and Edge Identity extensions.
 
 1. In the Data Collection Tags, select the **Extensions** tab in your mobile property.
 2. On the **Catalog** tab, locate the **Adobe Streaming Media for Edge Network** extension, and select **Install**.
-3. Type the extension settings. For more information, see [Configure Media for Edge Network extension](#configure-the-media-for-edge-network-extension).
+3. Type the extension settings for **Channel**, **Player Name**, and **Application Version**.
 4. Select **Save**.
 5. Follow the publishing process to update your SDK configuration.
 
+#### Configuration Keys
+Optionally, the Media for Edge Network configuration may be set or changed programmatically.
+
+| Name | Key | Value | Required |
+| --- | --- | --- | --- |
+| Channel | "edgeMedia.channel" | String | **Yes** |
+| Player Name | "edgeMedia.playerName" | String | **Yes** |
+| Application Version | "edgeMedia.appVersion" | String | **No** |
+
+##### Swift 
+```swift
+let mediaConfiguration = [String: Any]()
+mediaConfiguration ["edgeMedia.channel"] = "<YOUR_CHANNEL_NAME>"
+mediaConfiguration ["edgeMedia.playerName"] = "<YOUR_PLAYER_NAME>"
+mediaConfiguration ["edgeMedia.appVersion"]  = "<YOUR_APP_VERSION>"
+MobileCore.updateConfigurationWith(configDict: mediaConfiguration)
+ ```
+
+##### Objective-C
+```objectivec
+NSMutableDictionary* mediaConfiguration = [NSMutableDictionary dictionary];
+config["edgeMedia.channel"] = @"<YOUR_CHANNEL_NAME>";
+config["edgeMedia.playerName"] = @"<YOUR_PLAYER_NAME>";
+config["edgeMedia.appVersion"] = @"<YOUR_APP_VERSION>";
+[AEPMobileCore updateConfiguration:mediaConfiguration];
+```
 ----
 
 ## Add the AEPEdgeMedia extension to your app
