@@ -1,53 +1,21 @@
 ## Getting started
 
+## Configure the Media for Edge Network extension in the Data Collection UI
+The Media for Edge Network extension has specific configuration requirements for including the Media Collection Details field group in the XDM schema, enabling Media Analytics in a datastream, and installing the Adobe Streaming Media for Edge Network extension in a Tab mobile property.
+
+Use the following guides to configure the Media for Edge Network in the Data Collection UI
+* [Configure and Setup Adobe Streaming Media for Edge Network with Experience Platform](https://developer.adobe.com/client-sdks/documentation/media-for-edge-network/index.md#configure-and-setup-adobe-streaming-media-for-edge-network-with-experience-platform)
+* [Configure and Install Dependencies](https://developer.adobe.com/client-sdks/documentation/media-for-edge-network/index.md#configure-and-install-dependencies)
+* [Configure Media for Edge Network extension in the Data Collection UI](https://developer.adobe.com/client-sdks/documentation/media-for-edge-network/index.md#configure-media-for-edge-network-extension-in-the-data-collection-ui)
+
+----
+
+## Add the AEPEdgeMedia extension to your app
+
 The Adobe Streaming Media for Edge Network mobile extension has the following dependencies, which must be installed prior to installing the extension:
 - [AEPCore](https://github.com/adobe/aepsdk-core-ios)
 - [AEPEdge](https://github.com/adobe/aepsdk-edge-ios)
 - [AEPEdgeIdentity](https://github.com/adobe/aepsdk-edgeidentity-ios)
-
-## Configuration
-
-### Configure Dependencies
-Configure the Edge, EdgeIdentity extensions in the mobile property using the Data Collection UI.
-
-> **Note** 
-> If this is your first time setting up Edge extensions and using Data Collection UI, please follow this [tutorial](https://github.com/adobe/aepsdk-edge-ios/tree/main/Documentation/Tutorials) to learn about Adobe Experience Platform and how to setup required schemas, datasets, datastreams and creating mobile property etc. 
-
-----
-
-### Configure Media for Edge Network extension
-Configure the Media for Edge Network extension by installing the "Adobe Streaming Media for Edge Network" extension in the Data Collection Tag mobile property.
-The Media for Edge Network extension may additionally be configured programmatically using the following configuration keys. 
-
-#### Configuration Keys
-| Name | Key | Value | Required |
-| --- | --- | --- | --- |
-| Channel | "edgeMedia.channel" | String | **Yes** |
-| Player Name | "edgeMedia.playerName" | String | **Yes** |
-| Application Version | "edgeMedia.appVersion" | String | **No** |
-
-##### Swift 
-```swift
-let mediaConfiguration = [String: Any]()
-mediaConfiguration ["edgeMedia.channel"] = "<YOUR_CHANNEL_NAME>"
-mediaConfiguration ["edgeMedia.playerName"] = "<YOUR_PLAYER_NAME>"
-mediaConfiguration ["edgeMedia.appVersion"]  = "<YOUR_APP_VERSION>"
-
-MobileCore.updateConfigurationWith(configDict: mediaConfiguration)
- ```
-
-##### Objective-C
-```objectivec
-NSMutableDictionary* mediaConfiguration = [NSMutableDictionary dictionary];
-config["edgeMedia.channel"] = @"<YOUR_CHANNEL_NAME>";
-config["edgeMedia.playerName"] = @"<YOUR_PLAYER_NAME>";
-config["edgeMedia.appVersion"] = @"<YOUR_APP_VERSION>";
-
- [AEPMobileCore updateConfiguration:mediaConfiguration];
-```
-----
-
-## Add the AEPEdgeMedia extension to your app
 
 ### Download AEPEdgeMedia extension
 
