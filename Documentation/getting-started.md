@@ -1,6 +1,11 @@
 ## Getting started
 
-## Configure the Media for Edge Network extension in the Data Collection UI
+The Adobe Streaming Media for Edge Network mobile extension has the following dependencies, which must be installed prior to installing the extension:
+- [AEPCore](https://github.com/adobe/aepsdk-core-ios)
+- [AEPEdge](https://github.com/adobe/aepsdk-edge-ios)
+- [AEPEdgeIdentity](https://github.com/adobe/aepsdk-edgeidentity-ios)
+
+## Configure the Adobe Streaming Media for Edge Network extension in the Data Collection UI
 The Media for Edge Network extension has specific configuration requirements for including the Media Collection Details field group in the XDM schema, enabling Media Analytics in a datastream, and installing the Adobe Streaming Media for Edge Network extension in a Tag mobile property.
 
 ### Configure and Setup Adobe Streaming Media for Edge Network
@@ -52,12 +57,7 @@ config["edgeMedia.appVersion"] = @"<YOUR_APP_VERSION>";
 ```
 ----
 
-## Add the AEPEdgeMedia extension to your app
-
-The Adobe Streaming Media for Edge Network mobile extension has the following dependencies, which must be installed prior to installing the extension:
-- [AEPCore](https://github.com/adobe/aepsdk-core-ios)
-- [AEPEdge](https://github.com/adobe/aepsdk-edge-ios)
-- [AEPEdgeIdentity](https://github.com/adobe/aepsdk-edgeidentity-ios)
+## Add the Media for Edge Network extension to your app
 
 ### Download AEPEdgeMedia extension
 
