@@ -1,12 +1,12 @@
 ## Getting started
 
 ## Configure the Media for Edge Network extension in the Data Collection UI
-The Media for Edge Network extension has specific configuration requirements for including the Media Collection Details field group in the XDM schema, enabling Media Analytics in a datastream, and installing the Adobe Streaming Media for Edge Network extension in a Tab mobile property.
+The Media for Edge Network extension has specific configuration requirements for including the Media Collection Details field group in the XDM schema, enabling Media Analytics in a datastream, and installing the Adobe Streaming Media for Edge Network extension in a Tag mobile property.
 
 Use the following guides to configure the Media for Edge Network in the Data Collection UI
-* [Configure and Setup Adobe Streaming Media for Edge Network with Experience Platform](https://developer.adobe.com/client-sdks/documentation/media-for-edge-network/index.md#configure-and-setup-adobe-streaming-media-for-edge-network-with-experience-platform)
+* [Configure and Setup Adobe Streaming Media for Edge Network](https://developer.adobe.com/client-sdks/documentation/media-for-edge-network/index.md#configure-and-setup-adobe-streaming-media-for-edge-network)
 * [Configure and Install Dependencies](https://developer.adobe.com/client-sdks/documentation/media-for-edge-network/index.md#configure-and-install-dependencies)
-* [Configure Media for Edge Network extension in the Data Collection UI](https://developer.adobe.com/client-sdks/documentation/media-for-edge-network/index.md#configure-media-for-edge-network-extension-in-the-data-collection-ui)
+* [Configure Media for Edge Network extension in the Data Collection Tags](https://developer.adobe.com/client-sdks/documentation/media-for-edge-network/index.md#configure-media-for-edge-network-extension-in-the-data-collection-tags)
 
 ----
 
