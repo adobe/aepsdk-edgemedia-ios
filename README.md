@@ -25,7 +25,6 @@ Please refer [Migrating from AEPMedia to AEPEdgeMedia](Documentation/migration-g
 
 Additional documentation for usage and SDK architecture can be found under the [Documentation](Documentation) directory.
 
-
 ## Related Projects
 
 | Project                                                      | Description                                                  |
