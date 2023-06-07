@@ -14,11 +14,11 @@ import Foundation
 
 struct XDMChapterDetails: Encodable {
     let friendlyName: String
-    let index: Int64
-    let length: Int64
-    let offset: Int64
+    let index: Int
+    let length: Int
+    let offset: Int
 
-    init(friendlyName: String, index: Int64, length: Int64, offset: Int64) {
+    init(friendlyName: String, index: Int, length: Int, offset: Int) {
         self.friendlyName = friendlyName
         self.index = index
         self.length = length

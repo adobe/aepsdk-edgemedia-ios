@@ -15,29 +15,22 @@ import Foundation
 internal extension MediaConstants {
     static let EXTENSION_NAME                           = "com.adobe.edge.media"
     static let FRIENDLY_NAME                            = "Edge Media Analytics"
-    static let EXTENSION_VERSION                        = "1.0.0-beta"
+    static let EXTENSION_VERSION                        = "4.0.0"
     static let DATASTORE_NAME                           = EXTENSION_NAME
     static let DATABASE_NAME                            = EXTENSION_NAME
     static let LOG_TAG                                  = FRIENDLY_NAME
 
     enum Configuration {
         static let SHARED_STATE_NAME = "com.adobe.module.configuration"
-        static let MEDIA_CHANNEL = "edgemedia.channel"
-        static let MEDIA_PLAYER_NAME = "edgemedia.playerName"
-        static let MEDIA_APP_VERSION = "edgemedia.appVersion"
+        static let MEDIA_CHANNEL = "edgeMedia.channel"
+        static let MEDIA_PLAYER_NAME = "edgeMedia.playerName"
+        static let MEDIA_APP_VERSION = "edgeMedia.appVersion"
     }
 
     enum Media {
-        static let EVENT_TYPE = "com.adobe.eventtype.edgemedia"
-        static let EVENT_SOURCE_TRACKER_REQUEST = "com.adobe.eventsource.edgemedia.requesttracker"
-        static let EVENT_SOURCE_TRACK_MEDIA = "com.adobe.eventsource.edgemedia.trackmedia"
-        static let EVENT_SOURCE_SESSION_CREATED = "com.adobe.eventsource.edgemedia.sessioncreated"
         static let EVENT_NAME_CREATE_TRACKER = "Media::CreateTrackerRequest"
         static let EVENT_NAME_TRACK_MEDIA = "Media::TrackMedia"
-        static let EVENT_NAME_SESSION_CREATED = "Media::SessionCreated"
         static let EVENT_SOURCE_MEDIA_EDGE_SESSION = "media-analytics:new-session"
-        static let EVENT_SOURCE_EDGE_ERROR_RESPONSE = "com.adobe.eventSource.errorResponseContent"
-
     }
 
     enum EventName {
@@ -126,8 +119,8 @@ internal extension MediaConstants {
     }
 
     enum PingInterval {
-        static let OFFLINE_TRACKING_MS: Int64 = 50 * 1000 // 50 sec
-        static let REALTIME_TRACKING_MS: Int64 = 10 * 1000  // 10 sec
+        static let OFFLINE_TRACKING = TimeInterval(50) // 50 sec
+        static let REALTIME_TRACKING = TimeInterval(10)  // 10 sec
     }
 
     enum XDMKeys {

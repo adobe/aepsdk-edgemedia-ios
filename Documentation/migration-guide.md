@@ -25,9 +25,9 @@ This is the complete migration guide from AEPMedia to AEPEdgeMedia SDK.
 ### AEPEdgeMedia
 | Name | Key | Value | Required |
 | --- | --- | --- | --- |
-| Channel | "edgemedia.channel" | String | Yes |
-| Player Name | "edgemedia.playerName" | String | Yes |
-| Application Version | "edgemedia.appVersion" | String | No |
+| Channel | "edgeMedia.channel" | String | Yes |
+| Player Name | "edgeMedia.playerName" | String | Yes |
+| Application Version | "edgeMedia.appVersion" | String | No |
 
 Please refer [AEPEdgeMedia configuration](getting-started.md/#configuration) for more details.
 
@@ -55,7 +55,7 @@ Update pod file in your project
 - pod 'AEPMedia'
 + pod 'AEPEdge'
 + pod 'AEPEdgeIdentity'
-+ pod 'AEPEdgeMedia', :git => 'https://github.com/adobe/aepsdk-edgemedia-ios.git', :tag => '1.0.0-beta'
++ pod 'AEPEdgeMedia'
 ```
 
 #### 2. Using SPM:
@@ -75,12 +75,12 @@ Make changes to your dependencies as shown below:
    
 ```diff
   dependencies: [
-  .package(url: "https://github.com/adobe/aepsdk-core-ios.git", .upToNextMajor(from: "3.7.0")),
+  .package(url: "https://github.com/adobe/aepsdk-core-ios.git", .upToNextMajor(from: "4.0.0")),
 - .package(url: "https://github.com/adobe/aepsdk-analytics-ios.git", .upToNextMajor(from: "3.0.0")),
 - .package(url: "https://github.com/adobe/aepsdk-media-ios.git", .upToNextMajor(from: "3.0.0"))
-+ .package(url: "https://github.com/adobe/aepsdk-edge-ios.git", .upToNextMajor(from: "1.4.0")),
-+ .package(url: "https://github.com/adobe/aepsdk-edgeidentity-ios.git", .upToNextMajor(from: "1.0.0")),
-+ .package(url: "https://github.com/adobe/aepsdk-edgemedia-ios.git", .upToNextMajor(from: "1.0.0-beta"))
++ .package(url: "https://github.com/adobe/aepsdk-edge-ios.git", .upToNextMajor(from: "4.0.0")),
++ .package(url: "https://github.com/adobe/aepsdk-edgeidentity-ios.git", .upToNextMajor(from: "4.0.0")),
++ .package(url: "https://github.com/adobe/aepsdk-edgemedia-ios.git", .upToNextMajor(from: "4.0.0"))
   ]
 ```
 
@@ -147,6 +147,48 @@ MobileCore.registerExtensions([
 }
 ```
 </details>
+
+------
+
+### Public API changes
+
+All Numeric parameters of the public APIs have been updated to type Int.
+
+##### updateCurrentPlayhead
+```diff
+- func updateCurrentPlayhead(time: Double)
++ func updateCurrentPlayhead(time: Int)
+```
+
+##### createMediaObjectWith
+```diff
+- static func createMediaObjectWith(name: String, id: String, length: Double, streamType: String, mediaType: MediaType) -> [String: Any]?
++ static func createMediaObjectWith(name: String, id: String, length: Int, streamType: String, mediaType: MediaType) -> [String: Any]?
+```
+
+##### createAdBreakObjectWith
+```diff
+- static func createAdBreakObjectWith(name: String, position: Int, startTime: Double) -> [String: Any]?
++ static func createAdBreakObjectWith(name: String, position: Int, startTime: Int) -> [String: Any]?
+```
+
+##### createAdbjectWith
+```diff
+- static func createAdObjectWith(name: String, id: String, position: Int, length: Double) -> [String: Any]?
++ static func createAdObjectWith(name: String, id: String, position: Int, length: Int) -> [String: Any]?
+```
+
+##### createChapterObjectWith
+```diff
+- static func createChapterObjectWith(name: String, position: Int, length: Double, startTime: Double) -> [String: Any]?
++ static func createChapterObjectWith(name: String, position: Int, length: Int, startTime: Int) -> [String: Any]?
+```
+
+##### createQoEObjectWith
+```diff
+- static func createQoEObjectWith(bitrate: Double, startupTime: Double, fps: Double, droppedFrames: Double) -> [String: Any]?
++ static func createQoEObjectWith(bitrate: Int, startupTime: Int, fps: Int, droppedFrames: Int) -> [String: Any]?
+```
 
 ------
 

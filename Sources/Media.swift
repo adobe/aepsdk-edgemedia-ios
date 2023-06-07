@@ -43,11 +43,11 @@ public class Media: NSObject, Extension {
 
     /// Invoked when the Media extension has been registered by the `EventHub`
     public func onRegistered() {
-        registerListener(type: MediaConstants.Media.EVENT_TYPE, source: MediaConstants.Media.EVENT_SOURCE_TRACKER_REQUEST, listener: handleMediaTrackerRequest)
-        registerListener(type: MediaConstants.Media.EVENT_TYPE, source: MediaConstants.Media.EVENT_SOURCE_TRACK_MEDIA, listener: handleMediaTrack)
+        registerListener(type: EventType.edgeMedia, source: EventSource.createTracker, listener: handleMediaTrackerRequest)
+        registerListener(type: EventType.edgeMedia, source: EventSource.trackMedia, listener: handleMediaTrack)
         registerListener(type: EventType.configuration, source: EventSource.responseContent, listener: handleConfigurationResponseEvent)
         registerListener(type: EventType.edge, source: MediaConstants.Media.EVENT_SOURCE_MEDIA_EDGE_SESSION, listener: handleMediaEdgeSessionDetails)
-        registerListener(type: EventType.edge, source: MediaConstants.Media.EVENT_SOURCE_EDGE_ERROR_RESPONSE, listener: handleEdgeErrorResponse)
+        registerListener(type: EventType.edge, source: EventSource.errorResponseContent, listener: handleEdgeErrorResponse)
         registerListener(type: EventType.genericIdentity, source: EventSource.requestReset, listener: handleResetIdentitiesEvent)
     }
 

@@ -18,15 +18,15 @@ class AdBreakInfo: Equatable {
     private static let CLASS_NAME = "AdBreakInfo"
     let name: String
     let position: Int
-    let startTime: Double
+    let startTime: Int
 
     static func == (lhs: AdBreakInfo, rhs: AdBreakInfo) -> Bool {
         return  lhs.name == rhs.name &&
             lhs.position == rhs.position &&
-            lhs.startTime.isAlmostEqual(rhs.startTime)
+            lhs.startTime == rhs.startTime
     }
 
-    init?(name: String, position: Int, startTime: Double) {
+    init?(name: String, position: Int, startTime: Int) {
 
         guard !name.isEmpty else {
             Log.debug(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Error creating AdBreakInfo, name must not be Empty")
@@ -63,7 +63,7 @@ class AdBreakInfo: Equatable {
             return nil
         }
 
-        guard let startTime = info?[MediaConstants.AdBreakInfo.START_TIME] as? Double else {
+        guard let startTime = info?[MediaConstants.AdBreakInfo.START_TIME] as? Int else {
             Log.debug(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Error parsing AdBreakInfo, invalid start time")
             return nil
         }

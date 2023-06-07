@@ -16,19 +16,19 @@ import XCTest
 
 class MediaEventGenerator: MediaTracker {
 
-    class MediaPublicTrackerMock: MediaPublicTracker {
-        var mockTimeStamp: Int64 = 0
-        var mockCurrentPlayhead: Double = 0
+    class MediaPublicTrackerMock: MediaTrackerEventGenerator {
+        var mockTimeStamp = TimeInterval(0)
+        var mockCurrentPlayhead: Int = 0
 
         override init(dispatch: DispatchFn?, config: [String: Any]?) {
             super.init(dispatch: dispatch, config: config)
         }
 
-        override func getCurrentTimeStamp() -> Int64 {
+        override func getCurrentTimeStamp() -> TimeInterval {
             return mockTimeStamp
         }
 
-        override func updateCurrentPlayhead(time: Double) {
+        override func updateCurrentPlayhead(time: Int) {
             mockCurrentPlayhead = time
             super.updateCurrentPlayhead(time: time)
         }
@@ -38,7 +38,7 @@ class MediaEventGenerator: MediaTracker {
     let semaphore = DispatchSemaphore(value: 0)
     var dispatchedEvent: Event?
     var usingProvidedDispatchFn = false
-    var previousPlayhead: Double = 0
+    var previousPlayhead: Int = 0
     var coreEventTracker: MediaEventTracking?
 
     init(config: [String: Any]? = nil, dispatch: ((Event) -> Void)? = nil) {
@@ -91,7 +91,7 @@ class MediaEventGenerator: MediaTracker {
         waitForTrackerRequest()
     }
 
-    func updateCurrentPlayhead(time: Double) {
+    func updateCurrentPlayhead(time: Int) {
         tracker.updateCurrentPlayhead(time: time)
         waitForTrackerRequest()
         self.previousPlayhead = time
@@ -107,23 +107,23 @@ class MediaEventGenerator: MediaTracker {
         coreEventTracker = tracker
     }
 
-    func getTimeStamp() -> Int64 {
+    func getTimeStamp() -> TimeInterval {
         return tracker.mockTimeStamp
     }
 
-    func setTimeStamp(value: Int64) {
+    func setTimeStamp(value: TimeInterval) {
         tracker.mockTimeStamp = value
     }
 
-    func incrementTimeStamp(value: Int64) {
+    func incrementTimeStamp(value: TimeInterval) {
         tracker.mockTimeStamp += value
     }
 
-    func getCurrentPlayhead() -> Double {
+    func getCurrentPlayhead() -> Int {
         return tracker.mockCurrentPlayhead
     }
 
-    func incrementCurrentPlayhead(time: Double) {
+    func incrementCurrentPlayhead(time: Int) {
         tracker.mockCurrentPlayhead += time
         updateCurrentPlayhead(time: tracker.mockCurrentPlayhead)
     }

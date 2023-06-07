@@ -21,7 +21,7 @@ class MediaInfo: Equatable {
     let name: String
     let streamType: String
     let mediaType: MediaType
-    let length: Double
+    let length: Int
     let resumed: Bool
     let prerollWaitingTime: Int
     let granularAdTracking: Bool
@@ -31,13 +31,13 @@ class MediaInfo: Equatable {
             lhs.name == rhs.name &&
             lhs.streamType == rhs.streamType &&
             lhs.mediaType == rhs.mediaType &&
-            lhs.length.isAlmostEqual(rhs.length) &&
+            lhs.length == rhs.length &&
             lhs.resumed == rhs.resumed &&
             lhs.prerollWaitingTime == rhs.prerollWaitingTime &&
             lhs.granularAdTracking == rhs.granularAdTracking
     }
 
-    init?(id: String, name: String, streamType: String, mediaType: MediaType, length: Double, resumed: Bool = false, prerollWaitingTime: Int = DEFAULT_PREROLL_WAITING_TIME_IN_MS, granularAdTracking: Bool = false) {
+    init?(id: String, name: String, streamType: String, mediaType: MediaType, length: Int, resumed: Bool = false, prerollWaitingTime: Int = DEFAULT_PREROLL_WAITING_TIME_IN_MS, granularAdTracking: Bool = false) {
 
         guard !id.isEmpty else {
             Log.debug(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Error creating MediaInfo, id must not be Empty")
@@ -99,7 +99,7 @@ class MediaInfo: Equatable {
             return nil
         }
 
-        guard let length = info?[MediaConstants.MediaInfo.LENGTH] as? Double else {
+        guard let length = info?[MediaConstants.MediaInfo.LENGTH] as? Int else {
             Log.debug(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Error parsing MediaInfo, invalid length")
             return nil
         }

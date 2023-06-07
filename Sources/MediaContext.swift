@@ -21,6 +21,7 @@ class MediaContext {
         case Seek
         case Init
     }
+    // swiftlint:enable identifier_name
 
     private static let LOG_TAG = MediaConstants.LOG_TAG
     private static let CLASS_NAME = "MediaContext"
@@ -41,7 +42,7 @@ class MediaContext {
 
     private(set) var errorInfo: [String: String]?
 
-    var playhead = 0.0
+    var playhead = 0
     var qoeInfo: QoEInfo?
 
     init(mediaInfo: MediaInfo, metadata: [String: String]?) {

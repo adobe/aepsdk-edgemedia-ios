@@ -43,6 +43,7 @@ class MediaEventTracker: MediaEventTracking {
         case StateStart
         case StateEnd
     }
+    // swiftlint:enable identifier_name
 
     static let eventToRuleMap: [String: RuleName] = [
         MediaConstants.EventName.SESSION_START: RuleName.MediaStart,
@@ -75,6 +76,7 @@ class MediaEventTracker: MediaEventTracking {
         MediaConstants.EventName.STATE_END: RuleName.StateEnd
     ]
 
+    // swiftlint:disable identifier_name
     enum ErrorMessage: String {
         case ErrNotInMedia = "Media tracker is not in active tracking session, call 'API:trackSessionStart' to begin a new tracking session."
         case ErrInMedia = "Media tracker is in active tracking session, call 'API:trackSessionEnd' or 'API:trackComplete' to end current tracking session."
@@ -101,6 +103,7 @@ class MediaEventTracker: MediaEventTracking {
         case ErrNotInTrackedState = "Media tracker is not tracking a state with the given state name."
         case ErrTrackedStatesLimitReached = "Media tracker has reached maximum number of states per session (10)."
     }
+    // swiftlint:enable identifier_name
 
     private static let KEY_INFO = "key_info"
     private static let KEY_METADATA = "key_metadata"
@@ -109,9 +112,9 @@ class MediaEventTracker: MediaEventTracking {
 
     private static let LOG_TAG = MediaConstants.LOG_TAG
     private static let CLASS_NAME = "MediaEventTracker"
-    private static let IDLE_TIMEOUT_MS: Int64 = 1800 * 1000 // 30 min
-    private static let MEDIA_SESSION_TIMEOUT_MS: Int64 = 86400 * 1000 // 24 hours
-    private static let CONTENT_START_DURATION_MS: Int64 = 1 * 1000 // 1 sec
+    private static let IDLE_TIMEOUT = TimeInterval(1800) // 30 min
+    private static let MEDIA_SESSION_TIMEOUT = TimeInterval(86400) // 24 hours
+    private static let CONTENT_START_DURATION = TimeInterval(1) // 1 sec
 
     #if DEBUG
     var inPrerollInterval = false
@@ -129,11 +132,11 @@ class MediaEventTracker: MediaEventTracking {
     private var mediaIdle = false
     private var prerollQueuedRules: [(name: RuleName, context: [String: Any])] = []
     private var contentStarted = false
-    private static let INVALID_TS: Int64 = -1
-    private var prerollRefTS: Int64 = INVALID_TS
-    private var contentStartRefTS: Int64 = INVALID_TS
-    private var mediaSessionStartTS: Int64 = INVALID_TS
-    private var mediaIdleStartTS: Int64 = INVALID_TS
+    private static let INVALID_TS: TimeInterval = -1
+    private var prerollRefTS: TimeInterval = INVALID_TS
+    private var contentStartRefTS: TimeInterval = INVALID_TS
+    private var mediaSessionStartTS: TimeInterval = INVALID_TS
+    private var mediaIdleStartTS: TimeInterval = INVALID_TS
     private let ruleEngine: MediaRuleEngine
 
     init(eventProcessor: MediaEventProcessing, config: [String: Any]) {
@@ -387,6 +390,7 @@ class MediaEventTracker: MediaEventTracking {
         ruleEngine.add(rule: stateEnd)
 
     }
+    // swiftlint:enable function_body_length
 
     // MARK: Rule Predicates
     private func isInMedia(rule: MediaRule, context: [String: Any]) -> Bool {
@@ -515,7 +519,7 @@ class MediaEventTracker: MediaEventTracking {
 
     // MARK: Rule Actions
     private func cmdEnterAction(rule: MediaRule, context: [String: Any]) -> Bool {
-        xdmEventGenerator?.setRefTS(ts: getRefTS(context: context))
+        xdmEventGenerator?.setRefTS(getRefTS(context: context))
 
         return true
     }
@@ -782,7 +786,9 @@ class MediaEventTracker: MediaEventTracking {
             mediaSessionStartTS = refTS
         }
 
-        if !trackerIdle && ((refTS - mediaSessionStartTS) >= Self.MEDIA_SESSION_TIMEOUT_MS) {
+        let mediaSessionLength = refTS - mediaSessionStartTS
+
+        if !trackerIdle && (mediaSessionLength >= Self.MEDIA_SESSION_TIMEOUT) {
             xdmEventGenerator?.processSessionAbort()
             xdmEventGenerator?.processSessionRestart()
 
@@ -807,8 +813,9 @@ class MediaEventTracker: MediaEventTracking {
         if mediaContext.isIdle() {
             let refTS = getRefTS(context: context)
             if mediaIdle {
+                let idleTime = refTS - mediaIdleStartTS
                 // Media was already idle during previous call
-                if !trackerIdle && (refTS - mediaIdleStartTS) >= Self.IDLE_TIMEOUT_MS {
+                if !trackerIdle && idleTime >= Self.IDLE_TIMEOUT {
                     // Stop tracking if media has been idle for 30 mins
                     xdmEventGenerator?.processSessionAbort()
                     trackerIdle = true
@@ -860,7 +867,8 @@ class MediaEventTracker: MediaEventTracking {
             contentStartRefTS = refTS
         }
 
-        if (refTS - contentStartRefTS) >= Self.CONTENT_START_DURATION_MS {
+        let timeSinceFirstPlay = refTS - contentStartRefTS
+        if timeSinceFirstPlay >= Self.CONTENT_START_DURATION {
             xdmEventGenerator?.processPlayback(doFlush: true)
             contentStarted = true
         }
@@ -871,7 +879,7 @@ class MediaEventTracker: MediaEventTracking {
     // MARK: Preroll Rule Helpers
 
     // Remove the trackPlay calls before AdBreakStart for preroll ads to avoid incorrect content start on reporting side
-    func prerollReorderRules(rules: [(name: RuleName, context: [String: Any])]) ->[(name: RuleName, context: [String: Any])] {
+    func prerollReorderRules(rules: [(name: RuleName, context: [String: Any])]) -> [(name: RuleName, context: [String: Any])] {
         var reorderedRules: [(name: RuleName, context: [String: Any])] = []
         var adBreakStart: (name: RuleName, context: [String: Any])?
 
@@ -901,16 +909,16 @@ class MediaEventTracker: MediaEventTracking {
         guard  let mediaContext = mediaContext, inPrerollInterval else {
             return false
         }
-        let prerollWaitingtime = Int64(mediaContext.mediaInfo.prerollWaitingTime)
+        let prerollWaitingtimeMS = mediaContext.mediaInfo.prerollWaitingTime
         // Queue the events and stop further downstream processing for preroll_waiting_time ms
         prerollQueuedRules.append((name: rule, context: context))
 
         let refTS = getRefTS(context: context)
-
-        if (refTS - prerollRefTS) >= prerollWaitingtime ||
-            rule == RuleName.AdBreakStart ||
-            rule == RuleName.MediaComplete ||
-            rule == RuleName.MediaSkip {
+        let timeElapsed = Int((refTS - prerollRefTS) * 1000) // convert to MS
+        if  timeElapsed >= prerollWaitingtimeMS ||
+                rule == RuleName.AdBreakStart ||
+                rule == RuleName.MediaComplete ||
+                rule == RuleName.MediaSkip {
 
             // If preroll_waiting_time has elapsed or any of these rules are triggered, start processing all the queued rules
             let reorderedRules = prerollReorderRules(rules: prerollQueuedRules)
@@ -966,23 +974,20 @@ class MediaEventTracker: MediaEventTracking {
         return errorId
     }
 
-    func getPlayhead(context: [String: Any]) -> Double? {
+    func getPlayhead(context: [String: Any]) -> Int? {
         guard let playheadInfo = context[Self.KEY_INFO] as? [String: Any] else {
             return nil
         }
 
-        guard let playhead = playheadInfo[MediaConstants.Tracker.PLAYHEAD] as? Double else {
+        guard let playhead = playheadInfo[MediaConstants.Tracker.PLAYHEAD] as? Int else {
             return nil
         }
 
         return playhead
     }
 
-    func getRefTS(context: [String: Any]) -> Int64 {
-        guard let ts = context[Self.KEY_EVENT_TS] as? Int64 else {
-            return 0
-        }
-
-        return ts
+    func getRefTS(context: [String: Any]) -> TimeInterval {
+        return context[Self.KEY_EVENT_TS] as? TimeInterval ?? TimeInterval(0)
     }
 }
+// swiftlint:enable type_body_length

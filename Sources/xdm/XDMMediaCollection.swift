@@ -19,7 +19,7 @@ struct XDMMediaCollection: Encodable {
     var chapterDetails: XDMChapterDetails?
     var customMetadata: [XDMCustomMetadata]?
     var errorDetails: XDMErrorDetails?
-    var playhead: Int64?
+    var playhead: Int?
     var qoeDataDetails: XDMQoeDataDetails?
     var sessionDetails: XDMSessionDetails?
     var sessionID: String?

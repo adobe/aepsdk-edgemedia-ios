@@ -15,20 +15,20 @@ import AEPCore
 
 class AdPlayback: BaseScenarioTest {
 
-    let mediaInfo = MediaInfo(id: "mediaID", name: "mediaName", streamType: "aod", mediaType: MediaType.Audio, length: 30.0, prerollWaitingTime: 0)!
-    let mediaInfoWithDefaultPreroll = MediaInfo(id: "mediaID", name: "mediaName", streamType: "aod", mediaType: MediaType.Audio, length: 30.0)!
+    let mediaInfo = MediaInfo(id: "mediaID", name: "mediaName", streamType: "aod", mediaType: MediaType.Audio, length: 30, prerollWaitingTime: 0)!
+    let mediaInfoWithDefaultPreroll = MediaInfo(id: "mediaID", name: "mediaName", streamType: "aod", mediaType: MediaType.Audio, length: 30)!
     let mediaMetadata = ["media.show": "sampleshow", "key1": "value1", "key2": "мểŧẳđαţả"]
 
-    let adBreakInfo = AdBreakInfo(name: "adBreakName", position: 1, startTime: 1.1)!
-    let adBreakInfo2 = AdBreakInfo(name: "adBreakName2", position: 2, startTime: 2.2)!
+    let adBreakInfo = AdBreakInfo(name: "adBreakName", position: 1, startTime: 1)!
+    let adBreakInfo2 = AdBreakInfo(name: "adBreakName2", position: 2, startTime: 2)!
 
-    let adInfo = AdInfo(id: "adID", name: "adName", position: 1, length: 15.0)!
+    let adInfo = AdInfo(id: "adID", name: "adName", position: 1, length: 15)!
     let adMetadata = ["media.ad.advertiser": "sampleAdvertiser", "key1": "value1", "key2": "мểŧẳđαţả"]
 
-    let adInfo2 = AdInfo(id: "adID2", name: "adName2", position: 2, length: 20.0)!
+    let adInfo2 = AdInfo(id: "adID2", name: "adName2", position: 2, length: 20)!
     let adMetadata2 = ["media.ad.advertiser": "sampleAdvertiser2", "key2": "value2", "key3": "мểŧẳđαţả"]
 
-    var mediaSharedState: [String: Any] = ["edgemedia.channel": "test_channel", "edgemedia.playerName": "test_playerName", "edgemedia.appVersion": "test_appVersion"]
+    var mediaSharedState: [String: Any] = ["edgeMedia.channel": "test_channel", "edgeMedia.playerName": "test_playerName", "edgeMedia.appVersion": "test_appVersion"]
 
     override func setUp() {
         super.setup()
@@ -62,7 +62,6 @@ class AdPlayback: BaseScenarioTest {
 
         let expectedEvents: [Event] = [
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.sessionStart, playhead: 0, ts: 0, backendSessionId: backendSessionId, info: mediaInfo.toMap(), metadata: mediaMetadata, mediaState: mediaState),
-            EdgeEventHelper.generateSessionCreatedEvent(trackerSessionId: mediaEventProcessorSpy.getTrackerSessionId(sessionId: curSessionId), backendSessionId: backendSessionId),
 
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.adBreakStart, playhead: 0, ts: 0, backendSessionId: backendSessionId, info: adBreakInfo.toMap()),
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.adStart, playhead: 0, ts: 0, backendSessionId: backendSessionId, info: adInfo.toMap(), metadata: adMetadata, mediaState: mediaState),
@@ -118,7 +117,6 @@ class AdPlayback: BaseScenarioTest {
 
         let expectedEvents: [Event] = [
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.sessionStart, playhead: 0, ts: 0, backendSessionId: backendSessionId, info: mediaInfo.toMap(), metadata: mediaMetadata, mediaState: mediaState),
-            EdgeEventHelper.generateSessionCreatedEvent(trackerSessionId: mediaEventProcessorSpy.getTrackerSessionId(sessionId: curSessionId), backendSessionId: backendSessionId),
 
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.adBreakStart, playhead: 0, ts: 0, backendSessionId: backendSessionId, info: adBreakInfo.toMap()),
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.adStart, playhead: 0, ts: 0, backendSessionId: backendSessionId, info: adInfo.toMap(), metadata: adMetadata, mediaState: mediaState),

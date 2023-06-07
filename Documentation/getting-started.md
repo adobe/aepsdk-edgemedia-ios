@@ -1,52 +1,51 @@
 ## Getting started
 
-The Adobe Experience Platform Media for Edge Network mobile extension has the following dependencies, which must be installed prior to installing the extension:
+The Adobe Streaming Media for Edge Network extension has specific configuration requirements for including the Media Collection Details field group in the XDM schema and enabling Media Analytics in a datastream configuration. For more details, please refer to this guide to [configure and set up Adobe Streaming Media for  Edge Network](https://developer.adobe.com/client-sdks/documentation/media-for-edge-network/#configure-and-setup-adobe-streaming-media-for-edge-network).
+
+### Configure and install dependencies
+
+The Adobe Streaming Media for Edge Network mobile extension has the following dependencies, which must be installed prior to installing the extension:
 - [AEPCore](https://github.com/adobe/aepsdk-core-ios)
 - [AEPEdge](https://github.com/adobe/aepsdk-edge-ios)
 - [AEPEdgeIdentity](https://github.com/adobe/aepsdk-edgeidentity-ios)
 
-## Configuration
+### Configure Media for Edge Network extension in the Data Collection Tags
 
-### Configure Dependencies
-Configure the Edge, EdgeIdentity extensions in the mobile property using the Data Collection UI.
+1. In the Data Collection Tags, select the **Extensions** tab in your mobile property.
+2. On the **Catalog** tab, locate the **Adobe Streaming Media for Edge Network** extension, and select **Install**.
+3. Type the extension settings for **Channel**, **Player Name**, and **Application Version**.
+4. Select **Save**.
+5. Follow the publishing process to update your SDK configuration.
 
-> **Note** 
-> If this is your first time setting up Edge extensions and using Data Collection UI, please follow this [tutorial](https://github.com/adobe/aepsdk-edge-ios/tree/main/Documentation/Tutorials) to learn about Adobe Experience Platform and how to setup required schemas, datasets, datastreams and creating mobile property etc. 
+#### Configuration keys
+Optionally, the Media for Edge Network configuration may be set or changed programmatically.
 
-----
-
-### Configure AEPEdgeMedia extension
-Currently AEPEdgeMedia doesn't have a Data Collection extension and needs to be configured programmatically.
-
-#### Configuration Keys
 | Name | Key | Value | Required |
 | --- | --- | --- | --- |
-| Channel | "edgemedia.channel" | String | **Yes** |
-| Player Name | "edgemedia.playerName" | String | **Yes** |
-| Application Version | "edgemedia.appVersion" | String | **No** |
+| Channel | "edgeMedia.channel" | String | **Yes** |
+| Player Name | "edgeMedia.playerName" | String | **Yes** |
+| Application Version | "edgeMedia.appVersion" | String | **No** |
 
 ##### Swift 
 ```swift
 let mediaConfiguration = [String: Any]()
-mediaConfiguration ["edgemedia.channel"] = "<YOUR_CHANNEL_NAME>"
-mediaConfiguration ["edgemedia.playerName"] = "<YOUR_PLAYER_NAME>"
-mediaConfiguration ["edgemedia.appVersion"]  = "<YOUR_APP_VERSION>"
-
+mediaConfiguration ["edgeMedia.channel"] = "<YOUR_CHANNEL_NAME>"
+mediaConfiguration ["edgeMedia.playerName"] = "<YOUR_PLAYER_NAME>"
+mediaConfiguration ["edgeMedia.appVersion"]  = "<YOUR_APP_VERSION>"
 MobileCore.updateConfigurationWith(configDict: mediaConfiguration)
  ```
 
 ##### Objective-C
 ```objectivec
 NSMutableDictionary* mediaConfiguration = [NSMutableDictionary dictionary];
-config["edgemedia.channel"] = @"<YOUR_CHANNEL_NAME>";
-config["edgemedia.playerName"] = @"<YOUR_PLAYER_NAME>";
-config["edgemedia.appVersion"] = @"<YOUR_APP_VERSION>";
-
- [AEPMobileCore updateConfiguration:mediaConfiguration];
+config["edgeMedia.channel"] = @"<YOUR_CHANNEL_NAME>";
+config["edgeMedia.playerName"] = @"<YOUR_PLAYER_NAME>";
+config["edgeMedia.appVersion"] = @"<YOUR_APP_VERSION>";
+[AEPMobileCore updateConfiguration:mediaConfiguration];
 ```
 ----
 
-## Add the AEPEdgeMedia extension to your app
+## Add the Media for Edge Network extension to your app
 
 ### Download AEPEdgeMedia extension
 
@@ -67,7 +66,7 @@ config["edgemedia.appVersion"] = @"<YOUR_APP_VERSION>";
      pod 'AEPCore'
      pod 'AEPEdge'
      pod 'AEPEdgeIdentity'
-     pod 'AEPEdgeMedia', :git => 'https://github.com/adobe/aepsdk-edgemedia-ios.git', :tag => '1.0.0-beta'
+     pod 'AEPEdgeMedia'
   end
   ```
 
@@ -95,13 +94,13 @@ Alternatively, if your project has a `Package.swift` file, you can add AEPEdgeMe
 
 ```
 dependencies: [
-  .package(url: "https://github.com/adobe/aepsdk-edge-ios.git", .upToNextMajor(from: "1.4.0")),
-  .package(url: "https://github.com/adobe/aepsdk-edgeidentity-ios.git", .upToNextMajor(from: "1.0.0")),
-  .package(url: "https://github.com/adobe/aepsdk-edgemedia-ios.git", .upToNextMajor(from: "1.0.0-beta"))
+  .package(url: "https://github.com/adobe/aepsdk-edge-ios.git", .upToNextMajor(from: "4.0.0")),
+  .package(url: "https://github.com/adobe/aepsdk-edgeidentity-ios.git", .upToNextMajor(from: "4.0.0")),
+  .package(url: "https://github.com/adobe/aepsdk-edgemedia-ios.git", .upToNextMajor(from: "4.0.0"))
 ]
 ```
 
-#### Using Binaries
+#### Using binaries
 
 Run `make archive` from the root directory to generate `.xcframeworks` for each module under the `build` folder. Drag and drop all `.xcframeworks` to your app target in Xcode.
 
@@ -125,9 +124,9 @@ Run `make archive` from the root directory to generate `.xcframeworks` for each 
        MobileCore.configureWith(appId: "yourEnvironmentID")
         // Configure EdgeMedia extension
         let mediaConfiguration: [String: Any] = [
-                                                  "edgemedia.channel": "<YOUR_CHANNEL_NAME>", 
-                                                  "edgemedia.playerName": "<YOUR_PLAYER_NAME>", 
-                                                  "edgemedia.appVersion": "<YOUR_APP_VERSION>"
+                                                  "edgeMedia.channel": "<YOUR_CHANNEL_NAME>", 
+                                                  "edgeMedia.playerName": "<YOUR_PLAYER_NAME>", 
+                                                  "edgeMedia.appVersion": "<YOUR_APP_VERSION>"
                                                 ]
         MobileCore.updateConfigurationWith(configDict: mediaConfiguration)
      })

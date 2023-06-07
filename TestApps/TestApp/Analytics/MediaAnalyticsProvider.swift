@@ -45,10 +45,10 @@ class MediaAnalyticsProvider: NSObject {
 
         let qoeData = notification.userInfo
 
-        let qoeBitrate = qoeData?["bitrate"] as? Double ?? 0
-        let qoeStartup = qoeData?["startupTime"] as? Double ?? 0
-        let qoeFPS = qoeData?["fps"] as? Double ?? 0
-        let qoeDroppedFrame = qoeData?["droppedFrames"] as? Double ?? 0
+        let qoeBitrate = qoeData?["bitrate"] as? Int ?? 0
+        let qoeStartup = qoeData?["startupTime"] as? Int ?? 0
+        let qoeFPS = qoeData?["fps"] as? Int ?? 0
+        let qoeDroppedFrame = qoeData?["droppedFrames"] as? Int ?? 0
 
         guard let qoeObject = Media.createQoEObjectWith(bitrate: qoeBitrate, startupTime: qoeStartup, fps: qoeFPS, droppedFrames: qoeDroppedFrame) else { return }
 
@@ -71,7 +71,7 @@ class MediaAnalyticsProvider: NSObject {
 
         let videoName = videoData?["name"] as? String ?? ""
         let videoId = videoData?["id"] as? String ?? ""
-        let vidLength = videoData?["length"] as? Double ?? 0
+        let vidLength = videoData?["length"] as? Int ?? 0
 
         guard let mediaObject = Media.createMediaObjectWith(name: videoName, id: videoId, length: vidLength, streamType: MediaConstants.StreamType.VOD, mediaType: MediaType.Video) else {
             return
@@ -128,8 +128,8 @@ class MediaAnalyticsProvider: NSObject {
 
         let chapterName = chapterData?["name"] as? String ?? ""
         let chapterPosition = chapterData?["position"] as? Int ?? 0
-        let chapterLength = chapterData?["length"] as? Double ?? 0
-        let chapterTime = chapterData?["time"] as? Double ?? 0
+        let chapterLength = chapterData?["length"] as? Int ?? 0
+        let chapterTime = chapterData?["time"] as? Int ?? 0
 
         let chapterObject = Media.createChapterObjectWith(name: chapterName, position: chapterPosition, length: chapterLength, startTime: chapterTime)
 
@@ -149,14 +149,14 @@ class MediaAnalyticsProvider: NSObject {
 
         let adBreakName = adBreakData["name"] as? String ?? ""
         let adBreakPosition = adBreakData["position"] as? Int ?? 0
-        let adBreakStartTime = adBreakData["time"] as? Double ?? 0
+        let adBreakStartTime = adBreakData["time"] as? Int ?? 0
 
         let adBreakObject = Media.createAdBreakObjectWith(name: adBreakName, position: adBreakPosition, startTime: adBreakStartTime)
 
         let adName = adData["name"] as? String ?? ""
         let adId = adData["id"] as? String ?? ""
         let adPosition = adData["position"] as? Int ?? 0
-        let adLength = adData["length"] as? Double ?? 0
+        let adLength = adData["length"] as? Int ?? 0
 
         let adObject = Media.createAdObjectWith(name: adName, id: adId, position: adPosition, length: adLength)
 

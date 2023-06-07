@@ -15,11 +15,8 @@ import Foundation
 protocol MediaEventProcessing {
 
     /// Creates a new `session` and return its `sessionId`.
-    /// - Parameters:
-    ///    - trackerConfig: The tracker configuration.
-    ///    - trackerSessionId: A `UUID` string representing tracker session ID which can used be for debugging.
     /// - Returns: Unique SessionId for the session.
-    func createSession(trackerConfig: [String: Any], trackerSessionId: String?) -> String?
+    func createSession() -> String
 
     /// Process the Media Session with id `sessionId`
     ///

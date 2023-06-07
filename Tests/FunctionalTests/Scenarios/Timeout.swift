@@ -16,9 +16,9 @@ import AEPCore
 class Timeout: BaseScenarioTest {
 
     let standardStateCC = StateInfo(stateName: MediaConstants.PlayerState.CLOSED_CAPTION)!
-    let mediaInfoWithDefaultPreroll = MediaInfo(id: "mediaID", name: "mediaName", streamType: "vod", mediaType: MediaType.Video, length: 30.0)!
+    let mediaInfoWithDefaultPreroll = MediaInfo(id: "mediaID", name: "mediaName", streamType: "vod", mediaType: MediaType.Video, length: 30)!
     let mediaMetadata = ["media.show": "sampleshow", "key1": "value1", "key2": "мểŧẳđαţả"]
-    var mediaSharedState: [String: Any] = ["edgemedia.channel": "test_channel", "edgemedia.playerName": "test_playerName", "edgemedia.appVersion": "test_appVersion"]
+    var mediaSharedState: [String: Any] = ["edgeMedia.channel": "test_channel", "edgeMedia.playerName": "test_playerName", "edgeMedia.appVersion": "test_appVersion"]
 
     override func setUp() {
         super.setup()
@@ -45,7 +45,7 @@ class Timeout: BaseScenarioTest {
         wait()
 
         // mock sessionIDUpdate for restart sceario session2
-        mediaEventProcessorSpy.mockBackendSessionId(sessionId: sessionId2, sessionStartEvent: dispatchedEvents[8644], fakeBackendId: backendSessionId)
+        mediaEventProcessorSpy.mockBackendSessionId(sessionId: sessionId2, sessionStartEvent: dispatchedEvents[8643], fakeBackendId: backendSessionId)
 
         // wait for 20 seconds
         incrementTrackerTime(seconds: 20, updatePlayhead: true)
@@ -58,14 +58,13 @@ class Timeout: BaseScenarioTest {
 
         var expectedEvents: [Event] = [
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.sessionStart, playhead: 0, ts: 0, backendSessionId: backendSessionId, info: mediaInfoWithDefaultPreroll.toMap(), metadata: mediaMetadata, mediaState: mediaState),
-            EdgeEventHelper.generateSessionCreatedEvent(trackerSessionId: mediaEventProcessorSpy.getTrackerSessionId(sessionId: sessionId1), backendSessionId: backendSessionId),
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.play, playhead: 0, ts: 0, backendSessionId: backendSessionId),
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.play, playhead: 1, ts: 1, backendSessionId: backendSessionId)
         ]
 
         var pingList = [Event]()
         for i in stride(from: 11, to: 86400, by: 10) {
-            pingList.append(EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.ping, playhead: Int64(i), ts: TimeInterval(i), backendSessionId: backendSessionId))
+            pingList.append(EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.ping, playhead: i, ts: TimeInterval(i), backendSessionId: backendSessionId))
         }
 
         expectedEvents.insert(contentsOf: pingList, at: expectedEvents.endIndex)
@@ -74,7 +73,6 @@ class Timeout: BaseScenarioTest {
 
         let expectedEventsSession2: [Event] = [
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.sessionStart, playhead: 86400, ts: 86400, backendSessionId: backendSessionId, info: resumedMediaInfo, metadata: mediaMetadata, mediaState: mediaState),
-            EdgeEventHelper.generateSessionCreatedEvent(trackerSessionId: mediaEventProcessorSpy.getTrackerSessionId(sessionId: sessionId2), backendSessionId: backendSessionId),
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.play, playhead: 86400, ts: 86400, backendSessionId: backendSessionId),
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.play, playhead: 86401, ts: 86401, backendSessionId: backendSessionId),
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.ping, playhead: 86411, ts: 86411, backendSessionId: backendSessionId),
@@ -111,7 +109,6 @@ class Timeout: BaseScenarioTest {
 
         var expectedEvents: [Event] = [
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.sessionStart, playhead: 0, ts: 0, backendSessionId: backendSessionId, info: mediaInfoWithDefaultPreroll.toMap(), metadata: mediaMetadata, mediaState: mediaState),
-            EdgeEventHelper.generateSessionCreatedEvent(trackerSessionId: mediaEventProcessorSpy.getTrackerSessionId(sessionId: curSessionId), backendSessionId: backendSessionId),
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.play, playhead: 0, ts: 0, backendSessionId: backendSessionId),
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.play, playhead: 1, ts: 1, backendSessionId: backendSessionId),
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.pauseStart, playhead: 3, ts: 3, backendSessionId: backendSessionId)
@@ -158,7 +155,7 @@ class Timeout: BaseScenarioTest {
 
         wait()
         // mock sessionIDUpdate for restart sceario session2
-        mediaEventProcessorSpy.mockBackendSessionId(sessionId: sessionId2, sessionStartEvent: dispatchedEvents[187], fakeBackendId: backendSessionId)
+        mediaEventProcessorSpy.mockBackendSessionId(sessionId: sessionId2, sessionStartEvent: dispatchedEvents[186], fakeBackendId: backendSessionId)
         incrementTrackerTime(seconds: 3, updatePlayhead: true)
         mediaTracker.trackComplete()
 
@@ -166,7 +163,6 @@ class Timeout: BaseScenarioTest {
 
         var expectedEvents: [Event] = [
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.sessionStart, playhead: 0, ts: 0, backendSessionId: backendSessionId, info: mediaInfoWithDefaultPreroll.toMap(), metadata: mediaMetadata, mediaState: mediaState),
-            EdgeEventHelper.generateSessionCreatedEvent(trackerSessionId: mediaEventProcessorSpy.getTrackerSessionId(sessionId: sessionId1), backendSessionId: backendSessionId),
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.play, playhead: 0, ts: 0, backendSessionId: backendSessionId),
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.play, playhead: 1, ts: 1, backendSessionId: backendSessionId),
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.pauseStart, playhead: 3, ts: 3, backendSessionId: backendSessionId)
@@ -199,7 +195,6 @@ class Timeout: BaseScenarioTest {
 
         let expectedEventsSession2: [Event] = [
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.sessionStart, playhead: 3, ts: 1803, backendSessionId: backendSessionId, info: resumedMediaInfo, metadata: mediaMetadata, mediaState: mediaState),
-            EdgeEventHelper.generateSessionCreatedEvent(trackerSessionId: mediaEventProcessorSpy.getTrackerSessionId(sessionId: sessionId2), backendSessionId: backendSessionId),
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.play, playhead: 3, ts: 1803, backendSessionId: backendSessionId),
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.play, playhead: 4, ts: 1804, backendSessionId: backendSessionId),
             EdgeEventHelper.generateEdgeEvent(eventType: XDMMediaEventType.sessionComplete, playhead: 6, ts: 1806, backendSessionId: backendSessionId)

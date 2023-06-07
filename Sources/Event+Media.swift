@@ -26,7 +26,7 @@ extension Event {
 
     /// Returns tracker config associated with EVENT_SOURCE_TRACKER_REQUEST Event
     var trackerConfig: [String: Any]? {
-        guard source == MediaConstants.Media.EVENT_SOURCE_TRACKER_REQUEST else {
+        guard source == EventSource.createTracker else {
             return nil
         }
         return data?[MediaConstants.Tracker.EVENT_PARAM] as? [String: Any]
@@ -44,8 +44,8 @@ extension Event {
         return data?[MediaConstants.Tracker.EVENT_NAME] as? String
     }
 
-    var eventTs: Int64? {
-        return data?[MediaConstants.Tracker.EVENT_TIMESTAMP] as? Int64
+    var eventTs: TimeInterval? {
+        return data?[MediaConstants.Tracker.EVENT_TIMESTAMP] as? TimeInterval
     }
 
     var requestEventId: String? {

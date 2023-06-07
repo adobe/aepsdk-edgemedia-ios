@@ -1,4 +1,4 @@
-# Adobe Experience Platform Media for Edge Network Extension - iOS
+# Adobe Streaming Media for Edge Network extension - iOS
 
 ## Prerequisites
 
@@ -9,7 +9,7 @@ To set up the extension and start using these APIs, see the [Getting Started Gui
 | APIs                                                  |
 | ----------------------------------------------------- |
 | [extensionVersion](#extensionVersion)                 |
-| [registerExtension](#registerExtension)               |
+| [registerExtensions](#registerExtensions)               |
 | [createTracker](#createTracker)                       |
 | [createTrackerWithConfig](#createTrackerWithConfig)   |
 | [createMediaObjectWith](#createMediaObjectWith)               |
@@ -64,7 +64,7 @@ NSString *extensionVersion = [AEPMobileEdgeMedia extensionVersion];
 ```
 ------
 
-### registerExtension
+### registerExtensions
 
 Registers the Media for Edge Network extension with the Mobile Core extension.
 
@@ -130,7 +130,7 @@ let tracker = Media.createTracker()  // Use the instance for tracking media play
 
 ##### Example
 ```objectivec
-id<AEPMediaTracker> tracker;
+id<AEPEdgeMediaTracker> tracker;
 _tracker = [AEPMobileEdgeMedia createTracker];  // Use the instance for tracking media playback session.
 ```
 
@@ -168,15 +168,15 @@ let tracker = Media.createTrackerWith(config: config) // Use the instance for tr
 
 ##### Syntax
 ```objectivec
-+(id<AEPMediaTracker> _Nonnull) createTrackerWithConfig:(NSDictionary<NSString *,id> * _Nullable)
++(id<AEPEdgeMediaTracker> _Nonnull) createTrackerWithConfig:(NSDictionary<NSString *,id> * _Nullable)
 ```
 
 ##### Example
 ```objectivec
-id<AEPMediaTracker> _tracker;
+id<AEPEdgeMediaTracker> _tracker;
 NSMutableDictionary* config = [NSMutableDictionary dictionary];
 
-config[AEPMediaTrackerConfig.CHANNEL] = @"custom-channel"; // Overrides channel configured in the Data Collection UI
+config[AEPEdgeMediaTrackerConfig.CHANNEL] = @"custom-channel"; // Overrides channel configured in the Data Collection UI
 
 _tracker = [AEPMobileEdgeMedia createTrackerWithConfig:config]; // Use the instance for tracking media playback session.
 ```
@@ -202,7 +202,7 @@ Creates an instance of the Media object which is a dictionary that contains info
 ```swift
 static func createMediaObjectWith(name: String,
                                     id: String,
-                                length: Double,
+                                length: Int,
                             streamType: String,
                              mediaType: MediaType) -> [String: Any]?
 ```
@@ -220,7 +220,7 @@ let mediaObject = Media.createMediaObjectWith(name: "video-name",
 
 ##### Syntax
 ```objectivec
-+ (NSDictionary<NSString *, id> * _Nullable) createMediaObjectWith:(NSString * _Nonnull) id:(NSString * _Nonnull) length:(double) streamType:(NSString * _Nonnull) mediaType:(enum AEPMediaType)
++ (NSDictionary<NSString *, id> * _Nullable) createMediaObjectWith:(NSString * _Nonnull) id:(NSString * _Nonnull) length:(NSInteger) streamType:(NSString * _Nonnull) mediaType:(enum AEPEdgeMediaType)
 ```
 
 ##### Example
@@ -228,8 +228,8 @@ let mediaObject = Media.createMediaObjectWith(name: "video-name",
 NSDictionary *mediaObject = [AEPMobileEdgeMedia createMediaObjectWith:@"video-name"
                                                                 id:@"video-id"
                                                             length:60
-                                                        streamType:AEPMediaStreamType.VOD
-                                                         mediaType:AEPMediaTypeVideo];
+                                                        streamType:AEPEdgeMediaStreamType.VOD
+                                                         mediaType:AEPEdgeMediaTypeVideo];
 ```
 
 ### createAdBreakObjectWith
@@ -248,7 +248,7 @@ Creates an instance of the AdBreak object which is a dictionary that contains in
 ```swift
 static func createAdBreakObjectWith(name: String,
                                 position: Int,
-                                startTime: Double) -> [String: Any]?
+                                startTime: Int) -> [String: Any]?
 ```
 
 ##### Example
@@ -262,7 +262,7 @@ let adBreakObject = Media.createAdBreakObjectWith(name: "adbreak-name",
 
 ##### Syntax
 ```objectivec
-+ (NSDictionary  <NSString *, id> * _Nullable) createAdBreakObjectWith:(NSString * _Nonnull)position:(NSInteger) startTime:(double)
++ (NSDictionary  <NSString *, id> * _Nullable) createAdBreakObjectWith:(NSString * _Nonnull)position:(NSInteger) startTime:(NSInteger)
 ```
 
 ##### Example
@@ -290,7 +290,7 @@ Creates an instance of the Ad object which is a dictionary that contains informa
 static func createAdObjectWith(name: String,
                                  id: String,
                            position: Int,
-                             length: Double) -> [String: Any]?
+                             length: Int) -> [String: Any]?
 ```
 
 ##### Example
@@ -308,7 +308,7 @@ let adObject = Media.createObjectWith(name: "ad-name",
 + (NSDictionary  <NSString *, id> * _Nullable) createAdObjectWith: (NSString * _Nonnull
                                                                id:(NSString * _Nonnull)
                                                          position:(NSInteger)
-                                                           length:(double)
+                                                           length:(NSInteger)
 ```
 
 ##### Example
@@ -336,8 +336,8 @@ Creates an instance of the Chapter object which is a dictionary that contains in
 ```swift
 static func createChapterObjectWith(name: String,
                                 position: Int,
-                                  length: Double,
-                               startTime: Double) -> [String: Any]?
+                                  length: Int,
+                               startTime: Int) -> [String: Any]?
 ```
 
 ##### Example
@@ -354,8 +354,8 @@ let chapterObject = Media.createChapterObjectWith(name: "chapter_name",
 ```objectivec
 + (NSDictionary  <NSString *, id> * _Nullable) createChapterObjectWith:(NSString * _Nonnull)
                                                               position:(NSInteger)
-                                                                length:(double)
-                                                             startTime:(double)
+                                                                length:(NSInteger)
+                                                             startTime:(NSInteger)
 ```
 
 ##### Example
@@ -384,10 +384,10 @@ Creates an instance of the QoE (Quality of Experience) object which is a diction
 
 ##### Syntax
 ```swift
-static func createQoEObjectWith(bitrate: Double,
-                            startupTime: Double,
-                                    fps: Double,
-                          droppedFrames: Double) -> [String: Any]?
+static func createQoEObjectWith(bitrate: Int,
+                            startupTime: Int,
+                                    fps: Int,
+                          droppedFrames: Int) -> [String: Any]?
 ```
 
 ##### Example
@@ -402,10 +402,10 @@ let qoeObject = Media.createQoEObjectWith(bitrate: 500000,
 
 ##### Syntax
 ```objectivec
-+ (NSDictionary  <NSString *, id> * _Nullable) createQoEObjectWith:(double)
-                                                         startTime:(double)
-                                                               fps:(double)
-                                                     droppedFrames:(double)
++ (NSDictionary  <NSString *, id> * _Nullable) createQoEObjectWith:(NSInteger)
+                                                         startTime:(NSInteger)
+                                                               fps:(NSInteger)
+                                                     droppedFrames:(NSInteger)
 ```
 
 ##### Example
@@ -444,7 +444,7 @@ let fullScreenState = Media.createStateObjectWith(stateName: "fullscreen")
 
 ##### Example
 ```objectivec
-NSDictionary* fullScreenState = [AEPMobileEdgeMedia createStateObjectWith:AEPMediaPlayerState.FULLSCREEN]
+NSDictionary* fullScreenState = [AEPMobileEdgeMedia createStateObjectWith:AEPEdgeMediaPlayerState.FULLSCREEN]
 ```
 
 
@@ -493,12 +493,12 @@ tracker.trackSessionStart(info: mediaObject, metadata: videoMetadata)
 
 ##### Example
 ```objectivec
-NSDictionary *mediaObject = [AEPMobileEdgeMedia createMediaObjectWith:@"video-name" id:@"video-id" length:60 streamType:AEPMediaStreamType.VOD mediaType:AEPMediaTypeVideo];
+NSDictionary *mediaObject = [AEPMobileEdgeMedia createMediaObjectWith:@"video-name" id:@"video-id" length:60 streamType:AEPEdgeMediaStreamType.VOD mediaType:AEPEdgeMediaTypeVideo];
 
 NSMutableDictionary *videoMetadata = [[NSMutableDictionary alloc] init];
 // Sample implementation for using standard video metadata keys
-[videoMetadata setObject:@"Sample show" forKey:AEPVideoMetadataKeys.SHOW];
-[videoMetadata setObject:@"Sample Season" forKey:AEPVideoMetadataKeys.SEASON];
+[videoMetadata setObject:@"Sample show" forKey:AEPEdgeMediaVideoMetadataKeys.SHOW];
+[videoMetadata setObject:@"Sample Season" forKey:AEPEdgeMediaVideoMetadataKeys.SEASON];
 
 // Sample implementation for using custom metadata keys
 [videoMetadata setObject:@"false" forKey:@"isUserLoggedIn"];
@@ -754,92 +754,92 @@ Tracking bitrate change
 
 ##### Syntax
 ```objectivec
-- (void) trackEvent:(enum AEPMediaEvent) info:(NSDictionary<NSString *,id> * _Nullable) metadata:(NSDictionary<NSString *,NSString *> * _Nullable)
+- (void) trackEvent:(enum AEPEdgeMediaEvent) info:(NSDictionary<NSString *,id> * _Nullable) metadata:(NSDictionary<NSString *,NSString *> * _Nullable)
 ```
 
 ##### Example
 Tracking ad breaks
 ```objectivec
 // AdBreakStart
-  NSDictionary *adBreakObject = [AEPMobileMedia createAdBreakObjectWith:@"adbreak-name" position:1 startTime:0];
-  [_tracker trackEvent:AEPMediaEventAdBreakStart info:adBreakObject metadata:nil];
+  NSDictionary *adBreakObject = [AEPMobileEdgeMedia createAdBreakObjectWith:@"adbreak-name" position:1 startTime:0];
+  [_tracker trackEvent:AEPEdgeMediaEventAdBreakStart info:adBreakObject metadata:nil];
 
 // AdBreakComplete
-  [_tracker trackEvent:AEPMediaEventAdBreakComplete info:nil metadata:nil];
+  [_tracker trackEvent:AEPEdgeMediaEventAdBreakComplete info:nil metadata:nil];
 ```
 
 Tracking ads
 ```objectivec
 // AdStart
-  NSDictionary *adObject = [AEPMobileMedia createAdObjectWith:@"ad-name" id:@"ad-id" position:0 length:30];
+  NSDictionary *adObject = [AEPMobileEdgeMedia createAdObjectWith:@"ad-name" id:@"ad-id" position:0 length:30];
   NSMutableDictionary* adMetadata = [[NSMutableDictionary alloc] init];
 
 // Standard metadata keys provided by adobe.
-  [adMetadata setObject:@"Sample Advertiser" forKey:AEPAdMetadataKeys.ADVERTISER];
-  [adMetadata setObject:@"Sample Campaign" forKey:AEPAdMetadataKeys.CAMPAIGN_ID];
+  [adMetadata setObject:@"Sample Advertiser" forKey:AEPEdgeMediaAdMetadataKeys.ADVERTISER];
+  [adMetadata setObject:@"Sample Campaign" forKey:AEPEdgeMediaAdMetadataKeys.CAMPAIGN_ID];
 
 // Custom metadata keys
   [adMetadata setObject:@"Sample affiliate" forKey:@"affiliate"];
 
-  [_tracker trackEvent:AEPMediaEventAdStart info:adObject metadata:adMetadata];
+  [_tracker trackEvent:AEPEdgeMediaEventAdStart info:adObject metadata:adMetadata];
 
 // AdComplete
-  [_tracker trackEvent:AEPMediaEventAdComplete info:nil metadata:nil];
+  [_tracker trackEvent:AEPEdgeMediaEventAdComplete info:nil metadata:nil];
 
 // AdSkip
-  [_tracker trackEvent:AEPMediaEventAdSkip info:nil metadata:nil];
+  [_tracker trackEvent:AEPEdgeMediaEventAdSkip info:nil metadata:nil];
 ```
 
 Tracking chapters
 ```objectivec
 // ChapterStart
-  NSDictionary *chapterObject = [AEPMobileMedia createChapterObjectWith:@"chapter_name" position:1 length:60 startTime:0];
+  NSDictionary *chapterObject = [AEPMobileEdgeMedia createChapterObjectWith:@"chapter_name" position:1 length:60 startTime:0];
 
   NSMutableDictionary *chapterMetadata = [[NSMutableDictionary alloc] init];
   [chapterMetadata setObject:@"Sample segment type" forKey:@"segmentType"];
 
-  [_tracker trackEvent:AEPMediaEventChapterStart info:chapterObject metadata:chapterMetadata];
+  [_tracker trackEvent:AEPEdgeMediaEventChapterStart info:chapterObject metadata:chapterMetadata];
 
 // ChapterComplete
-  [_tracker trackEvent:AEPMediaEventChapterComplete info:nil metadata:nil];
+  [_tracker trackEvent:AEPEdgeMediaEventChapterComplete info:nil metadata:nil];
 
 // ChapterSkip
-  [_tracker trackEvent:AEPMediaEventChapterSkip info:nil metadata:nil];
+  [_tracker trackEvent:AEPEdgeMediaEventChapterSkip info:nil metadata:nil];
 ```
 
 Tracking player states
 ```objectivec
 // StateStart
-  NSDictionary* fullScreenState = [AEPMobileMedia createStateObjectWith:AEPMediaPlayerState.FULLSCREEN];
-  [_tracker trackEvent:AEPMediaEventStateStart info:fullScreenState metadata:nil];
+  NSDictionary* fullScreenState = [AEPMobileEdgeMedia createStateObjectWith:AEPEdgeMediaPlayerState.FULLSCREEN];
+  [_tracker trackEvent:AEPEdgeMediaEventStateStart info:fullScreenState metadata:nil];
 
 // StateEnd
-  NSDictionary* fullScreenState = [AEPMobileMedia createStateObjectWith:AEPMediaPlayerState.FULLSCREEN];
-  [_tracker trackEvent:AEPMediaEventStateEnd info:fullScreenState metadata:nil];
+  NSDictionary* fullScreenState = [AEPMobileEdgeMedia createStateObjectWith:AEPEdgeMediaPlayerState.FULLSCREEN];
+  [_tracker trackEvent:AEPEdgeMediaEventStateEnd info:fullScreenState metadata:nil];
 ```
 
 Tracking playback events
 ```objectivec
 // BufferStart
-  [_tracker trackEvent:AEPMediaEventBufferStart info:nil metadata:nil];
+  [_tracker trackEvent:AEPEdgeMediaEventBufferStart info:nil metadata:nil];
 
 // BufferComplete
-  [_tracker trackEvent:AEPMediaEventBufferComplete info:nil metadata:nil];
+  [_tracker trackEvent:AEPEdgeMediaEventBufferComplete info:nil metadata:nil];
 
 // SeekStart
-  [_tracker trackEvent:AEPMediaEventSeekStart info:nil metadata:nil];
+  [_tracker trackEvent:AEPEdgeMediaEventSeekStart info:nil metadata:nil];
 
 // SeekComplete
-  [_tracker trackEvent:AEPMediaEventSeekComplete info:nil metadata:nil];
+  [_tracker trackEvent:AEPEdgeMediaEventSeekComplete info:nil metadata:nil];
 ```
 
 Tracking bitrate change
 ```objectivec
 // If the new bitrate value is available provide it to the tracker.
-  NSDictionary *qoeObject = [AEPMobileMedia createQoEObjectWith:50000 startTime:2 fps:24 droppedFrames:10];
+  NSDictionary *qoeObject = [AEPMobileEdgeMedia createQoEObjectWith:50000 startTime:2 fps:24 droppedFrames:10];
 
 // Bitrate change
-  [_tracker trackEvent:AEPMediaEventBitrateChange info:nil metadata:nil];
+  [_tracker trackEvent:AEPEdgeMediaEventBitrateChange info:nil metadata:nil];
 ```
 
 ### updateCurrentPlayhead
@@ -857,7 +857,7 @@ Provides the current media playhead value to the media tracker instance. For acc
 
 ##### Syntax
 ```swift
-func updateCurrentPlayhead(time: Double)
+func updateCurrentPlayhead(time: Int)
 ```
 
 ##### Example
@@ -878,7 +878,7 @@ tracker.updateCurrentPlayhead(time: timeFromMidnightInSecond)
 
 ##### Syntax
 ```objectivec
-- (void) updateCurrentPlayhead:(double)
+- (void) updateCurrentPlayhead:(NSInteger)
 ```
 
 ##### Example
@@ -915,7 +915,7 @@ tracker.updateQoEObject(qoe: qoeObject)
 
 ##### Example
 ```objectivec
-NSDictionary *qoeObject = [AEPMobileMedia createQoEObjectWith:50000 startTime:2 fps:24 droppedFrames:10]
+NSDictionary *qoeObject = [AEPMobileEdgeMedia createQoEObjectWith:50000 startTime:2 fps:24 droppedFrames:10]
 [_tracker updateQoEObject:qoeObject];
 ```
 
@@ -927,7 +927,7 @@ Defines the type of media that is currently being tracked. It can be either `Med
 
 ##### Definition
 ```swift
-@objc(AEPMediaType)
+@objc(AEPEdgeMediaType)
 public enum MediaType: Int, RawRepresentable {
  //Constant defining media type for Video streams
  case Audio
@@ -951,11 +951,11 @@ var mediaObject = Media.createMediaObjectWith(name: "video-name",
 ##### Example
 ```objectivec
 
-NSDictionary *mediaObject = [AEPMobileMedia createMediaObjectWith:@"video-name"
-                                                               id:@"video-id"
-                                                           length:60
-                                                       streamType:AEPMediaStreamType.VOD      
-                                                        mediaType:AEPMediaTypeVideo];
+NSDictionary *mediaObject = [AEPMobileEdgeMedia createMediaObjectWith:@"video-name"
+                                                                   id:@"video-id"
+                                                               length:60
+                                                           streamType:AEPEdgeMediaStreamType.VOD      
+                                                            mediaType:AEPEdgeMediaTypeVideo];
 ```
 
 ### StreamType
@@ -966,7 +966,7 @@ Defines the type of streamed content that is currently being tracked. Use the av
 ```swift
 
 public class MediaConstants: NSObject {
-  @objc(AEPMediaStreamType)
+  @objc(AEPEdgeMediaStreamType)
   public class StreamType: NSObject {
      // Constant defining stream type for VOD streams.
         public static let VOD = "vod"
@@ -1000,11 +1000,11 @@ var mediaObject = Media.createMediaObjectWith(name: "video-name",
 ##### Example
 ```objectivec
 
-NSDictionary *mediaObject = [AEPMobileMedia createMediaObjectWith:@"video-name"
-                                                               id:@"video-id"
-                                                           length:60
-                                                       streamType:AEPMediaStreamType.VOD      
-                                                        mediaType:AEPMediaTypeVideo];
+NSDictionary *mediaObject = [AEPMobileEdgeMedia createMediaObjectWith:@"video-name"
+                                                                   id:@"video-id"
+                                                               length:60
+                                                           streamType:AEPEdgeMediaStreamType.VOD      
+                                                            mediaType:AEPEdgeMediaTypeVideo];
 ```
 
 ### Player state constants
@@ -1012,7 +1012,7 @@ Defines the state of the media player that is currently being tracked. Use the a
 
 ```swift
 public class MediaConstants: NSObject {
-  @objc(AEPMediaPlayerState)
+  @objc(AEPEdgeMediaPlayerState)
   public class PlayerState: NSObject {
         public static let FULLSCREEN = "fullscreen"
         public static let PICTURE_IN_PICTURE = "pictureInPicture"
@@ -1034,8 +1034,8 @@ tracker.trackEvent(event: MediaEvent.StateStart, info: inFocusState, metadata: n
 
 ##### Example
 ```objectivec
-NSDictionary* inFocusState = [AEPMobileMedia createStateObjectWith:AEPMediaPlayerState.IN_FOCUS];
-[_tracker trackEvent:AEPMediaEventStateStart info:muteState metadata:nil];
+NSDictionary* inFocusState = [AEPMobileEdgeMedia createStateObjectWith:AEPEdgeMediaPlayerState.IN_FOCUS];
+[_tracker trackEvent:AEPEdgeMediaEventStateStart info:muteState metadata:nil];
 ```
 
 ### Standard video metadata constants
@@ -1044,7 +1044,7 @@ Defines the standard video constants used as keys when creating or modifying vid
 
 ```swift
 public class MediaConstants: NSObject {
-  @objc(AEPVideoMetadataKeys)
+  @objc(AEPEdgeMediaVideoMetadataKeys)
   public class VideoMetadataKeys: NSObject {
         public static let AD_LOAD = "adLoad"
         public static let ASSET_ID = "assetID"
@@ -1085,12 +1085,12 @@ tracker.trackSessionStart(info: mediaObject, metadata: videoMetadata)
 
 ##### Example
 ```objectivec
-NSDictionary *mediaObject = [AEPMobileEdgeMedia createMediaObjectWith:@"video-name" id:@"video-id" length:60 streamType:AEPMediaStreamType.VOD mediaType:AEPMediaTypeVideo];
+NSDictionary *mediaObject = [AEPMobileEdgeMedia createMediaObjectWith:@"video-name" id:@"video-id" length:60 streamType:AEPEdgeMediaStreamType.VOD mediaType:AEPEdgeMediaTypeVideo];
 
 NSMutableDictionary *videoMetadata = [[NSMutableDictionary alloc] init];
 // Standard Video Metadata
-[videoMetadata setObject:@"Sample show" forKey:AEPVideoMetadataKeys.SHOW];
-[videoMetadata setObject:@"Sample Season" forKey:AEPVideoMetadataKeys.SEASON];
+[videoMetadata setObject:@"Sample show" forKey:AEPEdgeMediaVideoMetadataKeys.SHOW];
+[videoMetadata setObject:@"Sample Season" forKey:AEPEdgeMediaVideoMetadataKeys.SEASON];
 
 [_tracker trackSessionStart:mediaObject metadata:videoMetadata];
 ```
@@ -1101,7 +1101,7 @@ Defines the standard audio constants used as keys when creating or modifying aud
 
 ```swift
 public class MediaConstants: NSObject {
-  @objc(AEPAudioMetadataKeys)
+  @objc(AEPEdgeMediaAudioMetadataKeys)
   public class AudioMetadataKeys: NSObject {
         public static let ALBUM = "album"
         public static let ARTIST = "artist"
@@ -1131,12 +1131,12 @@ tracker.trackSessionStart(info: audioObject, metadata: audioMetadata)
 
 ##### Example
 ```objectivec
-NSDictionary *audioObject = [AEPMobileMedia createMediaObjectWith:@"audio-name" id:@"audioid" length:30 streamType:AEPMediaStreamType.AOD mediaType:AEPMediaTypeAudio];
+NSDictionary *audioObject = [AEPMobileEdgeMedia createMediaObjectWith:@"audio-name" id:@"audioid" length:30 streamType:AEPEdgeMediaStreamType.AOD mediaType:AEPEdgeMediaTypeAudio];
 
 NSMutableDictionary *audioMetadata = [[NSMutableDictionary alloc] init];
 // Standard Audio Metadata
-[audioMetadata setObject:@"Sample artist" forKey:AEPAudioMetadataKeys.ARTIST];
-[audioMetadata setObject:@"Sample album" forKey:AEPAudioMetadataKeys.ALBUM];
+[audioMetadata setObject:@"Sample artist" forKey:AEPEdgeMediaAudioMetadataKeys.ARTIST];
+[audioMetadata setObject:@"Sample album" forKey:AEPEdgeMediaAudioMetadataKeys.ALBUM];
 
 [_tracker trackSessionStart:audioObject metadata:audioMetadata];
 ```
@@ -1147,7 +1147,7 @@ Defines the standard ad metadata constants used as keys when creating or modifyi
 
 ```swift
 public class MediaConstants: NSObject {
-  @objc(AEPAdMetadataKeys)
+  @objc(AEPEdgeMediaAdMetadataKeys)
   public class AdMetadataKeys: NSObject {
         public static let ADVERTISER = "advertiser"
         public static let CAMPAIGN_ID = "campaignID"
@@ -1181,10 +1181,10 @@ NSDictionary *adObject = [AEPMobileEdgeMedia createAdObjectWith:@"ad-name" id:@"
 
 NSMutableDictionary *adMetadata = [[NSMutableDictionary alloc] init];
 // Standard Ad Metadata
-[adMetadata setObject:@"Sample Advertiser" forKey:AEPAdMetadataKeys.ADVERTISER];
-[adMetadata setObject:@"Sample Campaign" forKey:AEPAdMetadataKeys.CAMPAIGN_ID];
+[adMetadata setObject:@"Sample Advertiser" forKey:AEPEdgeMediaAdMetadataKeys.ADVERTISER];
+[adMetadata setObject:@"Sample Campaign" forKey:AEPEdgeMediaAdMetadataKeys.CAMPAIGN_ID];
 
-[_tracker trackEvent:AEPMediaEventAdStart info:adObject metadata:adMetadata];
+[_tracker trackEvent:AEPEdgeMediaEventAdStart info:adObject metadata:adMetadata];
 ```
 
 ### Media event constants
@@ -1192,7 +1192,7 @@ NSMutableDictionary *adMetadata = [[NSMutableDictionary alloc] init];
 Defines the media event that is currently being tracked. Only the available constant values are allowed.
 
 ```swift
-@objc(AEPMediaEvent)
+@objc(AEPEdgeMediaEvent)
 public enum MediaEvent: Int, RawRepresentable {
  // event type for AdBreak start
     case AdBreakStart
@@ -1238,20 +1238,20 @@ tracker.trackEvent(event: MediaEvent.BitrateChange, info: nil, metadata: nil)
 
 ##### Example
 ```objectivec
-[_tracker trackEvent:AEPMediaEventBitrateChange info:nil metadata:nil];
+[_tracker trackEvent:AEPEdgeMediaEventBitrateChange info:nil metadata:nil];
 ```
 
 ### Media resume
-Constant to denote that the current tracking session is resuming a previously closed session. This information must be provided when starting a tracking session.
+Constant used to denote that the current tracking session is resuming a previously closed session. This information must be provided when starting a tracking session.
 
 #### Swift
 
 ##### Syntax
 ```swift
 public class MediaConstants: NSObject {
- @objc(AEPMediaObjectKey)
+ @objc(AEPEdgeMediaObjectKey)
  public class MediaObjectKey: NSObject {
-        public static let RESUMED = "media.resumed"
+      public static let RESUMED = "media.resumed"
     }
 }
 ```
@@ -1268,17 +1268,17 @@ tracker.trackSessionStart(info: mediaObject, metadata: nil)
 
 ##### Syntax
 ```objectivec
-@interface AEPMediaObjectKey : NSObject
+@interface AEPEdgeMediaObjectKey : NSObject
 + (NSString * _Nonnull)RESUMED
 ```
 
 ##### Example
 ```objectivec
-NSDictionary *mediaObject = [AEPMobileMedia createMediaObjectWith:@"video-name" id:@"video-id" length:60 streamType:AEPMediaStreamType.VOD mediaType:AEPMediaTypeVideo];
+NSDictionary *mediaObject = [AEPMobileEdgeMedia createMediaObjectWith:@"video-name" id:@"video-id" length:60 streamType:AEPEdgeMediaStreamType.VOD mediaType:AEPEdgeMediaTypeVideo];
 
 // Attach media resumed information.    
 NSMutableDictionary *obj  = [mediaObject mutableCopy];
-[obj setObject:@YES forKey:AEPMediaObjectKey.RESUMED];
+[obj setObject:@YES forKey:AEPEdgeMediaObjectKey.RESUMED];
 
 [_tracker trackSessionStart:obj metadata:nil];
 ```

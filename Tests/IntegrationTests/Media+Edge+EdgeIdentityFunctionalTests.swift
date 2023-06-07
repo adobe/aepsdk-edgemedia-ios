@@ -21,11 +21,11 @@ import XCTest
 class EdgeMediaIntegrationTests: FunctionalTestBase {
     private let sessionStartEdgeEndpoint = "https://edge.adobedc.net/ee/va/v1/sessionStart"
     private let configuration = ["edge.configId": "12345-example",
-                                 "edgemedia.channel": "testChannel",
-                                 "edgemedia.playerName": "testPlayerName"
+                                 "edgeMedia.channel": "testChannel",
+                                 "edgeMedia.playerName": "testPlayerName"
     ]
 
-    let mediaInfo = Media.createMediaObjectWith(name: "testName", id: "testId", length: 30.0, streamType: "VOD", mediaType: MediaType.Video)!
+    let mediaInfo = Media.createMediaObjectWith(name: "testName", id: "testId", length: 30, streamType: "VOD", mediaType: MediaType.Video)!
     let adBreakInfo = Media.createAdBreakObjectWith(name: "testName", position: 1, startTime: 1)!
     let adInfo = Media.createAdObjectWith(name: "testName", id: "testId", position: 1, length: 15)!
     let chapterInfo = Media.createChapterObjectWith(name: "testName", position: 1, length: 30, startTime: 2)!
@@ -38,7 +38,9 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
     let testBackendSessionId = "99cf4e3e7145d8e2b8f4f1e9e1a08cd52518a74091c0b0c611ca97b259e03a4d"
     let successResponseBody = "\u{0000}{\"handle\":[{\"payload\":[{\"sessionId\":\"99cf4e3e7145d8e2b8f4f1e9e1a08cd52518a74091c0b0c611ca97b259e03a4d\"}],\"type\":\"media-analytics:new-session\",\"eventIndex\":0}]}"
 
+    // swiftlint:disable line_length
     let errorResponseBody = "{\"errors\" : [{\"type\" : \"https://ns.adobe.com/aep/errors/va-edge-0404-404\", \"status\" : 404,\"title\" : \"Not Found\", \"detail\" : \"The requested resource could not be found but may be available again in the future.\",\"report\" : {\"details\" : \"Error processing request. If the session is longer than 24h, please start a new one. Returning Not Found\"}}]}"
+    // swiftlint:enable line_length
 
     public class override func setUp() {
         super.setUp()
@@ -365,7 +367,7 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
 
     // Test Assert Utils
 
-    func assertXDMData(networkRequest: NetworkRequest, eventType: String, info: [String: Any] = [:], metadata: [String: String] = [:], configuration: [String: Any] = [:], backendSessionId: String? = nil, qoeInfo: [String: Any]? = nil, playhead: Int64? = nil, stateStart: Bool = true) {
+    func assertXDMData(networkRequest: NetworkRequest, eventType: String, info: [String: Any] = [:], metadata: [String: String] = [:], configuration: [String: Any] = [:], backendSessionId: String? = nil, qoeInfo: [String: Any]? = nil, playhead: Int? = nil, stateStart: Bool = true) {
         let expectedMediaCollectionData = EdgeEventHelper.generateMediaCollection(eventType: XDMMediaEventType(rawValue: eventType) ?? XDMMediaEventType.sessionEnd,
                                                                                   playhead: playhead ?? 0,
                                                                                   backendSessionId: testBackendSessionId,

@@ -79,7 +79,7 @@ class EdgeEventHelper {
         var sessionDetails: [String: Any] = [:]
         sessionDetails["name"] = mediaInfo["media.id"]
         sessionDetails["friendlyName"] = mediaInfo["media.name"]
-        sessionDetails["length"] = Int64(mediaInfo["media.length"] as? Double ?? -1)
+        sessionDetails["length"] = mediaInfo["media.length"]
         sessionDetails["streamType"] = mediaInfo["media.type"]
         sessionDetails["contentType"] = mediaInfo["media.streamtype"]
         sessionDetails["hasResume"] = mediaInfo["media.resumed"]
@@ -163,8 +163,8 @@ class EdgeEventHelper {
         var advertisingDetails: [String: Any] = [:]
         advertisingDetails["name"] = adInfo["ad.id"]
         advertisingDetails["friendlyName"] = adInfo["ad.name"]
-        advertisingDetails["length"] = Int64(adInfo["ad.length"] as? Double ?? -1)
-        advertisingDetails["podPosition"] = Int64(adInfo["ad.position"] as? Int ?? -1)
+        advertisingDetails["length"] = adInfo["ad.length"]
+        advertisingDetails["podPosition"] = adInfo["ad.position"]
 
         for (key, value) in metadata {
             if !standardAdMetadataSet.contains(key) {
@@ -200,8 +200,8 @@ class EdgeEventHelper {
     static func getAdvertisingPodDetailsDictionary(adBreakInfo: [String: Any]) -> [String: Any] {
         var advertisingPodDetails: [String: Any] = [:]
         advertisingPodDetails["friendlyName"] = adBreakInfo["adbreak.name"]
-        advertisingPodDetails["index"] = Int64(adBreakInfo["adbreak.position"] as? Int ?? -1)
-        advertisingPodDetails["offset"] = Int64(adBreakInfo["adbreak.starttime"] as? Double ?? -1)
+        advertisingPodDetails["index"] = adBreakInfo["adbreak.position"]
+        advertisingPodDetails["offset"] = adBreakInfo["adbreak.starttime"]
 
         return advertisingPodDetails
     }
@@ -209,9 +209,9 @@ class EdgeEventHelper {
     static func getChapterDetailsDictionary(chapterInfo: [String: Any], metadata: [String: String]) -> [String: Any] {
         var chapterDetails: [String: Any] = [:]
         chapterDetails["friendlyName"] = chapterInfo["chapter.name"]
-        chapterDetails["index"] = Int64(chapterInfo["chapter.position"] as? Int ?? -1)
-        chapterDetails["offset"] = Int64(chapterInfo["chapter.starttime"] as? Double ?? -1)
-        chapterDetails["length"] = Int64(chapterInfo["chapter.length"] as? Double ?? -1)
+        chapterDetails["index"] = chapterInfo["chapter.position"]
+        chapterDetails["offset"] = chapterInfo["chapter.starttime"]
+        chapterDetails["length"] = chapterInfo["chapter.length"]
 
         return chapterDetails
     }
@@ -235,15 +235,15 @@ class EdgeEventHelper {
 
     static func getQoEDetailsDictionary(qoeInfo: [String: Any]) -> [String: Any] {
         var qoeDetails: [String: Any] = [:]
-        qoeDetails["bitrate"] = Int64(qoeInfo["qoe.bitrate"] as? Double ?? -1)
-        qoeDetails["droppedFrames"] = Int64(qoeInfo["qoe.droppedframes"] as? Double ?? -1)
-        qoeDetails["framesPerSecond"] = Int64(qoeInfo["qoe.fps"] as? Double ?? -1)
-        qoeDetails["timeToStart"] = Int64(qoeInfo["qoe.startuptime"] as? Double ?? -1)
+        qoeDetails["bitrate"] = qoeInfo["qoe.bitrate"]
+        qoeDetails["droppedFrames"] = qoeInfo["qoe.droppedframes"]
+        qoeDetails["framesPerSecond"] = qoeInfo["qoe.fps"]
+        qoeDetails["timeToStart"] = qoeInfo["qoe.startuptime"]
 
         return qoeDetails
     }
 
-    static func generateMediaCollection(eventType: XDMMediaEventType, playhead: Int64, backendSessionId: String?, info: [String: Any], metadata: [String: String]?, mediaState: MediaState?, qoeInfo: [String: Any]? = nil, stateStart: Bool = true) -> [String: Any] {
+    static func generateMediaCollection(eventType: XDMMediaEventType, playhead: Int, backendSessionId: String?, info: [String: Any], metadata: [String: String]?, mediaState: MediaState?, qoeInfo: [String: Any]? = nil, stateStart: Bool = true) -> [String: Any] {
         var mediaCollection: [String: Any] = [:]
 
         mediaCollection["playhead"] = playhead
@@ -284,7 +284,7 @@ class EdgeEventHelper {
         return mediaCollection
     }
 
-    static func generateEdgeEvent(eventType: XDMMediaEventType, playhead: Int64, ts: TimeInterval, backendSessionId: String?, info: [String: Any]? = nil, metadata: [String: String]? = nil, mediaState: MediaState? = nil, stateStart: Bool = true) -> Event {
+    static func generateEdgeEvent(eventType: XDMMediaEventType, playhead: Int, ts: TimeInterval, backendSessionId: String?, info: [String: Any]? = nil, metadata: [String: String]? = nil, mediaState: MediaState? = nil, stateStart: Bool = true) -> Event {
         let eventOverwritePath = "/va/v1/" + eventType.rawValue
 
         var data: [String: Any] = [:]
@@ -305,17 +305,5 @@ class EdgeEventHelper {
                                    source: "com.adobe.eventSource.requestContent",
                                    data: data)
         return mediaEdgeEvent
-    }
-
-    static func generateSessionCreatedEvent(trackerSessionId: String, backendSessionId: String) -> Event {
-        var eventData: [String: Any] = [:]
-        eventData[MediaConstants.Tracker.BACKEND_SESSION_ID] = backendSessionId
-        eventData[MediaConstants.Tracker.SESSION_ID] = trackerSessionId
-
-        let sessionCreatedEvent = Event(name: "Media::SessionCreated",
-                                        type: "com.adobe.eventtype.edgemedia",
-                                        source: "com.adobe.eventsource.edgemedia.sessioncreated",
-                                        data: eventData)
-        return sessionCreatedEvent
     }
 }

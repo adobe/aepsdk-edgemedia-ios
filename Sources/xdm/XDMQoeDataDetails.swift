@@ -13,12 +13,12 @@
 import Foundation
 
 struct XDMQoeDataDetails: Equatable, Encodable {
-    let bitrate: Int64?
-    let droppedFrames: Int64?
-    let framesPerSecond: Int64?
-    let timeToStart: Int64?
+    let bitrate: Int?
+    let droppedFrames: Int?
+    let framesPerSecond: Int?
+    let timeToStart: Int?
 
-    init(bitrate: Int64, droppedFrames: Int64, framesPerSecond: Int64, timeToStart: Int64) {
+    init(bitrate: Int, droppedFrames: Int, framesPerSecond: Int, timeToStart: Int) {
         self.bitrate = bitrate
         self.droppedFrames = droppedFrames
         self.framesPerSecond = framesPerSecond

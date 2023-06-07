@@ -18,17 +18,17 @@ class ChapterInfo: Equatable {
     private static let CLASS_NAME = "ChapterInfo"
     let name: String
     let position: Int
-    let startTime: Double
-    let length: Double
+    let startTime: Int
+    let length: Int
 
     static func == (lhs: ChapterInfo, rhs: ChapterInfo) -> Bool {
         return  lhs.name == rhs.name &&
             lhs.position == rhs.position &&
-            lhs.startTime.isAlmostEqual(rhs.startTime) &&
-            lhs.length.isAlmostEqual(rhs.length)
+            lhs.startTime == rhs.startTime &&
+            lhs.length == rhs.length
     }
 
-    init?(name: String, position: Int, startTime: Double, length: Double) {
+    init?(name: String, position: Int, startTime: Int, length: Int) {
 
         guard !name.isEmpty else {
             Log.debug(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Error creating ChapterInfo, name must not be empty")
@@ -71,12 +71,12 @@ class ChapterInfo: Equatable {
             return nil
         }
 
-        guard let startTime = info?[MediaConstants.ChapterInfo.START_TIME] as? Double else {
+        guard let startTime = info?[MediaConstants.ChapterInfo.START_TIME] as? Int else {
             Log.debug(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Error parsing ChapterInfo, invalid start time")
             return nil
         }
 
-        guard let length = info?[MediaConstants.ChapterInfo.LENGTH] as? Double else {
+        guard let length = info?[MediaConstants.ChapterInfo.LENGTH] as? Int else {
             Log.debug(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Error parsing ChapterInfo, invalid length")
             return nil
         }

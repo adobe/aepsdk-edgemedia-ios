@@ -22,9 +22,9 @@ class  MediaXDMEventGenerator {
     private let refEvent: Event
     private var lastReportedQoe: XDMQoeDataDetails?
     private var isTracking: Bool = false
-    private var refTS: Int64
+    private var refTS: TimeInterval
     private var currentPlaybackState: MediaContext.MediaPlaybackState?
-    private var currentPlaybackStateStartRefTS: Int64
+    private var currentPlaybackStateStartRefTS: TimeInterval
     private let allowedAdPingIntervalRangeInSeconds = 1...10
     private let allowedMainPingIntervalRangeInSeconds = 10...50
 
@@ -37,7 +37,7 @@ class  MediaXDMEventGenerator {
     #endif
 
     /// Initializes the Media XDM Event Generator
-    public required init(context: MediaContext, eventProcessor: MediaEventProcessing, config: [String: Any], refEvent: Event, refTS: Int64) {
+    public required init(context: MediaContext, eventProcessor: MediaEventProcessing, config: [String: Any], refEvent: Event, refTS: TimeInterval) {
         self.mediaContext = context
         self.mediaEventProcessor = eventProcessor
         self.trackerConfig = config
@@ -45,7 +45,7 @@ class  MediaXDMEventGenerator {
         self.refTS = refTS
         self.currentPlaybackState = .Init
         self.currentPlaybackStateStartRefTS = refTS
-        startTrackingSession(trackerSessionId: refEvent.sessionId)
+        startTrackingSession()
     }
 
     func processSessionStart(forceResume: Bool = false) {
@@ -131,7 +131,7 @@ class  MediaXDMEventGenerator {
         currentPlaybackStateStartRefTS = refTS
 
         lastReportedQoe = nil
-        startTrackingSession(trackerSessionId: refEvent.sessionId)
+        startTrackingSession()
         processSessionStart(forceResume: true)
 
         if mediaContext.chapterInfo != nil {
@@ -183,7 +183,7 @@ class  MediaXDMEventGenerator {
             addGenericDataAndProcess(eventType: eventType, mediaCollection: nil)
             currentPlaybackState = newPlaybackState
             currentPlaybackStateStartRefTS = refTS
-        } else if (newPlaybackState == currentPlaybackState) && (refTS - currentPlaybackStateStartRefTS >= reportingInterval) {
+        } else if (newPlaybackState == currentPlaybackState) && ((refTS - currentPlaybackStateStartRefTS) >= reportingInterval) {
             // If the ts difference is more than interval we need to send it as multiple pings
             addGenericDataAndProcess(eventType: XDMMediaEventType.ping, mediaCollection: nil)
             currentPlaybackStateStartRefTS = refTS
@@ -206,21 +206,15 @@ class  MediaXDMEventGenerator {
         addGenericDataAndProcess(eventType: XDMMediaEventType.statesUpdate, mediaCollection: mediaCollection)
     }
 
-    func setRefTS(ts: Int64) {
+    func setRefTS(_ ts: TimeInterval) {
         refTS = ts
     }
 
     /// Signals event processor to start a new media session.
-    ///    - Parameter trackerSessionId: A `UUID` string representing tracker session ID which can used be for debugging.
-    private func startTrackingSession(trackerSessionId: String?) {
-        guard let sessionId = mediaEventProcessor.createSession(trackerConfig: trackerConfig, trackerSessionId: trackerSessionId) else {
-            Log.debug(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Unable to create a tracking session.")
-            isTracking = false
-            return
-        }
-        self.sessionId = sessionId
-        Log.debug(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Started a new session with id (\(self.sessionId)).")
+    private func startTrackingSession() {
+        self.sessionId = mediaEventProcessor.createSession()
         isTracking = true
+        Log.debug(label: Self.LOG_TAG, "[\(Self.CLASS_NAME)<\(#function)>] - Started a new session with id (\(self.sessionId)).")
     }
 
     private func endTrackingSession() {
@@ -246,10 +240,10 @@ class  MediaXDMEventGenerator {
         // For bitrate change events and error events, use the qoe data in the current event being generated. For other events check MediaContext QoE object for latest QoE data updates.
         mediaCollection.qoeDataDetails = getQoEForCurrentEvent(qoe: mediaCollection.qoeDataDetails)
         // Add playhead details
-        mediaCollection.playhead = Int64(mediaContext.playhead)
+        mediaCollection.playhead = mediaContext.playhead
 
         // Convert the refTS from milliseconds to seconds
-        let timestampAsDate = Date(timeIntervalSince1970: Double(refTS / 1000))
+        let timestampAsDate = Date(timeIntervalSince1970: refTS)
         let xdmEvent = MediaXDMEvent(eventType: eventType, timestamp: timestampAsDate, mediaCollection: mediaCollection)
 
         mediaEventProcessor.processEvent(sessionId: sessionId, event: xdmEvent)
@@ -310,21 +304,21 @@ class  MediaXDMEventGenerator {
 
     /// Gets the custom reporting interval set in the tracker configuration. Valid custom main ping interval range is (10 seconds - 50 seconds) and valid ad ping interval is (1 second - 10 seconds)
     /// - Parameter isAdStart: A Boolean  when true denotes reporting interval is needed for Ad content or denotes Main content when false.
-    /// - Return: the custom interval in `MILLISECONDS` if found in tracker configuration. Returns the default `MediaConstants.PingInterval.REALTIME_TRACKING` if the custom values are invalid or not found
-    private func getReportingIntervalFromTrackerConfig(isAdStart: Bool = false) -> Int64 {
+    /// - Return: the custom interval in `SECONDS` if found in tracker configuration. Returns the default `MediaConstants.PingInterval.REALTIME_TRACKING` if the custom values are invalid or not found
+    private func getReportingIntervalFromTrackerConfig(isAdStart: Bool = false) -> TimeInterval {
         if isAdStart {
             guard let customAdPingInterval = trackerConfig[MediaConstants.TrackerConfig.AD_PING_INTERVAL] as? Int, allowedAdPingIntervalRangeInSeconds.contains(customAdPingInterval) else {
-                return MediaConstants.PingInterval.REALTIME_TRACKING_MS
+                return MediaConstants.PingInterval.REALTIME_TRACKING
             }
 
-            return Int64(customAdPingInterval) * 1000 // convert to Milliseconds
+            return TimeInterval(customAdPingInterval)
 
         } else {
             guard let customMainPingInterval = trackerConfig[MediaConstants.TrackerConfig.MAIN_PING_INTERVAL] as? Int, allowedMainPingIntervalRangeInSeconds.contains(customMainPingInterval) else {
-                return MediaConstants.PingInterval.REALTIME_TRACKING_MS
+                return MediaConstants.PingInterval.REALTIME_TRACKING
             }
 
-            return Int64(customMainPingInterval) * 1000 // convert to Milliseconds
+            return TimeInterval(customMainPingInterval)
         }
     }
 }

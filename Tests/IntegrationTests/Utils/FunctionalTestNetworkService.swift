@@ -64,10 +64,8 @@ class FunctionalTestNetworkService: NetworkService {
     }
 
     func awaitFor(networkRequest: NetworkRequest, timeout: TimeInterval) -> DispatchTimeoutResult? {
-        for expectedNetworkRequest in expectedNetworkRequests {
-            if areNetworkRequestsEqual(lhs: expectedNetworkRequest.key, rhs: networkRequest) {
-                return expectedNetworkRequest.value.await(timeout: timeout)
-            }
+        for expectedNetworkRequest in expectedNetworkRequests where areNetworkRequestsEqual(lhs: expectedNetworkRequest.key, rhs: networkRequest) {
+            return expectedNetworkRequest.value.await(timeout: timeout)
         }
 
         return nil
@@ -79,10 +77,8 @@ class FunctionalTestNetworkService: NetworkService {
 
     func getReceivedNetworkRequestsMatching(networkRequest: NetworkRequest) -> [NetworkRequest] {
         var matchingRequests: [NetworkRequest] = []
-        for receivedRequest in receivedNetworkRequests {
-            if areNetworkRequestsEqual(lhs: receivedRequest.key, rhs: networkRequest) {
-                matchingRequests.append(receivedRequest.key)
-            }
+        for receivedRequest in receivedNetworkRequests where areNetworkRequestsEqual(lhs: receivedRequest.key, rhs: networkRequest) {
+            matchingRequests.append(receivedRequest.key)
         }
 
         return matchingRequests
@@ -97,11 +93,9 @@ class FunctionalTestNetworkService: NetworkService {
     }
 
     func setResponseConnectionFor(networkRequest: NetworkRequest, responseConnection: HttpConnection?) -> Bool {
-        for responseMatcher in responseMatchers {
-            if areNetworkRequestsEqual(lhs: responseMatcher.key, rhs: networkRequest) {
-                // unable to override response matcher
-                return false
-            }
+        for responseMatcher in responseMatchers where areNetworkRequestsEqual(lhs: responseMatcher.key, rhs: networkRequest) {
+            // unable to override response matcher
+            return false
         }
 
         // add new entry if not present already
@@ -110,18 +104,14 @@ class FunctionalTestNetworkService: NetworkService {
     }
 
     private func countDownExpected(networkRequest: NetworkRequest) {
-        for expectedNetworkRequest in expectedNetworkRequests {
-            if areNetworkRequestsEqual(lhs: expectedNetworkRequest.key, rhs: networkRequest) {
-                expectedNetworkRequest.value.countDown()
-            }
+        for expectedNetworkRequest in expectedNetworkRequests where areNetworkRequestsEqual(lhs: expectedNetworkRequest.key, rhs: networkRequest) {
+            expectedNetworkRequest.value.countDown()
         }
     }
 
     private func getMarchedResponseForUrlAndHttpMethod(networkRequest: NetworkRequest) -> HttpConnection? {
-        for responseMatcher in responseMatchers {
-            if areNetworkRequestsEqual(lhs: responseMatcher.key, rhs: networkRequest) {
-                return responseMatcher.value
-            }
+        for responseMatcher in responseMatchers where areNetworkRequestsEqual(lhs: responseMatcher.key, rhs: networkRequest) {
+            return responseMatcher.value
         }
 
         return nil

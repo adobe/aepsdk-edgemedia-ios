@@ -54,7 +54,7 @@ class MediaXDMEventHelperTests: XCTestCase {
     ]
     var adMetadata: [String: String] = ["key1": "value1", "key2": "value2"]
 
-    var qoeInfo = QoEInfo(bitrate: 1.1, droppedFrames: 2.2, fps: 3.3, startupTime: 4.4)
+    var qoeInfo = QoEInfo(bitrate: 1, droppedFrames: 2, fps: 3, startupTime: 4)
 
     var muteStateInfo = StateInfo(stateName: MediaConstants.PlayerState.MUTE)!
     var testStateInfo = StateInfo(stateName: "testStateName")!

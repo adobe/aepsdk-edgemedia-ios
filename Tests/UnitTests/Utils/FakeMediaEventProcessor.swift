@@ -32,16 +32,13 @@ class FakeMediaEventProcessor: MediaEventProcessor {
         super.init(dispatcher: dispatcher)
     }
 
-    override func createSession(trackerConfig: [String: Any], trackerSessionId: String?) -> String? {
+    override func createSession() -> String {
         isSessionStartCalled = true
         var intSessionId = (Int(currentSessionId) ?? 0)
         intSessionId += 1
         currentSessionId = "\(intSessionId)"
         processedEvents[currentSessionId] = []
-        // for testing failed session creation
-        if let forcedFail = trackerConfig["testFail"] as? Bool, forcedFail == true {
-            return nil
-        }
+
         return currentSessionId
     }
 

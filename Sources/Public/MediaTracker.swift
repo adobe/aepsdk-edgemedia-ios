@@ -13,7 +13,7 @@
 import Foundation
 
 /// Interface to call track APIs
-@objc(AEPMediaTracker)
+@objc(AEPEdgeMediaTracker)
 public protocol MediaTracker {
 
     /// API to track the start of a viewing session.
@@ -62,7 +62,7 @@ public protocol MediaTracker {
     ///   - time: Current position of the playhead. For VOD, value is specified in seconds from the beginning of the media item.
     ///   For live streaming, return playhead position if available or the current UTC time in seconds otherwise.
     @objc(updateCurrentPlayhead:)
-    func updateCurrentPlayhead(time: Double)
+    func updateCurrentPlayhead(time: Int)
 
     /// API to update the QoE data from the player to track.
     /// This API should be called during a playback session with recently available QoE data.
