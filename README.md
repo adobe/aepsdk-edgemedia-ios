@@ -25,6 +25,15 @@ Please refer [Migrating from AEPMedia to AEPEdgeMedia](Documentation/migration-g
 
 Additional documentation for usage and SDK architecture can be found under the [Documentation](Documentation) directory.
 
+## Related Projects
+
+| Project                                                      | Description                                                  |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [AEPCore Extensions](https://github.com/adobe/aepsdk-core-ios) | The AEPCore and AEPServices represent the foundation of the Adobe Experience Platform SDK. |
+| [AEPEdge Extension](https://github.com/adobe/aepsdk-edge-ios) | The AEPEdge extension allows you to send data to the Adobe Experience Platform (AEP) from a mobile application. |
+| [AEPEdgeIdentity Extension](https://github.com/adobe/aepsdk-edgeidentity-ios) | The AEPEdgeIdentity extension enables handling of user identity data from a mobile app when using the AEPEdge extension. |
+| [AEPAssurance Extension](https://github.com/adobe/aepsdk-assurance-ios) | The AEPAssurance extension enables validation workflows for your Mobile SDK implementation. |
+
 ## Contributing
 
 Contributions are welcomed! Read the [Contributing Guide](./.github/CONTRIBUTING.md) for more information.

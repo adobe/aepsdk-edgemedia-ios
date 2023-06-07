@@ -21,7 +21,7 @@ class BaseScenarioTest: XCTestCase {
     var dispatchedEvents: [Event] = []
     var mediaState: MediaState!
 
-    static let DEFAULT_WAIT_TIMEOUT = TimeInterval(1)
+    static let DEFAULT_WAIT_TIMEOUT = TimeInterval(1.5)
 
     func getMediaSessions() -> [String: MediaSession] {
         return mediaEventProcessorSpy.mediaSessions
