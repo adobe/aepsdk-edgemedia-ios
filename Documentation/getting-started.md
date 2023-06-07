@@ -1,25 +1,14 @@
 ## Getting started
 
+## Before Starting
+The Media for Edge Network extension has specific configuration requirements for including the Media Collection Details field group in the XDM schema, enabling Media Analytics in a datastream, and installing the Adobe Streaming Media for Edge Network extension in a Tag mobile property. For detailed information refer to the [Configure and Setup Adobe Streaming Media for Edge Network](https://developer.adobe.com/client-sdks/documentation/media-for-edge-network/#configure-and-setup-adobe-streaming-media-for-edge-network).
+
+### Configure and Install Dependencies
+
 The Adobe Streaming Media for Edge Network mobile extension has the following dependencies, which must be installed prior to installing the extension:
 - [AEPCore](https://github.com/adobe/aepsdk-core-ios)
 - [AEPEdge](https://github.com/adobe/aepsdk-edge-ios)
 - [AEPEdgeIdentity](https://github.com/adobe/aepsdk-edgeidentity-ios)
-
-## Configure the Adobe Streaming Media for Edge Network extension in the Data Collection UI
-The Media for Edge Network extension has specific configuration requirements for including the Media Collection Details field group in the XDM schema, enabling Media Analytics in a datastream, and installing the Adobe Streaming Media for Edge Network extension in a Tag mobile property.
-
-### Configure and Setup Adobe Streaming Media for Edge Network
-
-1. [Define a report suite](https://experienceleague.adobe.com/docs/media-analytics/using/implementation/implementation-edge.html#define-a-report-suite)
-2. [Set up the schema in Adobe Experience Platform](https://experienceleague.adobe.com/docs/media-analytics/using/implementation/implementation-edge.html#set-up-the-schema-in-adobe-experience-platform)
-3. [Create a dataset in Adobe Experience Platform](https://experienceleague.adobe.com/docs/media-analytics/using/implementation/implementation-edge.html#create-a-dataset-in-adobe-experience-platform)
-4. [Configure a datastream in Adobe Experience Platform](https://experienceleague.adobe.com/docs/media-analytics/using/implementation/implementation-edge.html#configure-a-datastream-in-adobe-experience-platform)
-
-### Configure and Install Dependencies
-
-Media for Edge Network requires Edge and Edge Identity extensions.
-1. [Configure the Edge extension in Data Collection UI](https://developer.adobe.com/client-sdks/documentation/edge-network/#configure-the-edge-network-extension-in-data-collection-ui)
-2. [Configure the Edge Identity extension in Data Collection UI](https://developer.adobe.com/client-sdks/documentation/identity-for-edge-network/#configure-the-identity-extension-in-the-data-collection-ui)
 
 ### Configure Media for Edge Network extension in the Data Collection Tags
 
