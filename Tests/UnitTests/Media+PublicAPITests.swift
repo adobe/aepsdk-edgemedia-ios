@@ -13,6 +13,7 @@
 @testable import AEPCore
 @testable import AEPEdgeMedia
 @testable import AEPServices
+import AEPTestUtils
 import XCTest
 
 class MediaPublicAPITests: XCTestCase {
@@ -55,7 +56,7 @@ class MediaPublicAPITests: XCTestCase {
 
         let mediaTracker = Media.createTracker()
 
-        // verify
+        // Verify
         wait(for: [expectation], timeout: 1)
         XCTAssertNotNil(mediaTracker)
     }
@@ -78,7 +79,7 @@ class MediaPublicAPITests: XCTestCase {
 
         let mediaTracker = Media.createTrackerWith(config: ["downloaded": true])
 
-        // verify
+        // Verify
         wait(for: [expectation], timeout: 1)
         XCTAssertNotNil(mediaTracker)
     }
