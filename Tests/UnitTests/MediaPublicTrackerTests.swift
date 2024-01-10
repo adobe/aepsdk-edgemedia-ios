@@ -12,9 +12,10 @@
 
 import AEPCore
 @testable import AEPEdgeMedia
+import AEPTestUtils
 import XCTest
 
-class MediaPublicTrackerTests: XCTestCase {
+class MediaPublicTrackerTests: XCTestCase, AnyCodableAsserts {
     static let testConfig: [String: Any] = ["test": "value"]
     static let metadata: [String: String] = ["key": "value"]
     static let validMediaInfo: [String: Any] = [
@@ -59,32 +60,6 @@ class MediaPublicTrackerTests: XCTestCase {
         MediaConstants.StateInfo.STATE_NAME_KEY: "testStateName"
     ]
 
-    func isEqual(map1: [String: Any]?, map2: [String: Any]?) -> Bool {
-        if map1 == nil && map2 == nil {
-            return true
-        }
-
-        guard let map1 = map1, let map2 = map2 else {
-            return false
-        }
-
-        guard map1.count == map2.count else {
-            return false
-        }
-
-        for (k1, v1) in map1 {
-            guard let v2 = map2[k1] else { return false }
-            switch (v1, v2) {
-            case (let v1 as Double, let v2 as Double): if !v1.isAlmostEqual(v2) {return false}
-            case (let v1 as Int, let v2 as Int): if v1 != v2 { return false }
-            case (let v1 as String, let v2 as String): if v1 != v2 { return false }
-            case (let v1 as Bool, let v2 as Bool): if v1 != v2 { return false }
-            default: return false
-            }
-        }
-        return true
-    }
-
     func assertTrackEvent(event: Event?, expectedEventName: String, expectedParam: [String: Any] = [:], expectedMetadata: [String: Any] = [:], expectedTimestamp: TimeInterval = 0, expectedEventInternal: Bool = false) {
 
         guard let event = event else {
@@ -99,10 +74,10 @@ class MediaPublicTrackerTests: XCTestCase {
         XCTAssertEqual(actualEventName, expectedEventName)
 
         let actualParam = event.data?[MediaConstants.Tracker.EVENT_PARAM] as? [String: Any] ?? [:]
-        XCTAssertTrue(isEqual(map1: actualParam, map2: expectedParam))
+        assertEqual(expected: expectedParam, actual: actualParam)
 
         let actualMetadata = event.data?[MediaConstants.Tracker.EVENT_METADATA] as? [String: Any] ?? [:]
-        XCTAssertTrue(isEqual(map1: actualMetadata, map2: expectedMetadata))
+        assertEqual(expected: expectedMetadata, actual: actualMetadata)
 
         let actualTimestamp = event.data?[MediaConstants.Tracker.EVENT_TIMESTAMP] as? TimeInterval ?? TimeInterval(-1)
         XCTAssertEqual(actualTimestamp, expectedTimestamp)
@@ -131,7 +106,7 @@ class MediaPublicTrackerTests: XCTestCase {
         XCTAssertFalse((data?[MediaConstants.Tracker.ID] as? String ?? "").isEmpty)
 
         let actualParam = data?[MediaConstants.Tracker.EVENT_PARAM] as? [String: Any] ?? [:]
-        XCTAssertTrue(isEqual(map1: actualParam, map2: [:]))
+        assertEqual(expected: [:], actual: actualParam)
     }
 
     func testCreateTrackerWithConfig() {
@@ -147,7 +122,8 @@ class MediaPublicTrackerTests: XCTestCase {
         XCTAssertFalse((data?[MediaConstants.Tracker.ID] as? String ?? "").isEmpty)
 
         let actualParam = data?[MediaConstants.Tracker.EVENT_PARAM] as? [String: Any] ?? [:]
-        XCTAssertTrue(isEqual(map1: actualParam, map2: Self.testConfig))
+//        XCTAssertTrue(isEqual(map1: actualParam, map2: Self.testConfig))
+        assertEqual(expected: Self.testConfig, actual: actualParam)
     }
 
     // ==========================================================================
@@ -167,7 +143,7 @@ class MediaPublicTrackerTests: XCTestCase {
         XCTAssertFalse((trackerId ?? "").isEmpty)
 
         let trackerConfig = capturedEvent?.trackerConfig
-        XCTAssertTrue(isEqual(map1: trackerConfig, map2: Self.testConfig))
+        assertEqual(expected: Self.testConfig, actual: trackerConfig)
     }
 
     func testEventExtension_MissingTrackerIdAndConfig() {
