@@ -11,22 +11,30 @@
  */
 
 @testable import AEPEdgeMedia
+import AEPTestUtils
 import XCTest
 
-class XDMErrorDetailsTests: XCTestCase {
+class XDMErrorDetailsTests: XCTestCase, AnyCodableAsserts {
 
     // MARK: Encodable tests
     func testEncode() throws {
-        // setup
+        // Setup
         let errorDetails = XDMErrorDetails(name: "test_errorID", source: "test_errorSource")
 
-        // test
+        // Test
         let encoder = JSONEncoder()
         let data = try XCTUnwrap(encoder.encode(errorDetails))
 
-        let map = asFlattenDictionary(data: data)
+        let decodedErrorDetails = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
 
-        XCTAssertEqual("test_errorID", map["name"] as! String)
-        XCTAssertEqual("test_errorSource", map["source"] as! String)
+        // Verify
+        let expected = """
+        {
+          "name": "test_errorID",
+          "source": "test_errorSource"
+        }
+        """
+
+        assertExactMatch(expected: expected, actual: decodedErrorDetails)
     }
 }
