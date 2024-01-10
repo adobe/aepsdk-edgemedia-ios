@@ -11,13 +11,14 @@
  */
 
 @testable import AEPEdgeMedia
+import AEPTestUtils
 import XCTest
 
-class XDMSessionDetailsTests: XCTestCase {
+class XDMSessionDetailsTests: XCTestCase, AnyCodableAsserts {
 
     // MARK: Encodable tests
     func testEncode_streamTypeVideo() throws {
-        // setup
+        // Setup
         var sessionDetails = XDMSessionDetails(name: "id", friendlyName: "name", length: 30, streamType: XDMStreamType.video, contentType: "vod", hasResume: false)
         sessionDetails.appVersion = "test_appVersion"
         sessionDetails.channel = "test_channel"
@@ -43,45 +44,50 @@ class XDMSessionDetailsTests: XCTestCase {
         sessionDetails.showType = "test_showType"
         sessionDetails.streamFormat = "test_streamFormat"
 
-        // test
+        // Test
         let encoder = JSONEncoder()
         let data = try XCTUnwrap(encoder.encode(sessionDetails))
 
-        let map = asFlattenDictionary(data: data)
+        let decodedSessionDetails = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
 
-        XCTAssertEqual("id", map["name"] as! String)
-        XCTAssertEqual("name", map["friendlyName"] as! String)
-        XCTAssertEqual(30, map["length"] as! Int64)
-        XCTAssertEqual("video", map["streamType"] as! String)
-        XCTAssertEqual("vod", map["contentType"] as! String)
-        XCTAssertFalse(map["hasResume"] as! Bool)
+        // Verify
+        let expected = """
+        {
+          "adLoad": "preroll",
+          "appVersion": "test_appVersion",
+          "assetID": "test_assetID",
+          "authorized": "false",
+          "channel": "test_channel",
+          "contentType": "vod",
+          "dayPart": "evening",
+          "episode": "1",
+          "feed": "test_feed",
+          "firstAirDate": "test_firstAirDate",
+          "firstDigitalDate": "test_firstAirDigitalDate",
+          "friendlyName": "name",
+          "genre": "test_genre",
+          "hasResume": false,
+          "length": 30,
+          "mvpd": "test_mvpd",
+          "name": "id",
+          "network": "test_network",
+          "originator": "test_originator",
+          "playerName": "test_playerName",
+          "rating": "test_rating",
+          "season": "1",
+          "segment": "test_segment",
+          "show": "test_show",
+          "showType": "test_showType",
+          "streamFormat": "test_streamFormat",
+          "streamType": "video"
+        }
+        """
 
-        XCTAssertEqual("test_appVersion", map["appVersion"] as! String)
-        XCTAssertEqual("test_channel", map["channel"] as! String)
-        XCTAssertEqual("test_playerName", map["playerName"] as! String)
-
-        XCTAssertEqual("preroll", map["adLoad"] as! String)
-        XCTAssertEqual("test_assetID", map["assetID"] as! String)
-        XCTAssertEqual("evening", map["dayPart"] as! String)
-        XCTAssertEqual("1", map["episode"] as! String)
-        XCTAssertEqual("test_feed", map["feed"] as! String)
-        XCTAssertEqual("test_firstAirDate", map["firstAirDate"] as! String)
-        XCTAssertEqual("test_firstAirDigitalDate", map["firstDigitalDate"] as! String)
-        XCTAssertEqual("test_genre", map["genre"] as! String)
-        XCTAssertEqual("false", map["authorized"] as! String)
-        XCTAssertEqual("test_mvpd", map["mvpd"] as! String)
-        XCTAssertEqual("test_network", map["network"] as! String)
-        XCTAssertEqual("test_originator", map["originator"] as! String)
-        XCTAssertEqual("test_rating", map["rating"] as! String)
-        XCTAssertEqual("1", map["season"] as! String)
-        XCTAssertEqual("test_segment", map["segment"] as! String)
-        XCTAssertEqual("test_show", map["show"] as! String)
-        XCTAssertEqual("test_showType", map["showType"] as! String)
-        XCTAssertEqual("test_streamFormat", map["streamFormat"] as! String)
+        assertExactMatch(expected: expected, actual: decodedSessionDetails)
     }
 
     func testEncode_streamTypeAudio() throws {
-        // setup
+        // Setup
         var sessionDetails = XDMSessionDetails(name: "id", friendlyName: "name", length: 30, streamType: XDMStreamType.audio, contentType: "aod", hasResume: false)
         sessionDetails.appVersion = "test_appVersion"
         sessionDetails.channel = "test_channel"
@@ -94,28 +100,33 @@ class XDMSessionDetailsTests: XCTestCase {
         sessionDetails.publisher = "test_publisher"
         sessionDetails.station = "test_station"
 
-        // test
+        // Test
         let encoder = JSONEncoder()
         let data = try XCTUnwrap(encoder.encode(sessionDetails))
 
-        let map = asFlattenDictionary(data: data)
+        let decodedSessionDetails = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
 
-        XCTAssertEqual("id", map["name"] as! String)
-        XCTAssertEqual("name", map["friendlyName"] as! String)
-        XCTAssertEqual(30, map["length"] as! Int64)
-        XCTAssertEqual("audio", map["streamType"] as! String)
-        XCTAssertEqual("aod", map["contentType"] as! String)
-        XCTAssertFalse(map["hasResume"] as! Bool)
+        // Verify
+        let expected = """
+        {
+          "album": "test_album",
+          "appVersion": "test_appVersion",
+          "artist": "test_artist",
+          "author": "test_author",
+          "channel": "test_channel",
+          "contentType": "aod",
+          "friendlyName": "name",
+          "hasResume": false,
+          "label": "test_label",
+          "length": 30,
+          "name": "id",
+          "playerName": "test_playerName",
+          "publisher": "test_publisher",
+          "station": "test_station",
+          "streamType": "audio"
+        }
+        """
 
-        XCTAssertEqual("test_appVersion", map["appVersion"] as! String)
-        XCTAssertEqual("test_channel", map["channel"] as! String)
-        XCTAssertEqual("test_playerName", map["playerName"] as! String)
-
-        XCTAssertEqual("test_album", map["album"] as! String)
-        XCTAssertEqual("test_artist", map["artist"] as! String)
-        XCTAssertEqual("test_author", map["author"] as! String)
-        XCTAssertEqual("test_label", map["label"] as! String)
-        XCTAssertEqual("test_publisher", map["publisher"] as! String)
-        XCTAssertEqual("test_station", map["station"] as! String)
+        assertExactMatch(expected: expected, actual: decodedSessionDetails)
     }
 }

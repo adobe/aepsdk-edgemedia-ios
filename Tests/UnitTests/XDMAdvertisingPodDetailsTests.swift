@@ -11,23 +11,31 @@
  */
 
 @testable import AEPEdgeMedia
+import AEPTestUtils
 import XCTest
 
-class XDMAdvertisingPodDetailsTests: XCTestCase {
+class XDMAdvertisingPodDetailsTests: XCTestCase, AnyCodableAsserts {
 
     // MARK: Encodable tests
     func testEncode() throws {
-        // setup
+        // Setup
         let adBreakDetails = XDMAdvertisingPodDetails(friendlyName: "name", index: 1, offset: 2)
 
-        // test
+        // Test
         let encoder = JSONEncoder()
         let data = try XCTUnwrap(encoder.encode(adBreakDetails))
 
-        let map = asFlattenDictionary(data: data)
+        let decodedAdBreakDetails = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
 
-        XCTAssertEqual("name", map["friendlyName"] as! String)
-        XCTAssertEqual(2, map["offset"] as! Int64)
-        XCTAssertEqual(1, map["index"] as! Int64)
+        // Verify
+        let expected = """
+        {
+          "friendlyName": "name",
+          "index": 1,
+          "offset": 2
+        }
+        """
+
+        assertExactMatch(expected: expected, actual: decodedAdBreakDetails)
     }
 }

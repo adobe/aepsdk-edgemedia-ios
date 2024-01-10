@@ -11,13 +11,14 @@
  */
 
 @testable import AEPEdgeMedia
+import AEPTestUtils
 import XCTest
 
-class XDMMediaCollectionTests: XCTestCase {
+class XDMMediaCollectionTests: XCTestCase, AnyCodableAsserts {
 
     // MARK: Encodable tests
     func testEncode_sessionStart() throws {
-        // setup
+        // Setup
         var sessionDetails = XDMSessionDetails(name: "id", friendlyName: "name", length: 30, streamType: XDMStreamType.video, contentType: "vod", hasResume: false)
         sessionDetails.appVersion = "test_appVersion"
         sessionDetails.channel = "test_channel"
@@ -44,60 +45,75 @@ class XDMMediaCollectionTests: XCTestCase {
         var mediaCollection = XDMMediaCollection()
         mediaCollection.sessionDetails = sessionDetails
 
-        // test
+        // Test
         let encoder = JSONEncoder()
         let data = try XCTUnwrap(encoder.encode(mediaCollection))
 
-        let map = asFlattenDictionary(data: data)
+        let decodedMediaCollection = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
 
-        XCTAssertEqual("id", map["sessionDetails.name"] as! String)
-        XCTAssertEqual("name", map["sessionDetails.friendlyName"] as! String)
-        XCTAssertEqual(30, map["sessionDetails.length"] as! Int64)
-        XCTAssertEqual("video", map["sessionDetails.streamType"] as! String)
-        XCTAssertEqual("test_appVersion", map["sessionDetails.appVersion"] as! String)
-        XCTAssertEqual("test_channel", map["sessionDetails.channel"] as! String)
-        XCTAssertEqual("test_playerName", map["sessionDetails.playerName"] as! String)
+        // Verify
+        let expected = """
+        {
+          "sessionDetails": {
+            "appVersion": "test_appVersion",
+            "assetID": "test_assetID",
+            "authorized": "false",
+            "channel": "test_channel",
+            "episode": "1",
+            "feed": "test_feed",
+            "firstAirDate": "test_firstAirDate",
+            "firstDigitalDate": "test_firstAirDigitalDate",
+            "friendlyName": "name",
+            "genre": "test_genre",
+            "length": 30,
+            "mvpd": "test_mvpd",
+            "name": "id",
+            "network": "test_network",
+            "originator": "test_originator",
+            "playerName": "test_playerName",
+            "rating": "test_rating",
+            "season": "1",
+            "segment": "test_segment",
+            "show": "test_show",
+            "showType": "test_showType",
+            "streamFormat": "test_streamFormat",
+            "streamType": "video"
+          }
+        }
+        """
 
-        XCTAssertEqual("test_assetID", map["sessionDetails.assetID"] as! String)
-        XCTAssertEqual("1", map["sessionDetails.episode"] as! String)
-        XCTAssertEqual("test_feed", map["sessionDetails.feed"] as! String)
-        XCTAssertEqual("test_firstAirDate", map["sessionDetails.firstAirDate"] as! String)
-        XCTAssertEqual("test_firstAirDigitalDate", map["sessionDetails.firstDigitalDate"] as! String)
-        XCTAssertEqual("test_genre", map["sessionDetails.genre"] as! String)
-        XCTAssertEqual("false", map["sessionDetails.authorized"] as! String)
-        XCTAssertEqual("test_mvpd", map["sessionDetails.mvpd"] as! String)
-        XCTAssertEqual("test_network", map["sessionDetails.network"] as! String)
-        XCTAssertEqual("test_originator", map["sessionDetails.originator"] as! String)
-        XCTAssertEqual("test_rating", map["sessionDetails.rating"] as! String)
-        XCTAssertEqual("1", map["sessionDetails.season"] as! String)
-        XCTAssertEqual("test_segment", map["sessionDetails.segment"] as! String)
-        XCTAssertEqual("test_show", map["sessionDetails.show"] as! String)
-        XCTAssertEqual("test_showType", map["sessionDetails.showType"] as! String)
-        XCTAssertEqual("test_streamFormat", map["sessionDetails.streamFormat"] as! String)
+        assertExactMatch(expected: expected, actual: decodedMediaCollection)
     }
 
     func testEncode_adBreakStart() throws {
-        // setup
+        // Setup
         let adBreakDetails = XDMAdvertisingPodDetails(friendlyName: "name", index: 1, offset: 2)
 
         var mediaCollection = XDMMediaCollection()
         mediaCollection.advertisingPodDetails = adBreakDetails
 
-        // test
+        // Test
         let encoder = JSONEncoder()
         let data = try XCTUnwrap(encoder.encode(mediaCollection))
 
-        let map = asFlattenDictionary(data: data)
+        let decodedMediaCollection = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
 
-        XCTAssertEqual("name", map["advertisingPodDetails.friendlyName"] as! String)
-        XCTAssertEqual(2, map["advertisingPodDetails.offset"] as! Int64)
-        XCTAssertEqual(1, map["advertisingPodDetails.index"] as! Int64)
+        // Verify
+        let expected = """
+        {
+          "advertisingPodDetails": {
+            "friendlyName": "name",
+            "index": 1,
+            "offset": 2
+          }
+        }
+        """
+
+        assertExactMatch(expected: expected, actual: decodedMediaCollection)
     }
 
     func testEncode_adStart() throws {
-        // setup
-
-        // setup
+        // Setup
         var adDetails = XDMAdvertisingDetails(name: "id", friendlyName: "name", length: 10, podPosition: 1)
         adDetails.playerName = "test_playerName"
 
@@ -112,42 +128,60 @@ class XDMMediaCollectionTests: XCTestCase {
         var mediaCollection = XDMMediaCollection()
         mediaCollection.advertisingDetails = adDetails
 
-        // test
+        // Test
         let encoder = JSONEncoder()
         let data = try XCTUnwrap(encoder.encode(mediaCollection))
 
-        let map = asFlattenDictionary(data: data)
+        let decodedMediaCollection = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
 
-        XCTAssertEqual("id", map["advertisingDetails.name"] as! String)
-        XCTAssertEqual("name", map["advertisingDetails.friendlyName"] as! String)
-        XCTAssertEqual(10, map["advertisingDetails.length"] as! Int64)
-        XCTAssertEqual(1, map["advertisingDetails.podPosition"] as! Int64)
-        XCTAssertEqual("test_playerName", map["advertisingDetails.playerName"] as! String)
-        XCTAssertEqual("test_advertiser", map["advertisingDetails.advertiser"] as! String)
-        XCTAssertEqual("test_campaignID", map["advertisingDetails.campaignID"] as! String)
-        XCTAssertEqual("test_creativeID", map["advertisingDetails.creativeID"] as! String)
-        XCTAssertEqual("test_creativeURL", map["advertisingDetails.creativeURL"] as! String)
-        XCTAssertEqual("test_placementID", map["advertisingDetails.placementID"] as! String)
-        XCTAssertEqual("test_siteID", map["advertisingDetails.siteID"] as! String)
+        // Verify
+        let expected = """
+        {
+          "advertisingDetails": {
+            "advertiser": "test_advertiser",
+            "campaignID": "test_campaignID",
+            "creativeID": "test_creativeID",
+            "creativeURL": "test_creativeURL",
+            "friendlyName": "name",
+            "length": 10,
+            "name": "id",
+            "placementID": "test_placementID",
+            "playerName": "test_playerName",
+            "podPosition": 1,
+            "siteID": "test_siteID"
+          }
+        }
+        """
+
+        assertExactMatch(expected: expected, actual: decodedMediaCollection)
     }
 
     func testEncode_chapterStart() throws {
-        // setup
+        // Setup
         let chapterDetails = XDMChapterDetails(friendlyName: "name", index: 1, length: 10, offset: 2)
 
         var mediaCollection = XDMMediaCollection()
         mediaCollection.chapterDetails = chapterDetails
 
-        // test
+        // Test
         let encoder = JSONEncoder()
         let data = try XCTUnwrap(encoder.encode(mediaCollection))
 
-        let map = asFlattenDictionary(data: data)
+        let decodedMediaCollection = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
 
-        XCTAssertEqual("name", map["chapterDetails.friendlyName"] as! String)
-        XCTAssertEqual(1, map["chapterDetails.index"] as! Int64)
-        XCTAssertEqual(10, map["chapterDetails.length"] as! Int64)
-        XCTAssertEqual(2, map["chapterDetails.offset"] as! Int64)
+        // Verify
+        let expected = """
+        {
+          "chapterDetails": {
+            "friendlyName": "name",
+            "index": 1,
+            "length": 10,
+            "offset": 2
+          }
+        }
+        """
+
+        assertExactMatch(expected: expected, actual: decodedMediaCollection)
     }
 
     func testEncode_stateStart() throws {
@@ -164,14 +198,27 @@ class XDMMediaCollectionTests: XCTestCase {
         let encoder = JSONEncoder()
         let data = try XCTUnwrap(encoder.encode(mediaCollection))
 
-        let map = asFlattenDictionary(data: data)
+        let decodedMediaCollection = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
 
-        XCTAssertEqual("test_mute", map["statesStart[0].name"] as! String)
-        XCTAssertEqual("test_fullscreen", map["statesStart[1].name"] as! String)
+        // Verify
+        let expected = """
+        {
+          "statesStart": [
+            {
+              "name": "test_mute"
+            },
+            {
+              "name": "test_fullscreen"
+            }
+          ]
+        }
+        """
+
+        assertExactMatch(expected: expected, actual: decodedMediaCollection)
     }
 
     func testEncode_stateEnd() throws {
-        // setup
+        // Setup
 
         let muteState = XDMPlayerStateData(name: "test_mute")
         let fullscreenState = XDMPlayerStateData(name: "test_fullscreen")
@@ -181,13 +228,26 @@ class XDMMediaCollectionTests: XCTestCase {
         var mediaCollection = XDMMediaCollection()
         mediaCollection.statesEnd = states
 
-        // test
+        // Test
         let encoder = JSONEncoder()
         let data = try XCTUnwrap(encoder.encode(mediaCollection))
 
-        let map = asFlattenDictionary(data: data)
+        let decodedMediaCollection = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
 
-        XCTAssertEqual("test_mute", map["statesEnd[0].name"] as! String)
-        XCTAssertEqual("test_fullscreen", map["statesEnd[1].name"] as! String)
+        // Verify
+        let expected = """
+        {
+          "statesEnd": [
+            {
+              "name": "test_mute"
+            },
+            {
+              "name": "test_fullscreen"
+            }
+          ]
+        }
+        """
+
+        assertExactMatch(expected: expected, actual: decodedMediaCollection)
     }
 }
