@@ -16,11 +16,13 @@ end
 target 'UnitTests' do
   pod 'AEPCore'
   pod 'AEPServices'
+  pod 'AEPTestUtils', :git => 'https://github.com/adobe/aepsdk-testutils-ios.git', :branch => 'feature/latest'
 end
 
 target 'FunctionalTests' do
   pod 'AEPCore'
   pod 'AEPServices'
+  pod 'AEPTestUtils', :git => 'https://github.com/adobe/aepsdk-testutils-ios.git', :branch => 'feature/latest'
 end
 
 target 'IntegrationTests' do
@@ -28,6 +30,7 @@ target 'IntegrationTests' do
   pod 'AEPServices'
   pod 'AEPEdge'
   pod 'AEPEdgeIdentity'
+  pod 'AEPTestUtils', :git => 'https://github.com/adobe/aepsdk-testutils-ios.git', :branch => 'feature/latest'
 end
 
 target 'TestAppiOS' do
