@@ -31,6 +31,16 @@ SPEC REPOS:
     - AEPServices
     - SwiftLint
 
+EXTERNAL SOURCES:
+  AEPTestUtils:
+    :branch: feature/latest
+    :git: https://github.com/adobe/aepsdk-testutils-ios.git
+
+CHECKOUT OPTIONS:
+  AEPTestUtils:
+    :commit: 1b7e87fb0a3ae3202c11b82a5a93359b328da3a2
+    :git: https://github.com/adobe/aepsdk-testutils-ios.git
+
 SPEC CHECKSUMS:
   AEPAssurance: 7f260ded4df38a70a06efebade8c33a3e3221984
   AEPCore: f1c3e9238bb12e7e1103f4407c341ebc65aeab5b
