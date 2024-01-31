@@ -96,7 +96,6 @@
 		2EB164EF289AF55800089C83 /* MediaTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDFBD062899E3B400D22B25 /* MediaTracker.swift */; };
 		2EB164F0289AF56400089C83 /* MediaTrackerEventGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDFBD042899E36C00D22B25 /* MediaTrackerEventGenerator.swift */; };
 		2EB164F3289AF59C00089C83 /* MediaEventGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB164F2289AF59C00089C83 /* MediaEventGenerator.swift */; };
-		2EB164F5289AF63900089C83 /* MockExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB164F4289AF63900089C83 /* MockExtension.swift */; };
 		2EC3C49329B98C6900B4308B /* MediaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3C49229B98C6900B4308B /* MediaTests.swift */; };
 		2EC6027028EB589600C07D5A /* MediaXDMEventHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC6026F28EB589600C07D5A /* MediaXDMEventHelperTests.swift */; };
 		2ED7125728ADA958006A83D0 /* MediaRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED7125428ADA958006A83D0 /* MediaRule.swift */; };
@@ -245,7 +244,6 @@
 		2EB040F52894AE0600306323 /* MediaConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaConstants.swift; sourceTree = "<group>"; };
 		2EB164ED289AF3B800089C83 /* MediaEventTracking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaEventTracking.swift; sourceTree = "<group>"; };
 		2EB164F2289AF59C00089C83 /* MediaEventGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaEventGenerator.swift; sourceTree = "<group>"; };
-		2EB164F4289AF63900089C83 /* MockExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockExtension.swift; sourceTree = "<group>"; };
 		2EC3C49229B98C6900B4308B /* MediaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaTests.swift; sourceTree = "<group>"; };
 		2EC6026F28EB589600C07D5A /* MediaXDMEventHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaXDMEventHelperTests.swift; sourceTree = "<group>"; };
 		2ED7125428ADA958006A83D0 /* MediaRule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaRule.swift; sourceTree = "<group>"; };
@@ -378,7 +376,6 @@
 			children = (
 				2E4D8172293954F6005A4543 /* FakeMediaEventProcessor.swift */,
 				2E37D38928D4185B00B782F8 /* MediaSessionSpy.swift */,
-				2EB164F4289AF63900089C83 /* MockExtension.swift */,
 				2ED7126828ADDFC0006A83D0 /* TestConstants.swift */,
 			);
 			path = Utils;
@@ -1286,7 +1283,6 @@
 				2ED7126928ADDFC0006A83D0 /* TestConstants.swift in Sources */,
 				2EC6027028EB589600C07D5A /* MediaXDMEventHelperTests.swift in Sources */,
 				2ED7126728ADDF5B006A83D0 /* MediaStateTests.swift in Sources */,
-				2EB164F5289AF63900089C83 /* MockExtension.swift in Sources */,
 				2EB164F3289AF59C00089C83 /* MediaEventGenerator.swift in Sources */,
 				2ED7126028ADC424006A83D0 /* MediaRuleEngineTests.swift in Sources */,
 				2ED7126128ADC424006A83D0 /* MediaEventTrackerTests.swift in Sources */,
