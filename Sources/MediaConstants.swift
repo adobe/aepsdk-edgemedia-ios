@@ -15,7 +15,7 @@ import Foundation
 internal extension MediaConstants {
     static let EXTENSION_NAME                           = "com.adobe.edge.media"
     static let FRIENDLY_NAME                            = "Edge Media"
-    static let EXTENSION_VERSION                        = "4.0.0"
+    static let EXTENSION_VERSION                        = "5.0.0"
     static let DATASTORE_NAME                           = EXTENSION_NAME
     static let DATABASE_NAME                            = EXTENSION_NAME
     static let LOG_TAG                                  = FRIENDLY_NAME
