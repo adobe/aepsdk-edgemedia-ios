@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2E0A1C3C2997107F0099C134 /* MediaContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0A1C3B2997107F0099C134 /* MediaContextTests.swift */; };
-		2E19666328B8157D00298FD4 /* AEPEdgeMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EB040762888B0D200306323 /* AEPEdgeMedia.framework */; };
-		2E19666428B8158300298FD4 /* AEPEdgeMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EB040762888B0D200306323 /* AEPEdgeMedia.framework */; };
 		2E19666628B8220900298FD4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E19666528B8220900298FD4 /* AppDelegate.swift */; };
 		2E19666728B8220900298FD4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E19666528B8220900298FD4 /* AppDelegate.swift */; };
 		2E19666928B8236100298FD4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E19666828B8236100298FD4 /* SceneDelegate.swift */; };
@@ -140,6 +138,10 @@
 		7978A40ADDA23DA53B6952D0 /* Pods_AEPEdgeMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77817399750E272978A207DF /* Pods_AEPEdgeMedia.framework */; };
 		90D4AFD8E67DC9BCB248A73C /* Pods_TestAppiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCCBE2545470FEAD9ABD6398 /* Pods_TestAppiOS.framework */; };
 		91162D1381B7B61A074079F4 /* Pods_UnitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44015C33FEFC2F875D4F6E18 /* Pods_UnitTests.framework */; };
+		92D9D4AB2BA4E6F50005BCEF /* AEPEdgeMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EB040762888B0D200306323 /* AEPEdgeMedia.framework */; };
+		92D9D4AC2BA4E6F50005BCEF /* AEPEdgeMedia.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2EB040762888B0D200306323 /* AEPEdgeMedia.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		92D9D4AE2BA4E6F90005BCEF /* AEPEdgeMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EB040762888B0D200306323 /* AEPEdgeMedia.framework */; };
+		92D9D4AF2BA4E6F90005BCEF /* AEPEdgeMedia.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2EB040762888B0D200306323 /* AEPEdgeMedia.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B4FEF674B4304E913DC7F33F /* Pods_FunctionalTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44F1B2CD280B01D238562520 /* Pods_FunctionalTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -166,6 +168,31 @@
 			remoteInfo = AEPEdgeMedia;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		92D9D4AD2BA4E6F50005BCEF /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				92D9D4AC2BA4E6F50005BCEF /* AEPEdgeMedia.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		92D9D4B02BA4E6F90005BCEF /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				92D9D4AF2BA4E6F90005BCEF /* AEPEdgeMedia.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		02892AE8A4A0629382CD7B94 /* Pods-IntegrationTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IntegrationTests.release.xcconfig"; path = "Target Support Files/Pods-IntegrationTests/Pods-IntegrationTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -339,8 +366,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E19666328B8157D00298FD4 /* AEPEdgeMedia.framework in Frameworks */,
 				90D4AFD8E67DC9BCB248A73C /* Pods_TestAppiOS.framework in Frameworks */,
+				92D9D4AB2BA4E6F50005BCEF /* AEPEdgeMedia.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,8 +375,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E19666428B8158300298FD4 /* AEPEdgeMedia.framework in Frameworks */,
 				6541D12AFD63BB69228C3FB6 /* Pods_TestApptvOS.framework in Frameworks */,
+				92D9D4AE2BA4E6F90005BCEF /* AEPEdgeMedia.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -751,6 +778,7 @@
 				2EB040B22889CD0500306323 /* Resources */,
 				2E0A1C37299703B60099C134 /* ShellScript */,
 				9683F02A687D7AACFCB51DBC /* [CP] Embed Pods Frameworks */,
+				92D9D4AD2BA4E6F50005BCEF /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -771,6 +799,7 @@
 				2EB040CD2889CD2D00306323 /* Resources */,
 				2E0A1C36299702F60099C134 /* ShellScript */,
 				3E694DE201739FFC9E121BF0 /* [CP] Embed Pods Frameworks */,
+				92D9D4B02BA4E6F90005BCEF /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1719,6 +1748,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FKGEE875K4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = TestApps/TestApp/Info.plist;
@@ -1753,6 +1783,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FKGEE875K4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = TestApps/TestApp/Info.plist;
