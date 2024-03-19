@@ -46,6 +46,7 @@ class FunctionalTestBase: XCTestCase {
         super.setUp()
         UserDefaults.clearAll()
         FileManager.default.clearCache()
+        FileManager.default.clearDirectory()
         MobileCore.setLogLevel(LogLevel.trace)
         networkService = FunctionalTestNetworkService()
         ServiceProvider.shared.networkService = networkService
@@ -68,6 +69,7 @@ class FunctionalTestBase: XCTestCase {
         EventHub.reset()
         UserDefaults.clearAll()
         FileManager.default.clearCache()
+        FileManager.default.clearDirectory()
     }
 
     /// Reset event and network request expectations and drop the items received until this point

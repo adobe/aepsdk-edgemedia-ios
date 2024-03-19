@@ -1,4 +1,4 @@
-platform :ios, '11.0'
+platform :ios, '12.0'
 
 # Comment the next line if you don't want to use dynamic frameworks
 use_frameworks!
@@ -8,47 +8,49 @@ project 'AEPEdgeMedia.xcodeproj'
 
 pod 'SwiftLint', '0.52.0'
 
+def core_pods
+  pod 'AEPCore', :git => 'https://github.com/adobe/aepsdk-core-ios.git', :branch => 'staging'
+  pod 'AEPServices', :git => 'https://github.com/adobe/aepsdk-core-ios.git', :branch => 'staging'
+  pod 'AEPRulesEngine', :git => 'https://github.com/adobe/aepsdk-rulesengine-ios.git', :branch => 'staging'
+end
+
+def edge_pods
+  pod 'AEPEdge', :git => 'https://github.com/adobe/aepsdk-edge-ios.git', :branch => 'staging'
+  pod 'AEPEdgeIdentity', :git => 'https://github.com/adobe/aepsdk-edgeidentity-ios.git', :branch => 'staging'
+end
+
 target 'AEPEdgeMedia' do
-  pod 'AEPCore'
-  pod 'AEPServices'
+  core_pods
 end
 
 target 'UnitTests' do
-  pod 'AEPCore'
-  pod 'AEPServices'
+  core_pods
 end
 
 target 'FunctionalTests' do
-  pod 'AEPCore'
-  pod 'AEPServices'
+  core_pods
 end
 
 target 'IntegrationTests' do
-  pod 'AEPCore'
-  pod 'AEPServices'
-  pod 'AEPEdge'
-  pod 'AEPEdgeIdentity'
+  core_pods
+  edge_pods
 end
 
 target 'TestAppiOS' do
-  pod 'AEPCore'
-  pod 'AEPEdge'
-  pod 'AEPEdgeIdentity'
-  pod 'AEPAssurance'
-  pod 'AEPServices'
+  core_pods
+  edge_pods
+  pod 'AEPAssurance', :git => 'https://github.com/adobe/aepsdk-assurance-ios.git', :branch => 'staging'
 end
 
 target 'TestApptvOS' do
-  pod 'AEPCore'
-  pod 'AEPEdge'
-  pod 'AEPEdgeIdentity'
-  pod 'AEPServices'
+  core_pods
+  edge_pods
 end
 
 post_install do |pi|
   pi.pods_project.targets.each do |t|
     t.build_configurations.each do |bc|
-        bc.build_settings['TVOS_DEPLOYMENT_TARGET'] = '11.0'
+        bc.build_settings['TVOS_DEPLOYMENT_TARGET'] = '12.0'
         bc.build_settings['SUPPORTED_PLATFORMS'] = 'iphoneos iphonesimulator appletvos appletvsimulator'
         bc.build_settings['TARGETED_DEVICE_FAMILY'] = "1,2,3"
     end

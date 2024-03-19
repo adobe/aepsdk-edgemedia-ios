@@ -106,7 +106,7 @@ test-ios:
 	   final_scheme="$(EXTENSION_NAME)" ; \
 	   echo $$final_scheme ; \
 	fi; \
-	xcodebuild test -workspace $(PROJECT_NAME).xcworkspace -scheme "$$final_scheme" -destination 'platform=iOS Simulator,name=iPhone 14' -derivedDataPath build/out -resultBundlePath iosresults.xcresult -enableCodeCoverage YES ADB_SKIP_LINT=YES
+	xcodebuild test -workspace $(PROJECT_NAME).xcworkspace -scheme "$$final_scheme" -destination 'platform=iOS Simulator,name=iPhone 15' -derivedDataPath build/out -resultBundlePath iosresults.xcresult -enableCodeCoverage YES ADB_SKIP_LINT=YES
 
 test-tvos:
 	@echo "######################################################################"
@@ -133,7 +133,7 @@ lint-autocorrect:
 lint:
 	./Pods/SwiftLint/swiftlint lint Sources TestApps/$(APP_NAME)
 
-# make check-version VERSION=4.0.0
+# make check-version VERSION=5.0.0
 check-version:
 	sh ./Script/version.sh $(VERSION)
 
