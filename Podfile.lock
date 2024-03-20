@@ -1,30 +1,28 @@
 PODS:
-  - AEPAssurance (4.0.0):
-    - AEPCore (>= 4.0.0)
-    - AEPServices (>= 4.0.0)
-  - AEPCore (4.0.0):
-    - AEPRulesEngine (>= 4.0.0)
-    - AEPServices (>= 4.0.0)
-  - AEPEdge (4.0.0):
-    - AEPCore (>= 4.0.0)
-    - AEPEdgeIdentity (>= 4.0.0)
-  - AEPEdgeIdentity (4.0.0):
-    - AEPCore (>= 4.0.0)
-  - AEPRulesEngine (4.0.0)
-  - AEPServices (4.0.0)
+  - AEPAssurance (5.0.0):
+    - AEPCore (< 6.0.0, >= 5.0.0)
+    - AEPServices (< 6.0.0, >= 5.0.0)
+  - AEPCore (5.0.0):
+    - AEPRulesEngine (< 6.0.0, >= 5.0.0)
+    - AEPServices (< 6.0.0, >= 5.0.0)
+  - AEPEdge (5.0.0):
+    - AEPCore (< 6.0.0, >= 5.0.0)
+    - AEPEdgeIdentity (< 6.0.0, >= 5.0.0)
+  - AEPEdgeIdentity (5.0.0):
+    - AEPCore (< 6.0.0, >= 5.0.0)
+  - AEPRulesEngine (5.0.0)
+  - AEPServices (5.0.0)
   - SwiftLint (0.52.0)
 
 DEPENDENCIES:
-  - AEPAssurance
+  - AEPAssurance (from `https://github.com/adobe/aepsdk-assurance-ios.git`, branch `staging`)
   - AEPCore
   - AEPEdge
   - AEPEdgeIdentity
-  - AEPServices
   - SwiftLint (= 0.52.0)
 
 SPEC REPOS:
   trunk:
-    - AEPAssurance
     - AEPCore
     - AEPEdge
     - AEPEdgeIdentity
@@ -32,15 +30,25 @@ SPEC REPOS:
     - AEPServices
     - SwiftLint
 
+EXTERNAL SOURCES:
+  AEPAssurance:
+    :branch: staging
+    :git: https://github.com/adobe/aepsdk-assurance-ios.git
+
+CHECKOUT OPTIONS:
+  AEPAssurance:
+    :commit: 6098c48a067daf4c70cb630b0000564552ad3bc7
+    :git: https://github.com/adobe/aepsdk-assurance-ios.git
+
 SPEC CHECKSUMS:
-  AEPAssurance: 4fa3138ddd7308c1f9923570f4d2b0b8526a916f
-  AEPCore: dd7cd69696c768c610e6adc0307032985a381c7e
-  AEPEdge: ffea1ada1e81c9cb239aac694efa5c8635b50c1f
-  AEPEdgeIdentity: c2396b9119abd6eb530ea11efc58ec019b163bd4
-  AEPRulesEngine: 458450a34922823286ead045a0c2bd8c27e224c6
-  AEPServices: ca493988df250d84fda050124ff7549bcc43c65f
+  AEPAssurance: 7f260ded4df38a70a06efebade8c33a3e3221984
+  AEPCore: f1c3e9238bb12e7e1103f4407c341ebc65aeab5b
+  AEPEdge: 6bc7c3f6573fdf0a12fb3ddfd32420112a89c80b
+  AEPEdgeIdentity: 3161ff33434586962946912d6b8e9e8fca1c4d23
+  AEPRulesEngine: fe5800653a4bee07b1e41e61b4d5551f0dba557b
+  AEPServices: e42e5118128e81c0f797fdfb1dc9c4a714d644b8
   SwiftLint: 13280e21cdda6786ad908dc6e416afe5acd1fcb7
 
-PODFILE CHECKSUM: 236265fff047600cb6088623f2a2bb0ed4becde9
+PODFILE CHECKSUM: f1b8e7fb153591686125ff0e58db89a223fcfa5f
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.14.3
