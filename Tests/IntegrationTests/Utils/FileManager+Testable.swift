@@ -14,7 +14,7 @@
 import Foundation
 
 extension FileManager {
-    
+
     /// Clears the cache for specified items within the application's cache directory. Ex: the event database for a given extension.
     ///
     /// This method removes cache items based on the provided list of cache item names and directory flags. If no list is provided,
@@ -50,7 +50,7 @@ extension FileManager {
             }
         }
     }
-    
+
     /// Removes the Adobe cache directory within the app's data storage (persistence) from the specified app group's container directory or in the default library directory
     /// if no app group is provided.
     ///
