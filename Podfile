@@ -37,7 +37,7 @@ end
 target 'TestAppiOS' do
   core_pods
   edge_pods
-  pod 'AEPAssurance', :git => 'https://github.com/adobe/aepsdk-assurance-ios.git', :branch => 'staging'
+  pod 'AEPAssurance'
 end
 
 target 'TestApptvOS' do
