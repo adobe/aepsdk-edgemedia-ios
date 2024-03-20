@@ -25,7 +25,10 @@ let package = Package(
     ],
     targets: [
         .target(name: "AEPEdgeMedia",
-                dependencies: ["AEPCore", "AEPEdge"],
+                dependencies: [
+                    .product(name: "AEPCore", package: "aepsdk-core-ios"),
+                    .product(name: "AEPEdge", package: "aepsdk-edge-ios")
+                ],
                 path: "Sources")
     ]
 )
