@@ -17,13 +17,14 @@ PODS:
 DEPENDENCIES:
   - AEPAssurance (from `https://github.com/adobe/aepsdk-assurance-ios.git`, branch `staging`)
   - AEPCore
-  - AEPEdge (from `https://github.com/adobe/aepsdk-edge-ios.git`, branch `staging`)
+  - AEPEdge
   - AEPEdgeIdentity
   - SwiftLint (= 0.52.0)
 
 SPEC REPOS:
   trunk:
     - AEPCore
+    - AEPEdge
     - AEPEdgeIdentity
     - AEPRulesEngine
     - AEPServices
@@ -33,17 +34,11 @@ EXTERNAL SOURCES:
   AEPAssurance:
     :branch: staging
     :git: https://github.com/adobe/aepsdk-assurance-ios.git
-  AEPEdge:
-    :branch: staging
-    :git: https://github.com/adobe/aepsdk-edge-ios.git
 
 CHECKOUT OPTIONS:
   AEPAssurance:
     :commit: 6098c48a067daf4c70cb630b0000564552ad3bc7
     :git: https://github.com/adobe/aepsdk-assurance-ios.git
-  AEPEdge:
-    :commit: 6270ff667bc0e327abb49c25f84f99f3163b632c
-    :git: https://github.com/adobe/aepsdk-edge-ios.git
 
 SPEC CHECKSUMS:
   AEPAssurance: 7f260ded4df38a70a06efebade8c33a3e3221984
@@ -54,6 +49,6 @@ SPEC CHECKSUMS:
   AEPServices: e42e5118128e81c0f797fdfb1dc9c4a714d644b8
   SwiftLint: 13280e21cdda6786ad908dc6e416afe5acd1fcb7
 
-PODFILE CHECKSUM: c1598fc09402a641a80177650fc8ffc5833fcd4d
+PODFILE CHECKSUM: f1b8e7fb153591686125ff0e58db89a223fcfa5f
 
 COCOAPODS: 1.14.3

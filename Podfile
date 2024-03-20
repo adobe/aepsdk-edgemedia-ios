@@ -13,7 +13,7 @@ def core_pods
 end
 
 def edge_pods
-  pod 'AEPEdge', :git => 'https://github.com/adobe/aepsdk-edge-ios.git', :branch => 'staging'
+  pod 'AEPEdge'
   pod 'AEPEdgeIdentity'
 end
 
