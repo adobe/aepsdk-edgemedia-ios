@@ -16,7 +16,7 @@
 import AEPTestUtils
 import XCTest
 
-class MediaPublicAPITests: XCTestCase {
+class MediaPublicAPITests: XCTestCase, AnyCodableAsserts {
 
     override func setUp() {
         EventHub.reset()
@@ -89,15 +89,20 @@ class MediaPublicAPITests: XCTestCase {
     // ==========================================================================
     func testCreateMediaInfo() {
         let infoMap = Media.createMediaObjectWith(name: "testName", id: "testId", length: 30, streamType: "aod", mediaType: MediaType.Audio)
-        XCTAssertFalse(infoMap?.isEmpty ?? true)
-        XCTAssertEqual("testId", infoMap?[MediaConstants.MediaInfo.ID] as? String ?? "")
-        XCTAssertEqual("testName", infoMap?[MediaConstants.MediaInfo.NAME] as? String ?? "")
-        XCTAssertEqual(30, infoMap?[MediaConstants.MediaInfo.LENGTH] as? Int ?? 0)
-        XCTAssertEqual("aod", infoMap?[MediaConstants.MediaInfo.STREAM_TYPE] as? String ?? "")
-        XCTAssertEqual(MediaType.Audio.rawValue, infoMap?[MediaConstants.MediaInfo.MEDIA_TYPE] as? String ?? "")
-        XCTAssertEqual(false, infoMap?[MediaConstants.MediaInfo.RESUMED] as? Bool ?? false)
-        XCTAssertEqual(250, infoMap?[MediaConstants.MediaInfo.PREROLL_TRACKING_WAITING_TIME] as? Int ?? 0)
-        XCTAssertEqual(false, infoMap?[MediaConstants.MediaInfo.GRANULAR_AD_TRACKING] as? Bool ?? true)
+
+        let expected = """
+        {
+          "\(MediaConstants.MediaInfo.GRANULAR_AD_TRACKING)": false,
+          "\(MediaConstants.MediaInfo.ID)": "testId",
+          "\(MediaConstants.MediaInfo.LENGTH)": 30,
+          "\(MediaConstants.MediaInfo.MEDIA_TYPE)": "\(MediaType.Audio.rawValue)",
+          "\(MediaConstants.MediaInfo.NAME)": "testName",
+          "\(MediaConstants.MediaInfo.PREROLL_TRACKING_WAITING_TIME)": 250,
+          "\(MediaConstants.MediaInfo.RESUMED)": false,
+          "\(MediaConstants.MediaInfo.STREAM_TYPE)": "aod"
+        }
+        """
+        assertEqual(expected: expected, actual: infoMap)
     }
 
     func testCreateMediaInfo_Invalid() {
@@ -123,10 +128,15 @@ class MediaPublicAPITests: XCTestCase {
     // ==========================================================================
     func testCreateAdBreakInfo() {
         let infoMap = Media.createAdBreakObjectWith(name: "adBreakName", position: 5, startTime: 1)
-        XCTAssertFalse(infoMap?.isEmpty ?? true)
-        XCTAssertEqual("adBreakName", infoMap?[MediaConstants.AdBreakInfo.NAME] as? String ?? "")
-        XCTAssertEqual(5, infoMap?[MediaConstants.AdBreakInfo.POSITION] as? Int ?? 0)
-        XCTAssertEqual(1, infoMap?[MediaConstants.AdBreakInfo.START_TIME] as? Int ?? 0)
+
+        let expected = """
+        {
+          "\(MediaConstants.AdBreakInfo.NAME)": "adBreakName",
+          "\(MediaConstants.AdBreakInfo.POSITION)": 5,
+          "\(MediaConstants.AdBreakInfo.START_TIME)": 1
+        }
+        """
+        assertEqual(expected: expected, actual: infoMap)
     }
 
     func testCreateAdBreakInfo_Invalid() {
@@ -148,11 +158,16 @@ class MediaPublicAPITests: XCTestCase {
     // ==========================================================================
     func testCreateAdInfo() {
         let infoMap = Media.createAdObjectWith(name: "adName", id: "AdId", position: 3, length: 20)
-        XCTAssertFalse(infoMap?.isEmpty ?? true)
-        XCTAssertEqual("adName", infoMap?[MediaConstants.AdInfo.NAME] as? String ?? "")
-        XCTAssertEqual("AdId", infoMap?[MediaConstants.AdInfo.ID] as? String ?? "")
-        XCTAssertEqual(3, infoMap?[MediaConstants.AdInfo.POSITION] as? Int ?? 0)
-        XCTAssertEqual(20, infoMap?[MediaConstants.AdInfo.LENGTH] as? Int ?? 0)
+
+        let expected = """
+        {
+          "\(MediaConstants.AdInfo.ID)": "AdId",
+          "\(MediaConstants.AdInfo.LENGTH)": 20,
+          "\(MediaConstants.AdInfo.NAME)": "adName",
+          "\(MediaConstants.AdInfo.POSITION)": 3
+        }
+        """
+        assertEqual(expected: expected, actual: infoMap)
     }
 
     func testCreateAdInfo_Invalid() {
@@ -179,11 +194,16 @@ class MediaPublicAPITests: XCTestCase {
 
     func testCreateChapterInfo() {
         let infoMap = Media.createChapterObjectWith(name: "chapterName", position: 2, length: 30, startTime: 5)
-        XCTAssertFalse(infoMap?.isEmpty ?? true)
-        XCTAssertEqual("chapterName", infoMap?[MediaConstants.ChapterInfo.NAME] as? String ?? "")
-        XCTAssertEqual(2, infoMap?[MediaConstants.ChapterInfo.POSITION] as? Int ?? 0)
-        XCTAssertEqual(30, infoMap?[MediaConstants.ChapterInfo.LENGTH] as? Int ?? 0)
-        XCTAssertEqual(5, infoMap?[MediaConstants.ChapterInfo.START_TIME] as? Int ?? 0)
+
+        let expected = """
+        {
+          "\(MediaConstants.ChapterInfo.LENGTH)": 30,
+          "\(MediaConstants.ChapterInfo.NAME)": "chapterName",
+          "\(MediaConstants.ChapterInfo.POSITION)": 2,
+          "\(MediaConstants.ChapterInfo.START_TIME)": 5
+        }
+        """
+        assertEqual(expected: expected, actual: infoMap)
     }
 
     func testCreateChapterInfo_Invalid() {
@@ -210,11 +230,16 @@ class MediaPublicAPITests: XCTestCase {
 
     func testCreateQoEInfo() {
         let infoMap = Media.createQoEObjectWith(bitrate: 24, startupTime: 0, fps: 30, droppedFrames: 2)
-        XCTAssertFalse(infoMap?.isEmpty ?? true)
-        XCTAssertEqual(24, infoMap?[MediaConstants.QoEInfo.BITRATE] as? Int ?? 0)
-        XCTAssertEqual(0, infoMap?[MediaConstants.QoEInfo.STARTUP_TIME] as? Int ?? 0)
-        XCTAssertEqual(30, infoMap?[MediaConstants.QoEInfo.FPS] as? Int ?? 0)
-        XCTAssertEqual(2, infoMap?[MediaConstants.QoEInfo.DROPPED_FRAMES] as? Int ?? 0)
+
+        let expected = """
+        {
+          "\(MediaConstants.QoEInfo.BITRATE)": 24,
+          "\(MediaConstants.QoEInfo.DROPPED_FRAMES)": 2,
+          "\(MediaConstants.QoEInfo.FPS)": 30,
+          "\(MediaConstants.QoEInfo.STARTUP_TIME)": 0
+        }
+        """
+        assertEqual(expected: expected, actual: infoMap)
     }
 
     func testCreateQoEInfo_Invalid() {
@@ -241,8 +266,13 @@ class MediaPublicAPITests: XCTestCase {
 
     func testCreateStateInfo() {
         let infoMap = Media.createStateObjectWith(stateName: "muted")
-        XCTAssertFalse(infoMap?.isEmpty ?? true)
-        XCTAssertEqual("muted", infoMap?[MediaConstants.StateInfo.STATE_NAME_KEY] as? String ?? "")
+
+        let expected = """
+        {
+          "\(MediaConstants.StateInfo.STATE_NAME_KEY)": "muted"
+        }
+        """
+        assertEqual(expected: expected, actual: infoMap)
     }
 
     func testCreateStateInfo_Invalid() {
