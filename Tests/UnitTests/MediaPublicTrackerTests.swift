@@ -122,7 +122,6 @@ class MediaPublicTrackerTests: XCTestCase, AnyCodableAsserts {
         XCTAssertFalse((data?[MediaConstants.Tracker.ID] as? String ?? "").isEmpty)
 
         let actualParam = data?[MediaConstants.Tracker.EVENT_PARAM] as? [String: Any] ?? [:]
-//        XCTAssertTrue(isEqual(map1: actualParam, map2: Self.testConfig))
         assertEqual(expected: Self.testConfig, actual: actualParam)
     }
 
