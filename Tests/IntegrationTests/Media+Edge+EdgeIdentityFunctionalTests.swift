@@ -29,20 +29,20 @@ class EdgeMediaIntegrationTests: TestBase, AnyCodableAsserts {
         case adBreakComplete
         case adBreakStart
         case adComplete
-        case adStart
         case adSkip
-        case bufferStart
+        case adStart
         case bitrateChange
-        case chapterStart
+        case bufferStart
         case chapterComplete
         case chapterSkip
+        case chapterStart
         case error
-        case sessionStart
-        case sessionEnd
-        case statesUpdate
-        case play
         case pauseStart
+        case play
         case sessionComplete
+        case sessionEnd
+        case sessionStart
+        case statesUpdate
     }
 
     private let configuration = ["edge.configId": "12345-example",
