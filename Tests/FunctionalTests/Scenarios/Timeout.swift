@@ -204,5 +204,4 @@ class Timeout: BaseScenarioTest {
         // verify
         assertEqualsEvents(expectedEvents: expectedEvents, actualEvents: dispatchedEvents)
     }
-
 }

@@ -63,6 +63,5 @@ class CustomError: BaseScenarioTest {
 
         // verify
         assertEqualsEvents(expectedEvents: expectedEvents, actualEvents: dispatchedEvents)
-
     }
 }
