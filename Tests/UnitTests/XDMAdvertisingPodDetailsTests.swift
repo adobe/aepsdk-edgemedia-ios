@@ -36,6 +36,6 @@ class XDMAdvertisingPodDetailsTests: XCTestCase, AnyCodableAsserts {
         }
         """
 
-        assertExactMatch(expected: expected, actual: decodedAdBreakDetails)
+        assertEqual(expected: expected, actual: decodedAdBreakDetails)
     }
 }

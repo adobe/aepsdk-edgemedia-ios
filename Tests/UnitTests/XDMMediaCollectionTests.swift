@@ -59,12 +59,14 @@ class XDMMediaCollectionTests: XCTestCase, AnyCodableAsserts {
             "assetID": "test_assetID",
             "authorized": "false",
             "channel": "test_channel",
+            "contentType": "vod",
             "episode": "1",
             "feed": "test_feed",
             "firstAirDate": "test_firstAirDate",
             "firstDigitalDate": "test_firstAirDigitalDate",
             "friendlyName": "name",
             "genre": "test_genre",
+            "hasResume": false,
             "length": 30,
             "mvpd": "test_mvpd",
             "name": "id",
@@ -82,7 +84,7 @@ class XDMMediaCollectionTests: XCTestCase, AnyCodableAsserts {
         }
         """
 
-        assertExactMatch(expected: expected, actual: decodedMediaCollection)
+        assertEqual(expected: expected, actual: decodedMediaCollection)
     }
 
     func testEncode_adBreakStart() throws {
@@ -109,7 +111,7 @@ class XDMMediaCollectionTests: XCTestCase, AnyCodableAsserts {
         }
         """
 
-        assertExactMatch(expected: expected, actual: decodedMediaCollection)
+        assertEqual(expected: expected, actual: decodedMediaCollection)
     }
 
     func testEncode_adStart() throws {
@@ -153,7 +155,7 @@ class XDMMediaCollectionTests: XCTestCase, AnyCodableAsserts {
         }
         """
 
-        assertExactMatch(expected: expected, actual: decodedMediaCollection)
+        assertEqual(expected: expected, actual: decodedMediaCollection)
     }
 
     func testEncode_chapterStart() throws {
@@ -181,7 +183,7 @@ class XDMMediaCollectionTests: XCTestCase, AnyCodableAsserts {
         }
         """
 
-        assertExactMatch(expected: expected, actual: decodedMediaCollection)
+        assertEqual(expected: expected, actual: decodedMediaCollection)
     }
 
     func testEncode_stateStart() throws {
@@ -214,7 +216,7 @@ class XDMMediaCollectionTests: XCTestCase, AnyCodableAsserts {
         }
         """
 
-        assertExactMatch(expected: expected, actual: decodedMediaCollection)
+        assertEqual(expected: expected, actual: decodedMediaCollection)
     }
 
     func testEncode_stateEnd() throws {
@@ -248,6 +250,6 @@ class XDMMediaCollectionTests: XCTestCase, AnyCodableAsserts {
         }
         """
 
-        assertExactMatch(expected: expected, actual: decodedMediaCollection)
+        assertEqual(expected: expected, actual: decodedMediaCollection)
     }
 }

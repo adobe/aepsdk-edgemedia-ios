@@ -35,6 +35,6 @@ class XDMErrorDetailsTests: XCTestCase, AnyCodableAsserts {
         }
         """
 
-        assertExactMatch(expected: expected, actual: decodedErrorDetails)
+        assertEqual(expected: expected, actual: decodedErrorDetails)
     }
 }

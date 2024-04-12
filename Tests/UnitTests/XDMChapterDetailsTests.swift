@@ -37,6 +37,6 @@ class XDMChapterDetailsTests: XCTestCase, AnyCodableAsserts {
         }
         """
 
-        assertExactMatch(expected: expected, actual: decodedChapterDetails)
+        assertEqual(expected: expected, actual: decodedChapterDetails)
     }
 }

@@ -83,7 +83,7 @@ class XDMSessionDetailsTests: XCTestCase, AnyCodableAsserts {
         }
         """
 
-        assertExactMatch(expected: expected, actual: decodedSessionDetails)
+        assertEqual(expected: expected, actual: decodedSessionDetails)
     }
 
     func testEncode_streamTypeAudio() throws {
@@ -127,6 +127,6 @@ class XDMSessionDetailsTests: XCTestCase, AnyCodableAsserts {
         }
         """
 
-        assertExactMatch(expected: expected, actual: decodedSessionDetails)
+        assertEqual(expected: expected, actual: decodedSessionDetails)
     }
 }
