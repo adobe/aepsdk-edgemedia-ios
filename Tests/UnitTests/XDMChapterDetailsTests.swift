@@ -11,24 +11,32 @@
  */
 
 @testable import AEPEdgeMedia
+import AEPTestUtils
 import XCTest
 
-class XDMChapterDetailsTests: XCTestCase {
+class XDMChapterDetailsTests: XCTestCase, AnyCodableAsserts {
 
     // MARK: Encodable tests
     func testEncode() throws {
-        // setup
+        // Setup
         let chapterDetails = XDMChapterDetails(friendlyName: "name", index: 1, length: 10, offset: 2)
 
-        // test
+        // Test
         let encoder = JSONEncoder()
         let data = try XCTUnwrap(encoder.encode(chapterDetails))
 
-        let map = asFlattenDictionary(data: data)
+        let decodedChapterDetails = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
 
-        XCTAssertEqual("name", map["friendlyName"] as! String)
-        XCTAssertEqual(1, map["index"] as! Int64)
-        XCTAssertEqual(10, map["length"] as! Int64)
-        XCTAssertEqual(2, map["offset"] as! Int64)
+        // Verify
+        let expected = """
+        {
+          "friendlyName": "name",
+          "index": 1,
+          "length": 10,
+          "offset": 2
+        }
+        """
+
+        assertEqual(expected: expected, actual: decodedChapterDetails)
     }
 }

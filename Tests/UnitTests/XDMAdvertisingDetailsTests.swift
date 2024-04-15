@@ -11,13 +11,14 @@
  */
 
 @testable import AEPEdgeMedia
+import AEPTestUtils
 import XCTest
 
-class XDMAdvertisingDetailsTests: XCTestCase {
+class XDMAdvertisingDetailsTests: XCTestCase, AnyCodableAsserts {
 
     // MARK: Encodable tests
     func testEncode() throws {
-        // setup
+        // Setup
         var adDetails = XDMAdvertisingDetails(name: "id", friendlyName: "name", length: 10, podPosition: 1)
         adDetails.playerName = "test_playerName"
 
@@ -29,22 +30,29 @@ class XDMAdvertisingDetailsTests: XCTestCase {
         adDetails.placementID = "test_placementID"
         adDetails.siteID = "test_siteID"
 
-        // test
+        // Test
         let encoder = JSONEncoder()
         let data = try XCTUnwrap(encoder.encode(adDetails))
 
-        let map = asFlattenDictionary(data: data)
+        let decodedAdDetails = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
 
-        XCTAssertEqual("id", map["name"] as! String)
-        XCTAssertEqual("name", map["friendlyName"] as! String)
-        XCTAssertEqual(10, map["length"] as! Int64)
-        XCTAssertEqual(1, map["podPosition"] as! Int64)
-        XCTAssertEqual("test_playerName", map["playerName"] as! String)
-        XCTAssertEqual("test_advertiser", map["advertiser"] as! String)
-        XCTAssertEqual("test_campaignID", map["campaignID"] as! String)
-        XCTAssertEqual("test_creativeID", map["creativeID"] as! String)
-        XCTAssertEqual("test_creativeURL", map["creativeURL"] as! String)
-        XCTAssertEqual("test_placementID", map["placementID"] as! String)
-        XCTAssertEqual("test_siteID", map["siteID"] as! String)
+        // Verify
+        let expected = """
+        {
+          "advertiser": "test_advertiser",
+          "campaignID": "test_campaignID",
+          "creativeID": "test_creativeID",
+          "creativeURL": "test_creativeURL",
+          "friendlyName": "name",
+          "length": 10,
+          "name": "id",
+          "placementID": "test_placementID",
+          "playerName": "test_playerName",
+          "podPosition": 1,
+          "siteID": "test_siteID"
+        }
+        """
+
+        assertEqual(expected: expected, actual: decodedAdDetails)
     }
 }
