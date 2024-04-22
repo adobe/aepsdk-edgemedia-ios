@@ -25,26 +25,6 @@ class EdgeMediaIntegrationTests: TestBase, AnyCodableAsserts {
 
     private let baseEdgeEndpoint = "https://edge.adobedc.net/ee/va/v1/"
 
-    enum MediaPath: String, CaseIterable {
-        case adBreakComplete
-        case adBreakStart
-        case adComplete
-        case adSkip
-        case adStart
-        case bitrateChange
-        case bufferStart
-        case chapterComplete
-        case chapterSkip
-        case chapterStart
-        case error
-        case pauseStart
-        case play
-        case sessionComplete
-        case sessionEnd
-        case sessionStart
-        case statesUpdate
-    }
-
     private let configuration = ["edge.configId": "12345-example",
                                  "edgeMedia.channel": "testChannel",
                                  "edgeMedia.playerName": "testPlayerName"
@@ -509,8 +489,8 @@ class EdgeMediaIntegrationTests: TestBase, AnyCodableAsserts {
     ///
     /// - Parameter mediaPaths: A variadic parameter list of `MediaPath` values representing
     ///   the total media paths for which network request expectations are to be set.
-    private func setExpectationForNetworkRequest(mediaPaths: MediaPath...) {
-        var pathCounts: [MediaPath: Int32] = [:]
+    private func setExpectationForNetworkRequest(mediaPaths: XDMMediaEventType...) {
+        var pathCounts: [XDMMediaEventType: Int32] = [:]
 
         for path in mediaPaths {
             pathCounts[path, default: 0] += 1
