@@ -153,7 +153,5 @@ class CustomStatePlayback: BaseScenarioTest {
 
         // verify
         assertEqualsEvents(expectedEvents: expectedEvents, actualEvents: dispatchedEvents)
-
     }
-
 }

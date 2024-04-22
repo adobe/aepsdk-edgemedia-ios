@@ -15,11 +15,16 @@ import AEPEdge
 import AEPEdgeIdentity
 @testable import AEPEdgeMedia
 import AEPServices
+import AEPTestUtils
 import Foundation
 import XCTest
 
-class EdgeMediaIntegrationTests: FunctionalTestBase {
+class EdgeMediaIntegrationTests: TestBase, AnyCodableAsserts {
+    private let mockNetworkService = MockNetworkService()
     private let sessionStartEdgeEndpoint = "https://edge.adobedc.net/ee/va/v1/sessionStart"
+
+    private let baseEdgeEndpoint = "https://edge.adobedc.net/ee/va/v1/"
+
     private let configuration = ["edge.configId": "12345-example",
                                  "edgeMedia.channel": "testChannel",
                                  "edgeMedia.playerName": "testPlayerName"
@@ -49,6 +54,8 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
 
     override func setUp() {
         super.setUp()
+        ServiceProvider.shared.networkService = mockNetworkService
+
         continueAfterFailure = false
 
         // hub shared state update for 1 extension versions Edge, Identity, Configuration, EventHub shared state updates
@@ -70,18 +77,28 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
 
         assertExpectedEvents(ignoreUnexpectedEvents: false)
         resetTestExpectations()
+        mockNetworkService.reset()
+    }
+
+    override func tearDown() {
+        super.tearDown()
+        mockNetworkService.reset()
     }
 
     // Test Cases
     func testPlayback_singleSession_play_pause_complete() {
         // setup
-        let responseConnection: HttpConnection = HttpConnection(data: successResponseBody.data(using: .utf8),
-                                                                response: HTTPURLResponse(url: URL(string: sessionStartEdgeEndpoint)!,
-                                                                                          statusCode: 200,
-                                                                                          httpVersion: nil,
-                                                                                          headerFields: nil),
-                                                                error: nil)
-        setNetworkResponseFor(url: sessionStartEdgeEndpoint, httpMethod: .post, responseHttpConnection: responseConnection)
+        let responseConnection: HttpConnection = HttpConnection(
+            data: successResponseBody.data(using: .utf8),
+            response: HTTPURLResponse(url: URL(string: sessionStartEdgeEndpoint)!,
+                                      statusCode: 200,
+                                      httpVersion: nil,
+                                      headerFields: nil),
+            error: nil)
+
+        mockNetworkService.setMockResponse(url: sessionStartEdgeEndpoint, responseConnection: responseConnection)
+
+        setExpectationForNetworkRequest(mediaPaths: .sessionStart, .play, .pauseStart, .sessionComplete)
 
         // test
         let tracker = Media.createTracker()
@@ -92,8 +109,8 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
         tracker.trackComplete()
 
         // verify
-        let networkRequests = getAllNetworkRequests()
-        XCTAssertEqual(4, networkRequests.count)
+        mockNetworkService.assertAllNetworkRequestExpectations(ignoreUnexpectedRequests: false)
+        let networkRequests = mockNetworkService.getNetworkRequests()
 
         assertXDMData(networkRequest: networkRequests[0], eventType: "sessionStart", info: mediaInfo, metadata: metadata, configuration: configuration)
         assertXDMData(networkRequest: networkRequests[1], eventType: "play", backendSessionId: testBackendSessionId)
@@ -109,7 +126,9 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
                                                                                           httpVersion: nil,
                                                                                           headerFields: nil),
                                                                 error: nil)
-        setNetworkResponseFor(url: sessionStartEdgeEndpoint, httpMethod: .post, responseHttpConnection: responseConnection)
+        mockNetworkService.setMockResponse(url: sessionStartEdgeEndpoint, responseConnection: responseConnection)
+
+        setExpectationForNetworkRequest(mediaPaths: .sessionStart)
 
         // test
         let tracker = Media.createTracker()
@@ -120,8 +139,8 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
         tracker.trackComplete()
 
         // verify
-        let networkRequests = getAllNetworkRequests()
-        XCTAssertEqual(1, networkRequests.count)
+        mockNetworkService.assertAllNetworkRequestExpectations(ignoreUnexpectedRequests: false)
+        let networkRequests = mockNetworkService.getNetworkRequests()
 
         assertXDMData(networkRequest: networkRequests[0], eventType: "sessionStart", info: mediaInfo, metadata: metadata, configuration: configuration)
     }
@@ -134,7 +153,9 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
                                                                                           httpVersion: nil,
                                                                                           headerFields: nil),
                                                                 error: nil)
-        setNetworkResponseFor(url: sessionStartEdgeEndpoint, httpMethod: .post, responseHttpConnection: responseConnection)
+        mockNetworkService.setMockResponse(url: sessionStartEdgeEndpoint, responseConnection: responseConnection)
+
+        setExpectationForNetworkRequest(mediaPaths: .sessionStart, .adBreakStart, .adStart, .play, .adComplete, .adBreakComplete, .play, .sessionComplete)
 
         // test
         let tracker = Media.createTracker()
@@ -148,8 +169,8 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
         tracker.trackComplete()
 
         // verify
-        let networkRequests = getAllNetworkRequests()
-        XCTAssertEqual(8, networkRequests.count)
+        mockNetworkService.assertAllNetworkRequestExpectations(ignoreUnexpectedRequests: false)
+        let networkRequests = mockNetworkService.getNetworkRequests()
 
         assertXDMData(networkRequest: networkRequests[0], eventType: "sessionStart", info: mediaInfo, metadata: metadata, configuration: configuration)
         assertXDMData(networkRequest: networkRequests[1], eventType: "adBreakStart", info: adBreakInfo, backendSessionId: testBackendSessionId)
@@ -169,7 +190,9 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
                                                                                           httpVersion: nil,
                                                                                           headerFields: nil),
                                                                 error: nil)
-        setNetworkResponseFor(url: sessionStartEdgeEndpoint, httpMethod: .post, responseHttpConnection: responseConnection)
+        mockNetworkService.setMockResponse(url: sessionStartEdgeEndpoint, responseConnection: responseConnection)
+
+        setExpectationForNetworkRequest(mediaPaths: .sessionStart, .chapterStart, .play, .chapterComplete, .sessionComplete)
 
         // test
         let tracker = Media.createTracker()
@@ -180,8 +203,8 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
         tracker.trackComplete()
 
         // verify
-        let networkRequests = getAllNetworkRequests()
-        XCTAssertEqual(5, networkRequests.count)
+        mockNetworkService.assertAllNetworkRequestExpectations(ignoreUnexpectedRequests: false)
+        let networkRequests = mockNetworkService.getNetworkRequests()
 
         assertXDMData(networkRequest: networkRequests[0], eventType: "sessionStart", info: mediaInfo, metadata: metadata, configuration: configuration)
         assertXDMData(networkRequest: networkRequests[1], eventType: "chapterStart", info: chapterInfo, metadata: metadata, backendSessionId: testBackendSessionId)
@@ -198,7 +221,9 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
                                                                                           httpVersion: nil,
                                                                                           headerFields: nil),
                                                                 error: nil)
-        setNetworkResponseFor(url: sessionStartEdgeEndpoint, httpMethod: .post, responseHttpConnection: responseConnection)
+        mockNetworkService.setMockResponse(url: sessionStartEdgeEndpoint, responseConnection: responseConnection)
+
+        setExpectationForNetworkRequest(mediaPaths: .sessionStart, .play, .bufferStart, .play, .bitrateChange, .pauseStart, .play, .error, .sessionComplete)
 
         // test
         let tracker = Media.createTracker()
@@ -218,8 +243,8 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
         tracker.trackComplete()
 
         // verify
-        let networkRequests = getAllNetworkRequests()
-        XCTAssertEqual(9, networkRequests.count)
+        mockNetworkService.assertAllNetworkRequestExpectations(ignoreUnexpectedRequests: false)
+        let networkRequests = mockNetworkService.getNetworkRequests()
 
         assertXDMData(networkRequest: networkRequests[0], eventType: "sessionStart", info: mediaInfo, metadata: metadata, configuration: configuration)
         assertXDMData(networkRequest: networkRequests[1], eventType: "play", backendSessionId: testBackendSessionId, playhead: 0)
@@ -240,7 +265,9 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
                                                                                           httpVersion: nil,
                                                                                           headerFields: nil),
                                                                 error: nil)
-        setNetworkResponseFor(url: sessionStartEdgeEndpoint, httpMethod: .post, responseHttpConnection: responseConnection)
+        mockNetworkService.setMockResponse(url: sessionStartEdgeEndpoint, responseConnection: responseConnection)
+
+        setExpectationForNetworkRequest(mediaPaths: .sessionStart, .adBreakStart, .adStart, .play, .adSkip, .adBreakComplete, .sessionEnd)
 
         // test
         let tracker = Media.createTracker()
@@ -252,8 +279,8 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
         tracker.trackSessionEnd()
 
         // verify
-        let networkRequests = getAllNetworkRequests()
-        XCTAssertEqual(7, networkRequests.count)
+        mockNetworkService.assertAllNetworkRequestExpectations(ignoreUnexpectedRequests: false)
+        let networkRequests = mockNetworkService.getNetworkRequests()
 
         assertXDMData(networkRequest: networkRequests[0], eventType: "sessionStart", info: mediaInfo, metadata: metadata, configuration: configuration)
         assertXDMData(networkRequest: networkRequests[1], eventType: "adBreakStart", info: adBreakInfo, backendSessionId: testBackendSessionId, qoeInfo: qoeInfo)
@@ -272,7 +299,9 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
                                                                                           httpVersion: nil,
                                                                                           headerFields: nil),
                                                                 error: nil)
-        setNetworkResponseFor(url: sessionStartEdgeEndpoint, httpMethod: .post, responseHttpConnection: responseConnection)
+        mockNetworkService.setMockResponse(url: sessionStartEdgeEndpoint, responseConnection: responseConnection)
+
+        setExpectationForNetworkRequest(mediaPaths: .sessionStart, .chapterStart, .play, .chapterSkip, .sessionEnd)
 
         // test
         let tracker = Media.createTracker()
@@ -283,8 +312,8 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
         tracker.trackSessionEnd()
 
         // verify
-        let networkRequests = getAllNetworkRequests()
-        XCTAssertEqual(5, networkRequests.count)
+        mockNetworkService.assertAllNetworkRequestExpectations(ignoreUnexpectedRequests: false)
+        let networkRequests = mockNetworkService.getNetworkRequests()
 
         assertXDMData(networkRequest: networkRequests[0], eventType: "sessionStart", info: mediaInfo, metadata: metadata, configuration: configuration)
         assertXDMData(networkRequest: networkRequests[1], eventType: "chapterStart", info: chapterInfo, metadata: metadata, backendSessionId: testBackendSessionId)
@@ -301,7 +330,9 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
                                                                                           httpVersion: nil,
                                                                                           headerFields: nil),
                                                                 error: nil)
-        setNetworkResponseFor(url: sessionStartEdgeEndpoint, httpMethod: .post, responseHttpConnection: responseConnection)
+        mockNetworkService.setMockResponse(url: sessionStartEdgeEndpoint, responseConnection: responseConnection)
+
+        setExpectationForNetworkRequest(mediaPaths: .sessionStart, .chapterStart, .play, .statesUpdate, .statesUpdate, .statesUpdate, .statesUpdate, .chapterComplete, .sessionComplete)
 
         // test
         let tracker = Media.createTracker()
@@ -317,8 +348,8 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
         tracker.trackComplete()
 
         // verify
-        let networkRequests = getAllNetworkRequests()
-        XCTAssertEqual(9, networkRequests.count)
+        mockNetworkService.assertAllNetworkRequestExpectations(ignoreUnexpectedRequests: false)
+        let networkRequests = mockNetworkService.getNetworkRequests()
 
         assertXDMData(networkRequest: networkRequests[0], eventType: "sessionStart", info: mediaInfo, metadata: metadata, configuration: configuration)
         assertXDMData(networkRequest: networkRequests[1], eventType: "chapterStart", info: chapterInfo, metadata: metadata, backendSessionId: testBackendSessionId)
@@ -339,7 +370,9 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
                                                                                           httpVersion: nil,
                                                                                           headerFields: nil),
                                                                 error: nil)
-        setNetworkResponseFor(url: sessionStartEdgeEndpoint, httpMethod: .post, responseHttpConnection: responseConnection)
+        mockNetworkService.setMockResponse(url: sessionStartEdgeEndpoint, responseConnection: responseConnection)
+
+        setExpectationForNetworkRequest(mediaPaths: .sessionStart, .chapterStart, .play, .statesUpdate, .statesUpdate, .chapterSkip, .sessionEnd)
 
         // test
         let tracker = Media.createTracker()
@@ -353,8 +386,8 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
         tracker.trackSessionEnd()
 
         // verify
-        let networkRequests = getAllNetworkRequests()
-        XCTAssertEqual(7, networkRequests.count)
+        mockNetworkService.assertAllNetworkRequestExpectations(ignoreUnexpectedRequests: false)
+        let networkRequests = mockNetworkService.getNetworkRequests()
 
         assertXDMData(networkRequest: networkRequests[0], eventType: "sessionStart", info: mediaInfo, metadata: metadata, configuration: configuration)
         assertXDMData(networkRequest: networkRequests[1], eventType: "chapterStart", info: chapterInfo, metadata: metadata, backendSessionId: testBackendSessionId, qoeInfo: qoeInfo)
@@ -366,45 +399,107 @@ class EdgeMediaIntegrationTests: FunctionalTestBase {
     }
 
     // Test Assert Utils
+    /// Asserts the XDM data against a network request for media analytics validation.
+    ///
+    /// This method validates that the expected XDM data for a media event matches the actual data
+    /// captured in a network request. It generates a JSON representation of the expected media collection
+    /// data, compares it against the actual network request data, and asserts a match or fails the test.
+    ///
+    /// - Parameters:
+    ///   - networkRequest: The `NetworkRequest` object that contains the actual data to be validated.
+    ///   - eventType: A string representing the type of media event (e.g., sessionStart, play, pause).
+    ///   - info: A dictionary containing key-value pairs of information relevant to the media event.
+    ///         Default is an empty dictionary.
+    ///   - metadata: A dictionary of metadata key-value pairs related to the media event.
+    ///         Default is an empty dictionary.
+    ///   - configuration: A dictionary of configuration options that affect the media session.
+    ///         Default is an empty dictionary.
+    ///   - backendSessionId: An optional string representing the backend session identifier.
+    ///         Default is `nil`.
+    ///   - qoeInfo: An optional dictionary of Quality of Experience (QoE) data.
+    ///         Default is `nil`.
+    ///   - playhead: An optional integer representing the current position (in seconds) within the media content.
+    ///         Default is `nil`.
+    ///   - stateStart: A boolean indicating if the event marks the start of a new state. Default is `true`.
+    ///   - file: The file from which the method is called, used for localized assertion failures.
+    ///   - line: The line from which the method is called, used for localized assertion failures.
+    func assertXDMData(
+        networkRequest: NetworkRequest,
+        eventType: String,
+        info: [String: Any] = [:],
+        metadata: [String: String] = [:],
+        configuration: [String: Any] = [:],
+        backendSessionId: String? = nil,
+        qoeInfo: [String: Any]? = nil,
+        playhead: Int? = nil,
+        stateStart: Bool = true,
+        file: StaticString = #file,
+        line: UInt = #line) {
+        let expectedMediaCollectionData = EdgeEventHelper.generateMediaCollection(
+            eventType: XDMMediaEventType(rawValue: eventType) ?? XDMMediaEventType.sessionEnd,
+            playhead: playhead ?? 0,
+            backendSessionId: testBackendSessionId,
+            info: info,
+            metadata: metadata,
+            mediaState: getMediaStateFrom(configuration),
+            qoeInfo: qoeInfo,
+            stateStart: stateStart)
 
-    func assertXDMData(networkRequest: NetworkRequest, eventType: String, info: [String: Any] = [:], metadata: [String: String] = [:], configuration: [String: Any] = [:], backendSessionId: String? = nil, qoeInfo: [String: Any]? = nil, playhead: Int? = nil, stateStart: Bool = true) {
-        let expectedMediaCollectionData = EdgeEventHelper.generateMediaCollection(eventType: XDMMediaEventType(rawValue: eventType) ?? XDMMediaEventType.sessionEnd,
-                                                                                  playhead: playhead ?? 0,
-                                                                                  backendSessionId: testBackendSessionId,
-                                                                                  info: info,
-                                                                                  metadata: metadata,
-                                                                                  mediaState: getMediaStateFrom(configuration),
-                                                                                  qoeInfo: qoeInfo,
-                                                                                  stateStart: stateStart)
+        guard let mediaCollectionData = try? JSONSerialization.data(withJSONObject: expectedMediaCollectionData),
+                let mediaCollectionJSON = String(data: mediaCollectionData, encoding: .utf8) else {
+            XCTFail("Failed to convert MediaCollection dictionary to valid JSON String.", file: file, line: line)
+            return
+        }
 
-        let actualXDMData = getXDMDataFromNetworkRequest(networkRequest)
-
-        XCTAssertEqual("media." + eventType, actualXDMData["eventType"] as? String)
-        XCTAssertNotNil(actualXDMData["timestamp"] as? String)
-        XCTAssertNotNil(actualXDMData["_id"] as? String)
-
-        let actualMediaCollectionData = actualXDMData["mediaCollection"] as? [String: Any] ?? [:]
-
-        XCTAssertTrue( NSDictionary(dictionary: expectedMediaCollectionData).isEqual(to: actualMediaCollectionData), "For media event (\(String(describing: actualXDMData["eventType"]))) expected mediaCollection data \n(\(expectedMediaCollectionData)\n) does not match the actual mediaCollection data \n(\(actualMediaCollectionData))\n")
+        let expected = """
+        {
+          "events": [
+            {
+              "xdm": {
+                "_id": "STRING_TYPE",
+                "eventType": "media.\(eventType)",
+                "mediaCollection": \(mediaCollectionJSON),
+                "timestamp": "STRING_TYPE"
+              }
+            }
+          ]
+        }
+        """
+        assertExactMatch(expected: expected,
+                         actual: networkRequest,
+                         pathOptions:
+                            CollectionEqualCount(paths: "events", scope: .subtree),
+                            ValueTypeMatch(paths: "events[0].xdm._id", "events[0].xdm.timestamp"),
+                         file: file,
+                         line: line)
     }
 
     // Test Helpers
-
-    func getXDMDataFromNetworkRequest(_ networkRequest: NetworkRequest, eventNumber: Int = 0) -> [String: Any] {
-        let data = getNetworkRequestBodyAsDictionary(networkRequest)
-
-        guard let eventDataList = data["events"] as? [[String: Any]] else {
-            return [:]
-        }
-
-        let eventData = eventDataList[0]
-
-        return eventData["xdm"] as? [String: Any] ?? [:]
-    }
-
     func getMediaStateFrom(_ config: [String: Any]) -> MediaState {
         let mediaState = MediaState()
         mediaState.updateConfigurationSharedState(config)
         return mediaState
+    }
+
+    /// Sets expectations for network requests based on specified media paths. Relative order
+    /// is **not** taken into account for assertions.
+    ///
+    /// This method counts the occurrences of each unique media path provided and
+    /// sets an expectation for a network request for each path with the respective count.
+    ///
+    /// - Parameter mediaPaths: A variadic parameter list of `MediaPath` values representing
+    ///   the total media paths for which network request expectations are to be set.
+    private func setExpectationForNetworkRequest(mediaPaths: XDMMediaEventType...) {
+        var pathCounts: [XDMMediaEventType: Int32] = [:]
+
+        for path in mediaPaths {
+            pathCounts[path, default: 0] += 1
+        }
+        for path in mediaPaths {
+            mockNetworkService.setExpectationForNetworkRequest(
+                url: baseEdgeEndpoint + path.rawValue,
+                httpMethod: .post,
+                expectedCount: pathCounts[path] ?? 1)
+        }
     }
 }

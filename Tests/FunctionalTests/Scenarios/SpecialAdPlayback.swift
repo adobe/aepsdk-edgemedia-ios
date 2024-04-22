@@ -239,5 +239,4 @@ class SpecialAdPlayback: BaseScenarioTest {
         // verify
         assertEqualsEvents(expectedEvents: expectedEvents, actualEvents: dispatchedEvents)
     }
-
 }
