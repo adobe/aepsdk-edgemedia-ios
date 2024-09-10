@@ -84,7 +84,7 @@ class EdgeMediaLocationHintIntegrationTests: TestBase {
                                                                                           headerFields: nil),
                                                                 error: nil)
         mockNetworkService.setMockResponse(url: sessionStartEdgeEndpoint, responseConnection: responseConnection)
-        setExpectationForNetworkRequest(locationHint: testLocationHint, mediaPaths: .sessionStart, .play, .pauseStart, .sessionComplete)
+        setExpectationForNetworkRequest(locationHint: testLocationHint, mediaEvents: .sessionStart, .play, .pauseStart, .sessionComplete)
         // test
         let tracker = Media.createTracker()
         tracker.trackSessionStart(info: mediaInfo, metadata: metadata)
@@ -116,7 +116,7 @@ class EdgeMediaLocationHintIntegrationTests: TestBase {
                                                                                           headerFields: nil),
                                                                 error: nil)
         mockNetworkService.setMockResponse(url: sessionStartEdgeEndpoint, responseConnection: responseConnection)
-        setExpectationForNetworkRequest(locationHint: nil, mediaPaths: .sessionStart, .play, .pauseStart, .sessionComplete)
+        setExpectationForNetworkRequest(locationHint: nil, mediaEvents: .sessionStart, .play, .pauseStart, .sessionComplete)
 
         // test
         let tracker = Media.createTracker()
@@ -144,17 +144,17 @@ class EdgeMediaLocationHintIntegrationTests: TestBase {
     ///
     /// - Parameter mediaPaths: A variadic parameter list of `MediaPath` values representing
     ///   the total media paths for which network request expectations are to be set.
-    private func setExpectationForNetworkRequest(locationHint: String?, mediaPaths: XDMMediaEventType...) {
+    private func setExpectationForNetworkRequest(locationHint: String?, mediaEvents: XDMMediaEventType...) {
         var pathCounts: [XDMMediaEventType: Int32] = [:]
 
-        for path in mediaPaths {
+        for path in mediaEvents {
             pathCounts[path, default: 0] += 1
         }
-        for path in mediaPaths {
-            mockNetworkService.setExpectationForNetworkRequest(
-                url: "https://edge.adobedc.net/ee\(locationHint == nil ? "" : "/\(locationHint!)")/va/v1/" + path.rawValue,
-                httpMethod: .post,
-                expectedCount: pathCounts[path] ?? 1)
+        for path in mediaEvents {
+            let url = "https://edge.adobedc.net/ee\(locationHint != nil ? "/\(locationHint!)" : "")/va/v1/" + path.rawValue
+            let expectedCount = pathCounts[path] ?? 1
+
+            mockNetworkService.setExpectationForNetworkRequest(url: url, httpMethod: .post, expectedCount: expectedCount)
         }
     }
 }

@@ -97,7 +97,7 @@ class EdgeMediaIntegrationTests: TestBase, AnyCodableAsserts {
 
         mockNetworkService.setMockResponse(url: sessionStartEdgeEndpoint, responseConnection: responseConnection)
 
-        setExpectationForNetworkRequest(mediaPaths: .sessionStart, .play, .pauseStart, .sessionComplete)
+        setExpectationForNetworkRequest(mediaEvents: .sessionStart, .play, .pauseStart, .sessionComplete)
 
         // test
         let tracker = Media.createTracker()
@@ -127,7 +127,7 @@ class EdgeMediaIntegrationTests: TestBase, AnyCodableAsserts {
                                                                 error: nil)
         mockNetworkService.setMockResponse(url: sessionStartEdgeEndpoint, responseConnection: responseConnection)
 
-        setExpectationForNetworkRequest(mediaPaths: .sessionStart)
+        setExpectationForNetworkRequest(mediaEvents: .sessionStart)
 
         // test
         let tracker = Media.createTracker()
@@ -154,7 +154,7 @@ class EdgeMediaIntegrationTests: TestBase, AnyCodableAsserts {
                                                                 error: nil)
         mockNetworkService.setMockResponse(url: sessionStartEdgeEndpoint, responseConnection: responseConnection)
 
-        setExpectationForNetworkRequest(mediaPaths: .sessionStart, .adBreakStart, .adStart, .play, .adComplete, .adBreakComplete, .play, .sessionComplete)
+        setExpectationForNetworkRequest(mediaEvents: .sessionStart, .adBreakStart, .adStart, .play, .adComplete, .adBreakComplete, .play, .sessionComplete)
 
         // test
         let tracker = Media.createTracker()
@@ -191,7 +191,7 @@ class EdgeMediaIntegrationTests: TestBase, AnyCodableAsserts {
                                                                 error: nil)
         mockNetworkService.setMockResponse(url: sessionStartEdgeEndpoint, responseConnection: responseConnection)
 
-        setExpectationForNetworkRequest(mediaPaths: .sessionStart, .chapterStart, .play, .chapterComplete, .sessionComplete)
+        setExpectationForNetworkRequest(mediaEvents: .sessionStart, .chapterStart, .play, .chapterComplete, .sessionComplete)
 
         // test
         let tracker = Media.createTracker()
@@ -222,7 +222,7 @@ class EdgeMediaIntegrationTests: TestBase, AnyCodableAsserts {
                                                                 error: nil)
         mockNetworkService.setMockResponse(url: sessionStartEdgeEndpoint, responseConnection: responseConnection)
 
-        setExpectationForNetworkRequest(mediaPaths: .sessionStart, .play, .bufferStart, .play, .bitrateChange, .pauseStart, .play, .error, .sessionComplete)
+        setExpectationForNetworkRequest(mediaEvents: .sessionStart, .play, .bufferStart, .play, .bitrateChange, .pauseStart, .play, .error, .sessionComplete)
 
         // test
         let tracker = Media.createTracker()
@@ -266,7 +266,7 @@ class EdgeMediaIntegrationTests: TestBase, AnyCodableAsserts {
                                                                 error: nil)
         mockNetworkService.setMockResponse(url: sessionStartEdgeEndpoint, responseConnection: responseConnection)
 
-        setExpectationForNetworkRequest(mediaPaths: .sessionStart, .adBreakStart, .adStart, .play, .adSkip, .adBreakComplete, .sessionEnd)
+        setExpectationForNetworkRequest(mediaEvents: .sessionStart, .adBreakStart, .adStart, .play, .adSkip, .adBreakComplete, .sessionEnd)
 
         // test
         let tracker = Media.createTracker()
@@ -300,7 +300,7 @@ class EdgeMediaIntegrationTests: TestBase, AnyCodableAsserts {
                                                                 error: nil)
         mockNetworkService.setMockResponse(url: sessionStartEdgeEndpoint, responseConnection: responseConnection)
 
-        setExpectationForNetworkRequest(mediaPaths: .sessionStart, .chapterStart, .play, .chapterSkip, .sessionEnd)
+        setExpectationForNetworkRequest(mediaEvents: .sessionStart, .chapterStart, .play, .chapterSkip, .sessionEnd)
 
         // test
         let tracker = Media.createTracker()
@@ -331,7 +331,7 @@ class EdgeMediaIntegrationTests: TestBase, AnyCodableAsserts {
                                                                 error: nil)
         mockNetworkService.setMockResponse(url: sessionStartEdgeEndpoint, responseConnection: responseConnection)
 
-        setExpectationForNetworkRequest(mediaPaths: .sessionStart, .chapterStart, .play, .statesUpdate, .statesUpdate, .statesUpdate, .statesUpdate, .chapterComplete, .sessionComplete)
+        setExpectationForNetworkRequest(mediaEvents: .sessionStart, .chapterStart, .play, .statesUpdate, .statesUpdate, .statesUpdate, .statesUpdate, .chapterComplete, .sessionComplete)
 
         // test
         let tracker = Media.createTracker()
@@ -371,7 +371,7 @@ class EdgeMediaIntegrationTests: TestBase, AnyCodableAsserts {
                                                                 error: nil)
         mockNetworkService.setMockResponse(url: sessionStartEdgeEndpoint, responseConnection: responseConnection)
 
-        setExpectationForNetworkRequest(mediaPaths: .sessionStart, .chapterStart, .play, .statesUpdate, .statesUpdate, .chapterSkip, .sessionEnd)
+        setExpectationForNetworkRequest(mediaEvents: .sessionStart, .chapterStart, .play, .statesUpdate, .statesUpdate, .chapterSkip, .sessionEnd)
 
         // test
         let tracker = Media.createTracker()
@@ -488,13 +488,13 @@ class EdgeMediaIntegrationTests: TestBase, AnyCodableAsserts {
     ///
     /// - Parameter mediaPaths: A variadic parameter list of `MediaPath` values representing
     ///   the total media paths for which network request expectations are to be set.
-    private func setExpectationForNetworkRequest(mediaPaths: XDMMediaEventType...) {
+    private func setExpectationForNetworkRequest(mediaEvents: XDMMediaEventType...) {
         var pathCounts: [XDMMediaEventType: Int32] = [:]
 
-        for path in mediaPaths {
+        for path in mediaEvents {
             pathCounts[path, default: 0] += 1
         }
-        for path in mediaPaths {
+        for path in mediaEvents {
             mockNetworkService.setExpectationForNetworkRequest(
                 url: baseEdgeEndpoint + path.rawValue,
                 httpMethod: .post,
