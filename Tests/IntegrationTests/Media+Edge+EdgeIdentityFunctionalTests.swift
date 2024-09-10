@@ -49,13 +49,12 @@ class EdgeMediaIntegrationTests: TestBase, AnyCodableAsserts {
 
     public class override func setUp() {
         super.setUp()
-        FunctionalTestBase.debugEnabled = true
+        TestBase.debugEnabled = true
     }
 
     override func setUp() {
         super.setUp()
         ServiceProvider.shared.networkService = mockNetworkService
-
         continueAfterFailure = false
 
         // hub shared state update for 1 extension versions Edge, Identity, Configuration, EventHub shared state updates
