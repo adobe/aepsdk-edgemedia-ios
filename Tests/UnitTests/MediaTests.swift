@@ -13,6 +13,7 @@
 @testable import AEPCore
 @testable import AEPEdgeMedia
 import AEPServices
+import AEPTestUtils
 import XCTest
 
 class MediaTests: XCTestCase {

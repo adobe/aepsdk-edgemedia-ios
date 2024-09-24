@@ -23,21 +23,24 @@ end
 
 target 'UnitTests' do
   core_pods
+  pod 'AEPTestUtils', :git => 'https://github.com/adobe/aepsdk-testutils-ios.git', :tag => '5.1.0'
 end
 
 target 'FunctionalTests' do
   core_pods
+  pod 'AEPTestUtils', :git => 'https://github.com/adobe/aepsdk-testutils-ios.git', :tag => '5.1.0'
 end
 
 target 'IntegrationTests' do
   core_pods
   edge_pods
+  pod 'AEPTestUtils', :git => 'https://github.com/adobe/aepsdk-testutils-ios.git', :tag => '5.1.0'
 end
 
 target 'TestAppiOS' do
   core_pods
   edge_pods
-  pod 'AEPAssurance', :git => 'https://github.com/adobe/aepsdk-assurance-ios.git', :branch => 'staging'
+  pod 'AEPAssurance'
 end
 
 target 'TestApptvOS' do

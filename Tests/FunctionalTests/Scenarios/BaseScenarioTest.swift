@@ -12,9 +12,10 @@
 
 import AEPCore
 @testable import AEPEdgeMedia
+import AEPTestUtils
 import XCTest
 
-class BaseScenarioTest: XCTestCase {
+class BaseScenarioTest: XCTestCase, AnyCodableAsserts {
     var mediaTracker: MediaEventGenerator!
     var mediaEventProcessorSpy: MediaEventProcessorSpy!
     var mediaEventTracker: MediaEventTracking!
@@ -79,7 +80,7 @@ class BaseScenarioTest: XCTestCase {
                 return
             }
 
-            XCTAssertTrue( NSDictionary(dictionary: expectedData).isEqual(to: actualData), "Expected event data \n(\(expectedData)\n) does not match the actual event data \n(\(actualData))\n")
+            assertEqual(expected: expectedData, actual: actualData)
         }
     }
 
