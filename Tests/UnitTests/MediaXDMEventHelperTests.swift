@@ -11,9 +11,10 @@
  */
 
 @testable import AEPEdgeMedia
+import AEPTestUtils
 import XCTest
 
-class MediaXDMEventHelperTests: XCTestCase {
+class MediaXDMEventHelperTests: XCTestCase, AnyCodableAsserts {
     let mediaInfo = MediaInfo(id: "id", name: "name", streamType: "vod", mediaType: MediaType.Video, length: 10)
     let mediaStandardMetadata = [
         MediaConstants.VideoMetadataKeys.AD_LOAD: "adLoad",
@@ -65,7 +66,7 @@ class MediaXDMEventHelperTests: XCTestCase {
     }
 
     func testGenerateSessionDetails() {
-        // setup
+        // Setup
         var expectedSessionDetails = XDMSessionDetails(name: "id", friendlyName: "name", length: 10, streamType: XDMStreamType.video, contentType: "vod", hasResume: false)
 
         // Standard metadata
@@ -94,27 +95,27 @@ class MediaXDMEventHelperTests: XCTestCase {
         expectedSessionDetails.publisher = "publisher"
         expectedSessionDetails.station = "station"
 
-        // test
+        // Test
         let sessionDetails = MediaXDMEventHelper.generateSessionDetails(mediaInfo: mediaInfo!, metadata: mediaMetadata)
 
-        // verify
-        XCTAssertTrue(AssertUtils.compareSizeAndKeys(expectedSessionDetails.asDictionary(), sessionDetails.asDictionary()))
+        // Verify
+        assertEqual(expected: expectedSessionDetails.asDictionary(), actual: sessionDetails.asDictionary())
         XCTAssertEqual(expectedSessionDetails, sessionDetails)
     }
 
     func testGenerateMediaCustomMetadataDetails() {
-        // setup
+        // Setup
         let expectedMetadata = [XDMCustomMetadata(name: "key1", value: "value1"), XDMCustomMetadata(name: "key2", value: "value2")]
 
-        // test
+        // Test
         let customMediaMetadata = MediaXDMEventHelper.generateMediaCustomMetadataDetails(metadata: mediaMetadata)
 
-        // verify
+        // Verify
         XCTAssertTrue(verifyMetadata(expectedMetadata, customMediaMetadata), "Error: expected metadata does not match actual metadata.")
     }
 
     func testGenerateAdvertisingDetails() {
-        // setup
+        // Setup
         var expectedAdDetails = XDMAdvertisingDetails(name: "id", friendlyName: "name", length: 10, podPosition: 1)
         expectedAdDetails.advertiser = "advertiser"
         expectedAdDetails.campaignID = "campaignID"
@@ -123,63 +124,63 @@ class MediaXDMEventHelperTests: XCTestCase {
         expectedAdDetails.placementID = "placementID"
         expectedAdDetails.siteID = "siteID"
 
-        // test
+        // Test
         let advertisingDetails = MediaXDMEventHelper.generateAdvertisingDetails(adInfo: adInfo, adMetadata: adMetadata)
 
-        // verify
-        XCTAssertTrue(AssertUtils.compareSizeAndKeys(expectedAdDetails.asDictionary(), advertisingDetails?.asDictionary()))
+        // Verify
+        assertEqual(expected: expectedAdDetails.asDictionary(), actual: advertisingDetails?.asDictionary())
         XCTAssertEqual(expectedAdDetails, advertisingDetails)
     }
 
     func testGenerateAdCustomMetadataDetails() {
-        // setup
+        // Setup
         let expectedMetadata = [XDMCustomMetadata(name: "key1", value: "value1"), XDMCustomMetadata(name: "key2", value: "value2")]
 
-        // test
+        // Test
         let customMediaMetadata = MediaXDMEventHelper.generateAdCustomMetadataDetails(metadata: adMetadata)
 
-        // verify
+        // Verify
         XCTAssertTrue(verifyMetadata(expectedMetadata, customMediaMetadata), "Error: expected metadata does not match actual metadata.")
     }
 
     func testGenerateQoEDetails() {
-        // setup
+        // Setup
         let expectedQoEDetails = XDMQoeDataDetails(bitrate: 1, droppedFrames: 2, framesPerSecond: 3, timeToStart: 4)
 
-        // test
+        // Test
         let qoeDetails = MediaXDMEventHelper.generateQoEDataDetails(qoeInfo: qoeInfo)
 
-        // verify
-        XCTAssertTrue(AssertUtils.compareSizeAndKeys(expectedQoEDetails.asDictionary(), qoeDetails?.asDictionary()))
+        // Verify
+        assertEqual(expected: expectedQoEDetails.asDictionary(), actual: qoeDetails?.asDictionary())
         XCTAssertEqual(expectedQoEDetails, qoeDetails)
     }
 
     func testGenerateErrorDetails() {
-        // setup
+        // Setup
         let expectedErrorDetails = XDMErrorDetails(name: "testName", source: "player")
 
-        // test
+        // Test
         let errorDetails = MediaXDMEventHelper.generateErrorDetails(errorID: "testName")
 
-        // verify
-        XCTAssertTrue(AssertUtils.compareSizeAndKeys(expectedErrorDetails.asDictionary(), errorDetails.asDictionary()))
+        // Verify
+        assertEqual(expected: expectedErrorDetails.asDictionary(), actual: errorDetails.asDictionary())
         XCTAssertEqual(expectedErrorDetails, errorDetails)
     }
 
     func testGenerateStateDetails() {
-        // setup
+        // Setup
         let expectedTestStateDetails = XDMPlayerStateData(name: "testStateName")
         let expectedMuteStateDetails = XDMPlayerStateData(name: "mute")
         let expectedStateDetailsList = [expectedTestStateDetails, expectedMuteStateDetails]
 
-        // test
+        // Test
         let stateDetails = MediaXDMEventHelper.generateStateDetails(states: [testStateInfo, muteStateInfo])
 
-        // verify
+        // Verify
         XCTAssertEqual(expectedStateDetailsList, stateDetails)
     }
 
-    // test helper
+    // Test helper
     private func verifyMetadata(_ expected: [XDMCustomMetadata], _ actual: [XDMCustomMetadata]) -> Bool {
         if expected.count != actual.count {
             XCTFail("Expected metadata size:(\(expected.count) does not match actual metadata size:(\(actual.count)")

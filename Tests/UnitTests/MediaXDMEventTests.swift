@@ -13,9 +13,10 @@
 import AEPCore
 @testable import AEPEdgeMedia
 import AEPServices
+import AEPTestUtils
 import XCTest
 
-class MediaXDMEventTests: XCTestCase {
+class MediaXDMEventTests: XCTestCase, AnyCodableAsserts {
 
     func testCreateMediaXDMEvent() {
         // Setup
@@ -54,25 +55,31 @@ class MediaXDMEventTests: XCTestCase {
         let xdmEventData = mediaXDMEvent.toXDMData()
         let xdmMap = xdmEventData["xdm"] as? [String: Any] ?? [:]
 
-        XCTAssertFalse(xdmMap.isEmpty)
-        XCTAssertEqual("media.sessionStart", xdmMap["eventType"] as? String ?? "")
-        XCTAssertEqual(Date(timeIntervalSince1970: 2).getISO8601UTCDateWithMilliseconds(), xdmMap["timestamp"] as? String)
-        let actualMediaCollection = xdmMap["mediaCollection"] as? [String: Any] ?? [:]
-        XCTAssertFalse(actualMediaCollection.isEmpty)
+        // Verify
+        let expected = """
+        {
+          "xdm": {
+            "eventType": "media.sessionStart",
+            "mediaCollection": {
+              "sessionDetails": {
+                "appVersion": "test_appVersion",
+                "assetID": "test_assetID",
+                "channel": "test_channel",
+                "contentType": "vod",
+                "friendlyName": "name",
+                "hasResume": false,
+                "length": 30,
+                "name": "id",
+                "playerName": "test_playerName",
+                "streamType": "video"
+              }
+            },
+            "timestamp": "\(Date(timeIntervalSince1970: 2).getISO8601UTCDateWithMilliseconds())"
+          }
+        }
+        """
 
-        let actualSessionDetails = actualMediaCollection["sessionDetails"] as? [String: Any] ?? [:]
-        XCTAssertEqual(10, actualSessionDetails.count)
-
-        XCTAssertEqual("name", actualSessionDetails["friendlyName"] as! String)
-        XCTAssertEqual("id", actualSessionDetails["name"] as! String)
-        XCTAssertEqual(Int64(30), actualSessionDetails["length"] as! Int64)
-        XCTAssertEqual("video", actualSessionDetails["streamType"] as! String)
-        XCTAssertEqual("vod", actualSessionDetails["contentType"] as! String)
-        XCTAssertEqual(false, actualSessionDetails["hasResume"] as! Bool)
-        XCTAssertEqual("test_appVersion", actualSessionDetails["appVersion"] as! String)
-        XCTAssertEqual("test_channel", actualSessionDetails["channel"] as! String)
-        XCTAssertEqual("test_playerName", actualSessionDetails["playerName"] as! String)
-        XCTAssertEqual("test_assetID", actualSessionDetails["assetID"] as! String)
+        assertEqual(expected: expected, actual: xdmEventData)
     }
 
 }

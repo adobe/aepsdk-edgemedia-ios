@@ -15,10 +15,12 @@ import AEPEdge
 import AEPEdgeIdentity
 @testable import AEPEdgeMedia
 import AEPServices
+import AEPTestUtils
 import Foundation
 import XCTest
 
-class EdgeMediaLocationHintIntegrationTests: FunctionalTestBase {
+class EdgeMediaLocationHintIntegrationTests: TestBase {
+    private let mockNetworkService = MockNetworkService()
     private let configuration = ["edge.configId": "12345-example",
                                  "edgeMedia.channel": "testChannel",
                                  "edgeMedia.playerName": "testPlayerName"
@@ -32,11 +34,12 @@ class EdgeMediaLocationHintIntegrationTests: FunctionalTestBase {
 
     public class override func setUp() {
         super.setUp()
-        FunctionalTestBase.debugEnabled = true
+        TestBase.debugEnabled = true
     }
 
     override func setUp() {
         super.setUp()
+        ServiceProvider.shared.networkService = mockNetworkService
         continueAfterFailure = false
 
         // hub shared state update for 1 extension versions Edge, Identity, Configuration, EventHub shared state updates
@@ -58,6 +61,12 @@ class EdgeMediaLocationHintIntegrationTests: FunctionalTestBase {
 
         assertExpectedEvents(ignoreUnexpectedEvents: false)
         resetTestExpectations()
+        mockNetworkService.reset()
+    }
+
+    override func tearDown() {
+        super.tearDown()
+        mockNetworkService.reset()
     }
 
     // Test Cases
@@ -74,8 +83,8 @@ class EdgeMediaLocationHintIntegrationTests: FunctionalTestBase {
                                                                                           httpVersion: nil,
                                                                                           headerFields: nil),
                                                                 error: nil)
-        setNetworkResponseFor(url: sessionStartEdgeEndpoint, httpMethod: .post, responseHttpConnection: responseConnection)
-
+        mockNetworkService.setMockResponse(url: sessionStartEdgeEndpoint, responseConnection: responseConnection)
+        setExpectationForNetworkRequest(locationHint: testLocationHint, mediaEvents: .sessionStart, .play, .pauseStart, .sessionComplete)
         // test
         let tracker = Media.createTracker()
         tracker.trackSessionStart(info: mediaInfo, metadata: metadata)
@@ -85,7 +94,8 @@ class EdgeMediaLocationHintIntegrationTests: FunctionalTestBase {
         tracker.trackComplete()
 
         // verify
-        let networkRequests = getAllNetworkRequests()
+        mockNetworkService.assertAllNetworkRequestExpectations()
+        let networkRequests = mockNetworkService.getNetworkRequests()
         XCTAssertEqual(4, networkRequests.count)
         XCTAssertTrue(networkRequests[0].url.absoluteString.contains("https://edge.adobedc.net/ee/\(testLocationHint)/va/v1/sessionStart"))
         XCTAssertTrue(networkRequests[1].url.absoluteString.contains("https://edge.adobedc.net/ee/\(testLocationHint)/va/v1/play"))
@@ -105,7 +115,8 @@ class EdgeMediaLocationHintIntegrationTests: FunctionalTestBase {
                                                                                           httpVersion: nil,
                                                                                           headerFields: nil),
                                                                 error: nil)
-        setNetworkResponseFor(url: sessionStartEdgeEndpoint, httpMethod: .post, responseHttpConnection: responseConnection)
+        mockNetworkService.setMockResponse(url: sessionStartEdgeEndpoint, responseConnection: responseConnection)
+        setExpectationForNetworkRequest(locationHint: nil, mediaEvents: .sessionStart, .play, .pauseStart, .sessionComplete)
 
         // test
         let tracker = Media.createTracker()
@@ -116,11 +127,34 @@ class EdgeMediaLocationHintIntegrationTests: FunctionalTestBase {
         tracker.trackComplete()
 
         // verify
-        let networkRequests = getAllNetworkRequests()
+        mockNetworkService.assertAllNetworkRequestExpectations()
+        let networkRequests = mockNetworkService.getNetworkRequests()
         XCTAssertEqual(4, networkRequests.count)
         XCTAssertTrue(networkRequests[0].url.absoluteString.contains("https://edge.adobedc.net/ee/va/v1/sessionStart"))
         XCTAssertTrue(networkRequests[1].url.absoluteString.contains("https://edge.adobedc.net/ee/va/v1/play"))
         XCTAssertTrue(networkRequests[2].url.absoluteString.contains("https://edge.adobedc.net/ee/va/v1/pauseStart"))
         XCTAssertTrue(networkRequests[3].url.absoluteString.contains("https://edge.adobedc.net/ee/va/v1/sessionComplete"))
+    }
+
+    /// Sets expectations for network requests based on specified media paths. Relative order
+    /// is **not** taken into account for assertions.
+    ///
+    /// This method counts the occurrences of each unique media path provided and
+    /// sets an expectation for a network request for each path with the respective count.
+    ///
+    /// - Parameter mediaPaths: A variadic parameter list of `MediaPath` values representing
+    ///   the total media paths for which network request expectations are to be set.
+    private func setExpectationForNetworkRequest(locationHint: String?, mediaEvents: XDMMediaEventType...) {
+        var pathCounts: [XDMMediaEventType: Int32] = [:]
+
+        for path in mediaEvents {
+            pathCounts[path, default: 0] += 1
+        }
+        for path in mediaEvents {
+            let url = "https://edge.adobedc.net/ee\(locationHint != nil ? "/\(locationHint!)" : "")/va/v1/" + path.rawValue
+            let expectedCount = pathCounts[path] ?? 1
+
+            mockNetworkService.setExpectationForNetworkRequest(url: url, httpMethod: .post, expectedCount: expectedCount)
+        }
     }
 }
