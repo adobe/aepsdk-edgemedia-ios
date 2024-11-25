@@ -31,4 +31,5 @@ jobs:
       run-test-tvos-functional: true
       run-test-tvos-integration: true
       run-build-xcframework-and-app: true
+      enable-codecov: true
     secrets: inherit
