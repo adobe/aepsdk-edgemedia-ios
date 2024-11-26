@@ -12,7 +12,7 @@
 
 import Foundation
 
-enum FunctionalTestConstant {
+enum IntegrationTestConstants {
 
     enum EventType {
         static let EDGE = "com.adobe.eventType.edge"
@@ -42,9 +42,10 @@ enum FunctionalTestConstant {
     }
 
     enum Defaults {
+        // Default timeout for assertions. Set to a high value to accommodate slower CI runners.
+        static let TIMEOUT_SEC: TimeInterval = 10
         static let WAIT_EVENT_TIMEOUT: TimeInterval = 2
         static let WAIT_SHARED_STATE_TIMEOUT: TimeInterval = 3
         static let WAIT_NETWORK_REQUEST_TIMEOUT: TimeInterval = 2
-        static let WAIT_TIMEOUT: UInt32 = 3 // used when no expectation is set
     }
 }

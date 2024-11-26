@@ -20,6 +20,7 @@ import Foundation
 import XCTest
 
 class EdgeMediaLocationHintIntegrationTests: TestBase {
+    private let TIMEOUT_SEC: TimeInterval = IntegrationTestConstants.Defaults.TIMEOUT_SEC
     private let mockNetworkService = MockNetworkService()
     private let configuration = ["edge.configId": "12345-example",
                                  "edgeMedia.channel": "testChannel",
@@ -34,10 +35,10 @@ class EdgeMediaLocationHintIntegrationTests: TestBase {
 
     public class override func setUp() {
         super.setUp()
-        TestBase.debugEnabled = true
     }
 
     override func setUp() {
+        loggingEnabled = true
         super.setUp()
         ServiceProvider.shared.networkService = mockNetworkService
         continueAfterFailure = false
@@ -55,7 +56,7 @@ class EdgeMediaLocationHintIntegrationTests: TestBase {
             print("Extensions registration is complete")
             waitForRegistration.countDown()
         })
-        XCTAssertEqual(DispatchTimeoutResult.success, waitForRegistration.await(timeout: 2))
+        XCTAssertEqual(DispatchTimeoutResult.success, waitForRegistration.await(timeout: TIMEOUT_SEC))
 
         MobileCore.updateConfigurationWith(configDict: configuration)
 
@@ -94,7 +95,7 @@ class EdgeMediaLocationHintIntegrationTests: TestBase {
         tracker.trackComplete()
 
         // verify
-        mockNetworkService.assertAllNetworkRequestExpectations()
+        mockNetworkService.assertAllNetworkRequestExpectations(timeout: TIMEOUT_SEC)
         let networkRequests = mockNetworkService.getNetworkRequests()
         XCTAssertEqual(4, networkRequests.count)
         XCTAssertTrue(networkRequests[0].url.absoluteString.contains("https://edge.adobedc.net/ee/\(testLocationHint)/va/v1/sessionStart"))
@@ -127,7 +128,7 @@ class EdgeMediaLocationHintIntegrationTests: TestBase {
         tracker.trackComplete()
 
         // verify
-        mockNetworkService.assertAllNetworkRequestExpectations()
+        mockNetworkService.assertAllNetworkRequestExpectations(timeout: TIMEOUT_SEC)
         let networkRequests = mockNetworkService.getNetworkRequests()
         XCTAssertEqual(4, networkRequests.count)
         XCTAssertTrue(networkRequests[0].url.absoluteString.contains("https://edge.adobedc.net/ee/va/v1/sessionStart"))

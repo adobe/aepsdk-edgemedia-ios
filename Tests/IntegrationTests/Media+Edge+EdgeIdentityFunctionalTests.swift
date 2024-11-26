@@ -20,6 +20,7 @@ import Foundation
 import XCTest
 
 class EdgeMediaIntegrationTests: TestBase, AnyCodableAsserts {
+    private let TIMEOUT_SEC: TimeInterval = IntegrationTestConstants.Defaults.TIMEOUT_SEC
     private let mockNetworkService = MockNetworkService()
     private let sessionStartEdgeEndpoint = "https://edge.adobedc.net/ee/va/v1/sessionStart"
 
@@ -49,11 +50,12 @@ class EdgeMediaIntegrationTests: TestBase, AnyCodableAsserts {
 
     public class override func setUp() {
         super.setUp()
-        TestBase.debugEnabled = true
     }
 
     override func setUp() {
+        loggingEnabled = true
         super.setUp()
+
         ServiceProvider.shared.networkService = mockNetworkService
         continueAfterFailure = false
 
@@ -70,7 +72,7 @@ class EdgeMediaIntegrationTests: TestBase, AnyCodableAsserts {
             print("Extensions registration is complete")
             waitForRegistration.countDown()
         })
-        XCTAssertEqual(DispatchTimeoutResult.success, waitForRegistration.await(timeout: 2))
+        XCTAssertEqual(DispatchTimeoutResult.success, waitForRegistration.await(timeout: TIMEOUT_SEC))
 
         MobileCore.updateConfigurationWith(configDict: configuration)
 
@@ -108,7 +110,7 @@ class EdgeMediaIntegrationTests: TestBase, AnyCodableAsserts {
         tracker.trackComplete()
 
         // verify
-        mockNetworkService.assertAllNetworkRequestExpectations(ignoreUnexpectedRequests: false)
+        mockNetworkService.assertAllNetworkRequestExpectations(ignoreUnexpectedRequests: false, timeout: TIMEOUT_SEC)
         let networkRequests = mockNetworkService.getNetworkRequests()
 
         assertXDMData(networkRequest: networkRequests[0], eventType: "sessionStart", info: mediaInfo, metadata: metadata, configuration: configuration)
@@ -138,7 +140,7 @@ class EdgeMediaIntegrationTests: TestBase, AnyCodableAsserts {
         tracker.trackComplete()
 
         // verify
-        mockNetworkService.assertAllNetworkRequestExpectations(ignoreUnexpectedRequests: false)
+        mockNetworkService.assertAllNetworkRequestExpectations(ignoreUnexpectedRequests: false, timeout: TIMEOUT_SEC)
         let networkRequests = mockNetworkService.getNetworkRequests()
 
         assertXDMData(networkRequest: networkRequests[0], eventType: "sessionStart", info: mediaInfo, metadata: metadata, configuration: configuration)
@@ -168,7 +170,7 @@ class EdgeMediaIntegrationTests: TestBase, AnyCodableAsserts {
         tracker.trackComplete()
 
         // verify
-        mockNetworkService.assertAllNetworkRequestExpectations(ignoreUnexpectedRequests: false)
+        mockNetworkService.assertAllNetworkRequestExpectations(ignoreUnexpectedRequests: false, timeout: TIMEOUT_SEC)
         let networkRequests = mockNetworkService.getNetworkRequests()
 
         assertXDMData(networkRequest: networkRequests[0], eventType: "sessionStart", info: mediaInfo, metadata: metadata, configuration: configuration)
@@ -202,7 +204,7 @@ class EdgeMediaIntegrationTests: TestBase, AnyCodableAsserts {
         tracker.trackComplete()
 
         // verify
-        mockNetworkService.assertAllNetworkRequestExpectations(ignoreUnexpectedRequests: false)
+        mockNetworkService.assertAllNetworkRequestExpectations(ignoreUnexpectedRequests: false, timeout: TIMEOUT_SEC)
         let networkRequests = mockNetworkService.getNetworkRequests()
 
         assertXDMData(networkRequest: networkRequests[0], eventType: "sessionStart", info: mediaInfo, metadata: metadata, configuration: configuration)
@@ -242,7 +244,7 @@ class EdgeMediaIntegrationTests: TestBase, AnyCodableAsserts {
         tracker.trackComplete()
 
         // verify
-        mockNetworkService.assertAllNetworkRequestExpectations(ignoreUnexpectedRequests: false)
+        mockNetworkService.assertAllNetworkRequestExpectations(ignoreUnexpectedRequests: false, timeout: TIMEOUT_SEC)
         let networkRequests = mockNetworkService.getNetworkRequests()
 
         assertXDMData(networkRequest: networkRequests[0], eventType: "sessionStart", info: mediaInfo, metadata: metadata, configuration: configuration)
@@ -278,7 +280,7 @@ class EdgeMediaIntegrationTests: TestBase, AnyCodableAsserts {
         tracker.trackSessionEnd()
 
         // verify
-        mockNetworkService.assertAllNetworkRequestExpectations(ignoreUnexpectedRequests: false)
+        mockNetworkService.assertAllNetworkRequestExpectations(ignoreUnexpectedRequests: false, timeout: TIMEOUT_SEC)
         let networkRequests = mockNetworkService.getNetworkRequests()
 
         assertXDMData(networkRequest: networkRequests[0], eventType: "sessionStart", info: mediaInfo, metadata: metadata, configuration: configuration)
@@ -311,7 +313,7 @@ class EdgeMediaIntegrationTests: TestBase, AnyCodableAsserts {
         tracker.trackSessionEnd()
 
         // verify
-        mockNetworkService.assertAllNetworkRequestExpectations(ignoreUnexpectedRequests: false)
+        mockNetworkService.assertAllNetworkRequestExpectations(ignoreUnexpectedRequests: false, timeout: TIMEOUT_SEC)
         let networkRequests = mockNetworkService.getNetworkRequests()
 
         assertXDMData(networkRequest: networkRequests[0], eventType: "sessionStart", info: mediaInfo, metadata: metadata, configuration: configuration)
@@ -347,7 +349,7 @@ class EdgeMediaIntegrationTests: TestBase, AnyCodableAsserts {
         tracker.trackComplete()
 
         // verify
-        mockNetworkService.assertAllNetworkRequestExpectations(ignoreUnexpectedRequests: false)
+        mockNetworkService.assertAllNetworkRequestExpectations(ignoreUnexpectedRequests: false, timeout: TIMEOUT_SEC)
         let networkRequests = mockNetworkService.getNetworkRequests()
 
         assertXDMData(networkRequest: networkRequests[0], eventType: "sessionStart", info: mediaInfo, metadata: metadata, configuration: configuration)
@@ -385,7 +387,7 @@ class EdgeMediaIntegrationTests: TestBase, AnyCodableAsserts {
         tracker.trackSessionEnd()
 
         // verify
-        mockNetworkService.assertAllNetworkRequestExpectations(ignoreUnexpectedRequests: false)
+        mockNetworkService.assertAllNetworkRequestExpectations(ignoreUnexpectedRequests: false, timeout: TIMEOUT_SEC)
         let networkRequests = mockNetworkService.getNetworkRequests()
 
         assertXDMData(networkRequest: networkRequests[0], eventType: "sessionStart", info: mediaInfo, metadata: metadata, configuration: configuration)
