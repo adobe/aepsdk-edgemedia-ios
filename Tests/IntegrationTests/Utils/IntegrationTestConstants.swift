@@ -43,7 +43,7 @@ enum IntegrationTestConstants {
 
     enum Defaults {
         // Default timeout for assertions. Set to a high value to accommodate slower CI runners.
-        static let TIMEOUT_SEC: TimeInterval = 10
+        static let TIMEOUT_SEC: TimeInterval = 15
         static let WAIT_EVENT_TIMEOUT: TimeInterval = 2
         static let WAIT_SHARED_STATE_TIMEOUT: TimeInterval = 3
         static let WAIT_NETWORK_REQUEST_TIMEOUT: TimeInterval = 2
