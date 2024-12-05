@@ -19,7 +19,7 @@ import XCTest
 class MediaPublicAPITests: XCTestCase, AnyCodableAsserts {
 
     override func setUp() {
-        EventHub.reset()
+        MobileCore.resetSDK()
         MockExtension.reset()
         EventHub.shared.start()
         registerMockExtension(MockExtension.self)
