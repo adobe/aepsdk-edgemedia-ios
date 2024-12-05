@@ -34,7 +34,7 @@
 		2E4D75042979E02E00396819 /* XDMDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E459867290B8585003111EE /* XDMDataHelper.swift */; };
 		2E4D75062979E02E00396819 /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA7BC2228C02F79001A7C2A /* TestUtils.swift */; };
 		2E4D75072979E02E00396819 /* XDMData+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA1FB46291DAC9000C4FFFE /* XDMData+Equatable.swift */; };
-		2E4D750E2979E02E00396819 /* FunctionalTestConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E224FC42971EA50005FB095 /* FunctionalTestConstant.swift */; };
+		2E4D750E2979E02E00396819 /* IntegrationTestConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E224FC42971EA50005FB095 /* IntegrationTestConstants.swift */; };
 		2E4D75162979E02E00396819 /* XDMData+Comparable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEA08E6291DD51100043C43 /* XDMData+Comparable.swift */; };
 		2E4D75172979E02E00396819 /* EdgeEventHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4D81702936942F005A4543 /* EdgeEventHelper.swift */; };
 		2E4D751B2979E02E00396819 /* Media+Edge+EdgeIdentityFunctionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E224FC2297108A9005FB095 /* Media+Edge+EdgeIdentityFunctionalTests.swift */; };
@@ -194,7 +194,7 @@
 		2E19666828B8236100298FD4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		2E19666B28B824C300298FD4 /* AssuranceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssuranceView.swift; sourceTree = "<group>"; };
 		2E224FC2297108A9005FB095 /* Media+Edge+EdgeIdentityFunctionalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Media+Edge+EdgeIdentityFunctionalTests.swift"; sourceTree = "<group>"; };
-		2E224FC42971EA50005FB095 /* FunctionalTestConstant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctionalTestConstant.swift; sourceTree = "<group>"; };
+		2E224FC42971EA50005FB095 /* IntegrationTestConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegrationTestConstants.swift; sourceTree = "<group>"; };
 		2E37D33C28CFDD7800B782F8 /* MediaEventProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaEventProcessor.swift; sourceTree = "<group>"; };
 		2E37D33E28CFDDF900B782F8 /* MediaSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaSession.swift; sourceTree = "<group>"; };
 		2E37D34028CFE44400B782F8 /* MediaRealTimeSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaRealTimeSession.swift; sourceTree = "<group>"; };
@@ -362,7 +362,7 @@
 		2E224FB929710881005FB095 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				2E224FC42971EA50005FB095 /* FunctionalTestConstant.swift */,
+				2E224FC42971EA50005FB095 /* IntegrationTestConstants.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1207,7 +1207,7 @@
 				2E4D75042979E02E00396819 /* XDMDataHelper.swift in Sources */,
 				2E4D75062979E02E00396819 /* TestUtils.swift in Sources */,
 				2E4D75072979E02E00396819 /* XDMData+Equatable.swift in Sources */,
-				2E4D750E2979E02E00396819 /* FunctionalTestConstant.swift in Sources */,
+				2E4D750E2979E02E00396819 /* IntegrationTestConstants.swift in Sources */,
 				2EF95FF82A05849A00B7D77C /* Media+EdgeLocationHintTests.swift in Sources */,
 				2E4D75162979E02E00396819 /* XDMData+Comparable.swift in Sources */,
 				2E4D75172979E02E00396819 /* EdgeEventHelper.swift in Sources */,

@@ -18,6 +18,48 @@ TVOS_SIMULATOR_ARCHIVE_DSYM_PATH = $(CURR_DIR)/build/tvos_simulator.xcarchive/dS
 TVOS_ARCHIVE_PATH = $(CURR_DIR)/build/tvos.xcarchive/Products/Library/Frameworks/
 TVOS_ARCHIVE_DSYM_PATH = $(CURR_DIR)/build/tvos.xcarchive/dSYMs/
 
+# Values with defaults
+IOS_DEVICE_NAME ?= iPhone 15
+# If OS version is not specified, uses the first device name match in the list of available simulators
+IOS_VERSION ?= 
+ifeq ($(strip $(IOS_VERSION)),)
+    IOS_DESTINATION = "platform=iOS Simulator,name=$(IOS_DEVICE_NAME)"
+else
+    IOS_DESTINATION = "platform=iOS Simulator,name=$(IOS_DEVICE_NAME),OS=$(IOS_VERSION)"
+endif
+
+TVOS_DEVICE_NAME ?= Apple TV
+# If OS version is not specified, uses the first device name match in the list of available simulators
+TVOS_VERSION ?=
+ifeq ($(strip $(TVOS_VERSION)),)
+	TVOS_DESTINATION = "platform=tvOS Simulator,name=$(TVOS_DEVICE_NAME)"
+else
+	TVOS_DESTINATION = "platform=tvOS Simulator,name=$(TVOS_DEVICE_NAME),OS=$(TVOS_VERSION)"
+endif
+
+clean-derived-data:
+	@if [ -z "$(SCHEME)" ]; then \
+		echo "Error: SCHEME variable is not set."; \
+		exit 1; \
+	fi; \
+	if [ -z "$(DESTINATION)" ]; then \
+		echo "Error: DESTINATION variable is not set."; \
+		exit 1; \
+	fi; \
+	echo "Cleaning derived data for scheme: $(SCHEME) with destination: $(DESTINATION)"; \
+	DERIVED_DATA_PATH=`xcodebuild -workspace $(PROJECT_NAME).xcworkspace -scheme "$(SCHEME)" -destination "$(DESTINATION)" -showBuildSettings | grep -m1 'BUILD_DIR' | awk '{print $$3}' | sed 's|/Build/Products||'`; \
+	echo "DerivedData Path: $$DERIVED_DATA_PATH"; \
+	\
+	LOGS_TEST_DIR=$$DERIVED_DATA_PATH/Logs/Test; \
+	echo "Logs Test Path: $$LOGS_TEST_DIR"; \
+	\
+	if [ -d "$$LOGS_TEST_DIR" ]; then \
+		echo "Removing existing .xcresult files in $$LOGS_TEST_DIR"; \
+		rm -rf "$$LOGS_TEST_DIR"/*.xcresult; \
+	else \
+		echo "Logs/Test directory does not exist. Skipping cleanup."; \
+	fi;
+
 setup:
 	pod install
 
@@ -90,39 +132,49 @@ build-app: setup
 	@echo "######################################################################"
 	xcodebuild clean build -workspace $(PROJECT_NAME).xcworkspace -scheme $(TEST_APP_TVOS_SCHEME) -destination 'generic/platform=tvOS Simulator'
 
-test: test-ios test-tvos
+test: unit-test-ios functional-test-ios integration-test-ios unit-test-tvos functional-test-tvos integration-test-tvos
 
-test-ios:
+unit-test-ios:
 	@echo "######################################################################"
-	@echo "### Testing iOS"
+	@echo "### Unit Testing iOS"
 	@echo "######################################################################"
-	xcodebuild -workspace $(PROJECT_NAME).xcworkspace -list
-	final_scheme=""; \
-	if xcodebuild -workspace $(PROJECT_NAME).xcworkspace -list | grep -q "($(PROJECT_NAME) project)"; \
-	then \
-	   final_scheme="$(EXTENSION_NAME) ($(PROJECT_NAME) project)" ; \
-	   echo $$final_scheme ; \
-	else \
-	   final_scheme="$(EXTENSION_NAME)" ; \
-	   echo $$final_scheme ; \
-	fi; \
-	xcodebuild test -workspace $(PROJECT_NAME).xcworkspace -scheme "$$final_scheme" -destination 'platform=iOS Simulator,name=iPhone 15' -derivedDataPath build/out -resultBundlePath build/reports/iosresults.xcresult -enableCodeCoverage YES ADB_SKIP_LINT=YES
+	@$(MAKE) clean-derived-data SCHEME=UnitTests DESTINATION=$(IOS_DESTINATION)
+	xcodebuild test -workspace $(PROJECT_NAME).xcworkspace -scheme "UnitTests" -destination $(IOS_DESTINATION) -enableCodeCoverage YES ADB_SKIP_LINT=YES
 
-test-tvos:
+functional-test-ios:
 	@echo "######################################################################"
-	@echo "### Testing tvOS"
+	@echo "### Functional Testing iOS"
 	@echo "######################################################################"
-	xcodebuild -workspace $(PROJECT_NAME).xcworkspace -list
-	final_scheme=""; \
-	if xcodebuild -workspace $(PROJECT_NAME).xcworkspace -list | grep -q "($(PROJECT_NAME) project)"; \
-	then \
-		 final_scheme="$(EXTENSION_NAME) ($(PROJECT_NAME) project)" ; \
-		 echo $$final_scheme ; \
-	else \
-		 final_scheme="$(EXTENSION_NAME)" ; \
-		 echo $$final_scheme ; \
-	fi; \
-	xcodebuild test -workspace $(PROJECT_NAME).xcworkspace -scheme "$$final_scheme" -destination 'platform=tvOS Simulator,name=Apple TV' -derivedDataPath build/out -resultBundlePath build/reports/tvosresults.xcresult -enableCodeCoverage YES ADB_SKIP_LINT=YES
+	@$(MAKE) clean-derived-data SCHEME=FunctionalTests DESTINATION=$(IOS_DESTINATION)
+	xcodebuild test -workspace $(PROJECT_NAME).xcworkspace -scheme "FunctionalTests" -destination $(IOS_DESTINATION) -enableCodeCoverage YES ADB_SKIP_LINT=YES
+
+integration-test-ios:
+	@echo "######################################################################"
+	@echo "### Integration Testing iOS"
+	@echo "######################################################################"
+	$(MAKE) clean-derived-data SCHEME=IntegrationTests DESTINATION=$(IOS_DESTINATION)
+	xcodebuild test -workspace $(PROJECT_NAME).xcworkspace -scheme "IntegrationTests" -destination $(IOS_DESTINATION) -enableCodeCoverage YES ADB_SKIP_LINT=YES
+
+unit-test-tvos:
+	@echo "######################################################################"
+	@echo "### Unit Testing tvOS"
+	@echo "######################################################################"
+	@$(MAKE) clean-derived-data SCHEME=UnitTests DESTINATION=$(TVOS_DESTINATION)
+	xcodebuild test -workspace $(PROJECT_NAME).xcworkspace -scheme "UnitTests" -destination $(TVOS_DESTINATION) -enableCodeCoverage YES ADB_SKIP_LINT=YES
+
+functional-test-tvos:
+	@echo "######################################################################"
+	@echo "### Functional Testing tvOS"
+	@echo "######################################################################"
+	@$(MAKE) clean-derived-data SCHEME=FunctionalTests DESTINATION=$(TVOS_DESTINATION)
+	xcodebuild test -workspace $(PROJECT_NAME).xcworkspace -scheme "FunctionalTests" -destination $(TVOS_DESTINATION) -enableCodeCoverage YES ADB_SKIP_LINT=YES
+
+integration-test-tvos:
+	@echo "######################################################################"
+	@echo "### Integration Testing iOS"
+	@echo "######################################################################"
+	$(MAKE) clean-derived-data SCHEME=IntegrationTests DESTINATION=$(TVOS_DESTINATION)
+	xcodebuild test -workspace $(PROJECT_NAME).xcworkspace -scheme "IntegrationTests" -destination $(TVOS_DESTINATION) -enableCodeCoverage YES ADB_SKIP_LINT=YES
 
 install-githook:
 	git config core.hooksPath .githooks
@@ -132,10 +184,6 @@ lint-autocorrect:
 
 lint:
 	./Pods/SwiftLint/swiftlint lint Sources TestApps/$(APP_NAME)
-
-# make check-version VERSION=5.0.0
-check-version:
-	sh ./Script/version.sh $(VERSION)
 
 test-SPM-integration:
 	sh ./Script/test-SPM.sh
