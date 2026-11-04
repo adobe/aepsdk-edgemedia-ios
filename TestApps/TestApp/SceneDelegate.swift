@@ -64,7 +64,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
     }
 
-    @available(iOS 13.0, *)
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         // to note : this method is not called when an app not in memory (forceclosed) is opened with deeplink
         #if os(iOS)
