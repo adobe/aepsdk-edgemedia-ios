@@ -23,7 +23,7 @@ class MediaXDMEventGeneratorTests: XCTestCase {
     private var mockTimestamp = TimeInterval(0)
     private var mockPlayhead = 0
     static let trackerSessionId = "clientSessionId"
-    static let refEvent = Event(name: MediaConstants.Media.EVENT_NAME_TRACK_MEDIA,
+    nonisolated(unsafe) static let refEvent = Event(name: MediaConstants.Media.EVENT_NAME_TRACK_MEDIA,
                                 type: EventType.edgeMedia,
                                 source: EventSource.trackMedia,
                                 data: [MediaConstants.Tracker.SESSION_ID: trackerSessionId])
