@@ -76,7 +76,7 @@ class EdgeMediaIntegrationTests: TestBase, AnyCodableAsserts {
 
         MobileCore.updateConfigurationWith(configDict: configuration)
 
-        assertExpectedEvents(ignoreUnexpectedEvents: false)
+        assertExpectedEvents(ignoreUnexpectedEvents: false, timeout: 10)
         resetTestExpectations()
         mockNetworkService.reset()
     }

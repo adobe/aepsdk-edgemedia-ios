@@ -21,7 +21,7 @@ class MediaStateTests: XCTestCase {
         TestConstants.Configuration.MEDIA_APP_VERSION: "test_app_version"
     ]
 
-    static let invalidValues: [Any] = [
+    nonisolated(unsafe) static let invalidValues: [Any] = [
         1,
         true,
         [:],
@@ -29,7 +29,7 @@ class MediaStateTests: XCTestCase {
         []
     ]
 
-    static let emptyConfigurationSharedState = [String: Any]()
+    nonisolated(unsafe) static let emptyConfigurationSharedState = [String: Any]()
 
     func testUpdateConfigurationSharedStateUpdate_withValidConfig_populatesMediaConfig() throws {
         let mediaState = MediaState()

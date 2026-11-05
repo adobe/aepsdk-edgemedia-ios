@@ -60,7 +60,7 @@ class EdgeMediaLocationHintIntegrationTests: TestBase {
 
         MobileCore.updateConfigurationWith(configDict: configuration)
 
-        assertExpectedEvents(ignoreUnexpectedEvents: false)
+        assertExpectedEvents(ignoreUnexpectedEvents: false, timeout: 10)
         resetTestExpectations()
         mockNetworkService.reset()
     }

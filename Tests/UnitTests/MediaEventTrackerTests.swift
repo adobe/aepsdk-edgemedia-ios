@@ -18,13 +18,13 @@ import XCTest
 class MediaEventTrackerTests: XCTestCase {
     typealias RuleName = MediaEventTracker.RuleName
     // Disable preroll logic for tests
-    static let media = MediaInfo(id: "id", name: "name", streamType: "aod", mediaType: MediaType.Audio, length: 60, resumed: false, prerollWaitingTime: 0, granularAdTracking: false)
+    nonisolated(unsafe) static let media = MediaInfo(id: "id", name: "name", streamType: "aod", mediaType: MediaType.Audio, length: 60, resumed: false, prerollWaitingTime: 0, granularAdTracking: false)
 
     // Default preroll wait time
-    static let mediaDefaultPrerollWait = MediaInfo(id: "id", name: "name", streamType: "aod", mediaType: MediaType.Audio, length: 60)
+    nonisolated(unsafe) static let mediaDefaultPrerollWait = MediaInfo(id: "id", name: "name", streamType: "aod", mediaType: MediaType.Audio, length: 60)
 
     // Custom preroll wait time
-    static let mediaCustomPrerollWait = MediaInfo(id: "id", name: "name", streamType: "aod", mediaType: MediaType.Audio, length: 60, resumed: false, prerollWaitingTime: 5000, granularAdTracking: false)
+    nonisolated(unsafe) static let mediaCustomPrerollWait = MediaInfo(id: "id", name: "name", streamType: "aod", mediaType: MediaType.Audio, length: 60, resumed: false, prerollWaitingTime: 5000, granularAdTracking: false)
 
     static let metadata = [
         "k1": "v1"
@@ -47,20 +47,20 @@ class MediaEventTrackerTests: XCTestCase {
     static let KEY_METADATA = "key_metadata"
     static let  KEY_EVENT_TS = "key_eventts"
 
-    static let adbreak1 = AdBreakInfo(name: "adbreak1", position: 1, startTime: 10)
-    static let adbreak2 = AdBreakInfo(name: "adbreak2", position: 2, startTime: 20)
+    nonisolated(unsafe) static let adbreak1 = AdBreakInfo(name: "adbreak1", position: 1, startTime: 10)
+    nonisolated(unsafe) static let adbreak2 = AdBreakInfo(name: "adbreak2", position: 2, startTime: 20)
 
-    static let ad1 = AdInfo(id: "ad1", name: "adname1", position: 1, length: 15)
-    static let ad2 = AdInfo(id: "ad2", name: "adname2", position: 2, length: 15)
+    nonisolated(unsafe) static let ad1 = AdInfo(id: "ad1", name: "adname1", position: 1, length: 15)
+    nonisolated(unsafe) static let ad2 = AdInfo(id: "ad2", name: "adname2", position: 2, length: 15)
 
-    static let chapter1 = ChapterInfo(name: "chapter1", position: 1, startTime: 10, length: 30)
-    static let chapter2 = ChapterInfo(name: "chapter2", position: 2, startTime: 30, length: 30)
+    nonisolated(unsafe) static let chapter1 = ChapterInfo(name: "chapter1", position: 1, startTime: 10, length: 30)
+    nonisolated(unsafe) static let chapter2 = ChapterInfo(name: "chapter2", position: 2, startTime: 30, length: 30)
 
-    static let qoe = QoEInfo(bitrate: 1, droppedFrames: 2, fps: 3, startupTime: 4)
+    nonisolated(unsafe) static let qoe = QoEInfo(bitrate: 1, droppedFrames: 2, fps: 3, startupTime: 4)
 
-    static let stateMute = StateInfo(stateName: "mute")
+    nonisolated(unsafe) static let stateMute = StateInfo(stateName: "mute")
 
-    static let config: [String: Any] = [:]
+    nonisolated(unsafe) static let config: [String: Any] = [:]
     var mediaTracker: MediaEventTracker!
     var eventGenerator: MediaEventGenerator!
 

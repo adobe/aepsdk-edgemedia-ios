@@ -75,7 +75,8 @@ class VideoPlayer: AVPlayer {
     var player: AVPlayer = AVPlayer()
     private var mediaPlayerKVOContext = 0
 
-    var timer: Timer?
+    // Swift 6 does not let the nonisolated deinit touch main actor state. The timer is only used on the main thread, so we opt out of the check to invalidate it in deinit.
+    nonisolated(unsafe) var timer: Timer?
 
     override init(url: URL) {
         super.init()

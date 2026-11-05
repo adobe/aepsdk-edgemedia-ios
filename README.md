@@ -10,8 +10,8 @@
 The Adobe Streaming Media for Edge Network extension sends data about audio and video consumption on your streaming applications to the Adobe Experience Platform Edge Network. This enables capabilities for measurement, analysis, and activation with media data across the Adobe Experience Cloud solutions when using the [Adobe Experience Platform Mobile SDK](https://developer.adobe.com/client-sdks) and the Edge Network extension.
 
 ## Requirements
-- Xcode 15 (or newer)
-- Swift 5.1 (or newer)
+- Xcode 15.3 (or newer)
+- Swift 5.10 (or newer)
 
 ## Install AEPEdgeMedia
 

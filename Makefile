@@ -19,7 +19,7 @@ TVOS_ARCHIVE_PATH = $(CURR_DIR)/build/tvos.xcarchive/Products/Library/Frameworks
 TVOS_ARCHIVE_DSYM_PATH = $(CURR_DIR)/build/tvos.xcarchive/dSYMs/
 
 # Values with defaults
-IOS_DEVICE_NAME ?= iPhone 15
+IOS_DEVICE_NAME ?= iPhone 18 Pro
 # If OS version is not specified, uses the first device name match in the list of available simulators
 IOS_VERSION ?= 
 ifeq ($(strip $(IOS_VERSION)),)
@@ -28,7 +28,7 @@ else
     IOS_DESTINATION = "platform=iOS Simulator,name=$(IOS_DEVICE_NAME),OS=$(IOS_VERSION)"
 endif
 
-TVOS_DEVICE_NAME ?= Apple TV
+TVOS_DEVICE_NAME ?= Apple TV 4K (3rd generation)
 # If OS version is not specified, uses the first device name match in the list of available simulators
 TVOS_VERSION ?=
 ifeq ($(strip $(TVOS_VERSION)),)
@@ -190,3 +190,20 @@ test-SPM-integration:
 
 test-podspec:
 	sh ./Script/test-podspec.sh
+
+# Builds the AEPEdgeMedia target in Swift 6 language mode. AEPEDGEMEDIA_SWIFT_VERSION is
+# only referenced by the AEPEdgeMedia target, so dependency pods keep their own modes.
+build-swift6:
+	xcodebuild build -workspace $(PROJECT_NAME).xcworkspace -scheme $(PROJECT_NAME) -destination 'generic/platform=iOS Simulator' AEPEDGEMEDIA_SWIFT_VERSION=6.0 ADB_SKIP_LINT=YES
+	xcodebuild build -workspace $(PROJECT_NAME).xcworkspace -scheme $(PROJECT_NAME) -destination 'generic/platform=tvOS Simulator' AEPEDGEMEDIA_SWIFT_VERSION=6.0 ADB_SKIP_LINT=YES
+
+# Compiles a Swift 6 consumer that drives the public tracker APIs from @MainActor code.
+# The consumer target is built in Swift 6 language mode; AEPEdgeMedia and its dependencies
+# keep their own declared language modes, matching a real Swift 6 app's build.
+test-swift6-consumer:
+	sh ./Script/test-swift6-consumer.sh
+
+# Compile-only build on the minimum supported toolchain (Xcode 15.3+/Swift 5.10).
+build-min-toolchain:
+	xcodebuild build -workspace $(PROJECT_NAME).xcworkspace -scheme $(PROJECT_NAME) -destination 'generic/platform=iOS Simulator' ADB_SKIP_LINT=YES
+	xcodebuild build -workspace $(PROJECT_NAME).xcworkspace -scheme $(PROJECT_NAME) -destination 'generic/platform=tvOS Simulator' ADB_SKIP_LINT=YES

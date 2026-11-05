@@ -15,7 +15,7 @@ import AEPCore
 import XCTest
 
 class MediaObjectTests: XCTestCase {
-    static let validMediaInfo: [String: Any] = [
+    nonisolated(unsafe) static let validMediaInfo: [String: Any] = [
         MediaConstants.MediaInfo.ID: "testId",
         MediaConstants.MediaInfo.NAME: "testName",
         MediaConstants.MediaInfo.LENGTH: 10,
@@ -26,42 +26,42 @@ class MediaObjectTests: XCTestCase {
         MediaConstants.MediaInfo.GRANULAR_AD_TRACKING: true
     ]
 
-static let validAdbreakInfo: [String: Any] = [
+nonisolated(unsafe) static let validAdbreakInfo: [String: Any] = [
         MediaConstants.AdBreakInfo.NAME: "Adbreakname",
         MediaConstants.AdBreakInfo.POSITION: 1,
         MediaConstants.AdBreakInfo.START_TIME: 0
     ]
 
-    static let validAdInfo: [String: Any] = [
+    nonisolated(unsafe) static let validAdInfo: [String: Any] = [
         MediaConstants.AdInfo.ID: "AdID",
         MediaConstants.AdInfo.NAME: "AdName",
         MediaConstants.AdInfo.POSITION: 1,
         MediaConstants.AdInfo.LENGTH: 2
     ]
 
-    static let validChapterInfo: [String: Any] = [
+    nonisolated(unsafe) static let validChapterInfo: [String: Any] = [
         MediaConstants.ChapterInfo.NAME: "ChapterName",
         MediaConstants.ChapterInfo.POSITION: 3,
         MediaConstants.ChapterInfo.START_TIME: 3,
         MediaConstants.ChapterInfo.LENGTH: 5
     ]
 
-    static let validQoEInfo: [String: Any] = [
+    nonisolated(unsafe) static let validQoEInfo: [String: Any] = [
         MediaConstants.QoEInfo.BITRATE: 24,
         MediaConstants.QoEInfo.DROPPED_FRAMES: 2,
         MediaConstants.QoEInfo.FPS: 30,
         MediaConstants.QoEInfo.STARTUP_TIME: 0
     ]
 
-    static let validStateInfo: [String: Any] = [
+    nonisolated(unsafe) static let validStateInfo: [String: Any] = [
         MediaConstants.StateInfo.STATE_NAME_KEY: "fullscreen._"
     ]
 
-    static let validStateInfo64Long: [String: Any] = [
+    nonisolated(unsafe) static let validStateInfo64Long: [String: Any] = [
         MediaConstants.StateInfo.STATE_NAME_KEY: "1234567890123456789012345678901234567890123456789012345678901234"
     ]
 
-    static let values: [Any] = [
+    nonisolated(unsafe) static let values: [Any] = [
         1,
         false,
         2.3,
@@ -70,7 +70,7 @@ static let validAdbreakInfo: [String: Any] = [
         []
     ]
 
-    static let valuesOtherThanBool: [Any] = [
+    nonisolated(unsafe) static let valuesOtherThanBool: [Any] = [
         1,
         2.3,
         "test",
@@ -78,7 +78,7 @@ static let validAdbreakInfo: [String: Any] = [
         []
     ]
 
-    static let valuesOtherThanString: [Any] = [
+    nonisolated(unsafe) static let valuesOtherThanString: [Any] = [
         1,
         false,
         2.3,
@@ -86,7 +86,7 @@ static let validAdbreakInfo: [String: Any] = [
         []
     ]
 
-    static let valuesOtherThanInt: [Any] = [
+    nonisolated(unsafe) static let valuesOtherThanInt: [Any] = [
         false,
         "test",
         [:],
